@@ -1,5 +1,4 @@
-bb4-ui
-======
+# bb4-ui
 
 Common swing UI code for bb4 projects
 It is a library project that produces a bb4-ui-X.x jar file.
