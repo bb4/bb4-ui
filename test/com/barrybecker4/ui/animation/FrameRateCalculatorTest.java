@@ -50,7 +50,7 @@ public class FrameRateCalculatorTest extends TestCase {
     }
 
     public void testFrameRateAfter3() {
-        verifyFrameRateAfterN(3, 0, 0.0, 0.1);
+        verifyFrameRateAfterN(3, 0, 0.0, 3000);
     }
 
     public void testFrameRateAfter3WithDelayForAllButLast() {
