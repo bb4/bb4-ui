@@ -2,7 +2,6 @@
 package com.barrybecker4.ui.util;
 
 import com.barrybecker4.common.app.ClassLoaderSingleton;
-import com.barrybecker4.common.util.FileUtil;
 import com.barrybecker4.ui.components.SplashScreen;
 import com.barrybecker4.ui.file.FileChooserUtil;
 import com.barrybecker4.ui.themes.BarryTheme;
@@ -28,9 +27,6 @@ import java.net.URL;
 public final class GUIUtil {
 
     private GUIUtil() {}
-
-    /** default location of files on the local system unless otherwise specified. */
-    public static final String RESOURCE_ROOT = FileUtil.PROJECT_HOME;
 
     /**
      * Some other interesting fonts: "Ænigma Scrawl 4 BRK"; "Nyala"; "Raavi";
