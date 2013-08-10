@@ -211,7 +211,8 @@ public final class GUIUtil {
     }
 
     public static BufferedImage getSnapshot(JComponent component) {
-        BufferedImage img = (BufferedImage) component.createImage(component.getWidth(), component.getHeight());
+        BufferedImage img =
+            (BufferedImage) component.createImage(component.getWidth(), component.getHeight());
         component.paint(img.createGraphics());
         return img;
     }
