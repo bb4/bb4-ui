@@ -27,4 +27,4 @@ jar {
     }
 }
 
-apply from: 'https://raw.github.com/barrybecker4/bb4-common/master/bb4-deploy.gradle'
+apply from: 'https://raw.github.com/barrybecker4/bb4-common/master/bb4-publish.gradle'
