@@ -1,5 +1,5 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.ui;
+package com.barrybecker4.ui.uber;
 
 import com.barrybecker4.ui.application.ApplicationFrame;
 import com.barrybecker4.ui.components.SplashScreen;
@@ -14,17 +14,18 @@ import javax.swing.Icon;
  */
 public class UberApp extends ApplicationFrame {
 
-    private static final String RESOURCE_ROOT = "com/barrybecker4/ui/images/";   // NON-NLS
+    private static final String RESOURCE_ROOT = "com/barrybecker4/ui/uber/images/";   // NON-NLS
 
     public UberApp() {
         super("UberApp Demo");   // NON-NLS
-
     }
 
     protected void createUI() {
 
         Icon image = GUIUtil.getIcon(RESOURCE_ROOT + "pool_pennies_small.jpg");
-        SplashScreen splash = new SplashScreen(image, this, 2000);
+        new SplashScreen(image, this, 2000);
+
+
         super.createUI();
     }
 
