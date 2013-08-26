@@ -27,7 +27,7 @@ public class ColoMapTest extends TestCase {
             new ColorMap(new double[0], new Color[0]);
             fail();
         }
-        catch (AssertionError e) {
+        catch (IllegalArgumentException e) {
             // success
         }
     }

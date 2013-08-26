@@ -24,18 +24,24 @@ public class ColorMap {
      * @param colors a corresponding set of colors to map to.
      */
     public ColorMap( double[] values, Color[] colors) {
-        assert(values!=null) : "values was null";
-        assert(colors!=null) : "colors was null";
-        assert(values.length > 0) : "values was empty";
-        assert(colors.length > 0) : "colors was empty";
+        check(values!=null,  "values was null");
+        check(colors!=null, "colors was null");
+        check(values.length > 0, "values was empty");
+        check(colors.length > 0, "colors was empty");
         // should also assert that the values are increasing
-        assert(values.length == colors.length): "there must be as many values as colors";
+        check(values.length == colors.length, "there must be as many values as colors");
         values_ = new ArrayList<Double>();
         colors_ = new ArrayList<Color>();
         for (int i=0; i<values.length; i++) {
             values_.add(values[i]);
             colors_.add(colors[i]);
         }
+    }
+
+    private void check(boolean thingToCheck, String failMessage) {
+         if (!thingToCheck) {
+             throw new IllegalArgumentException(failMessage);
+         }
     }
 
     public Color getColorForValue( final int value ) {

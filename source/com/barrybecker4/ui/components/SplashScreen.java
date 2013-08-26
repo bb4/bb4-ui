@@ -21,7 +21,7 @@ public final class SplashScreen extends JWindow {
      * @param frame owning frame (may be null)
      * @param waitTime time to wait in milliseconds before closing the splash screen
      */
-    public SplashScreen( Icon image, Frame frame, int waitTime ) {
+    public SplashScreen( Icon image, Frame frame, int waitTime) {
         super( frame );
 
         addLabel(image);
