@@ -14,7 +14,7 @@ import javax.swing.Icon;
  */
 public class UberApp extends ApplicationFrame {
 
-    private static final String RESOURCE_ROOT = "com/barrybecker4/ui/uber/images/";   // NON-NLS
+    public static final String IMAGE_ROOT = "com/barrybecker4/ui/uber/images/";   // NON-NLS
 
     public UberApp() {
         super("UberApp Demo");   // NON-NLS
@@ -22,9 +22,10 @@ public class UberApp extends ApplicationFrame {
 
     protected void createUI() {
 
-        Icon image = GUIUtil.getIcon(RESOURCE_ROOT + "pool_pennies_small.jpg");
+        Icon image = GUIUtil.getIcon(IMAGE_ROOT + "pool_pennies_small.jpg");
         new SplashScreen(image, this, 2000);
 
+        add(new MainTexturePanel());
 
         super.createUI();
     }
