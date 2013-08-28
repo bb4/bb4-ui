@@ -1,6 +1,7 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.uber;
 
+import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.ui.components.NumberInput;
 import com.barrybecker4.ui.components.TexturedPanel;
 import com.barrybecker4.ui.util.GUIUtil;
@@ -34,7 +35,7 @@ public class MainTexturePanel extends TexturedPanel implements ActionListener {
     private JPanel createNumberInputPanel() {
         JPanel panel = new TexturedPanel(BACKGROUND_IMG);
 
-        NumberInput sampleInput1 = new NumberInput("Just label");
+        NumberInput sampleInput1 = new NumberInput(AppContext.getLabel("TEST_MESSAGE"));
         NumberInput sampleInput2 = new NumberInput("label with initial value", 2);
         NumberInput integerInput = new NumberInput("some integer", 3, "some tooltip", 2, 99, true);
         NumberInput floatInput = new NumberInput("some float", 3, "some tooltip", 2, 99, false);

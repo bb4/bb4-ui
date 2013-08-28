@@ -7,8 +7,10 @@ import com.barrybecker4.ui.components.ResizableAppletPanel;
 import com.barrybecker4.ui.util.GUIUtil;
 import com.barrybecker4.ui.util.Log;
 
-import javax.swing.*;
+import javax.swing.JApplet;
+import javax.swing.JPanel;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Base class for programs that you want to be
@@ -67,11 +69,23 @@ public abstract class ApplicationApplet extends JApplet{
         getContentPane().add(resizablePanel_);
     }
 
-
+    /**
+     * Initialize the applet for the given locale.
+     * @param localeName name of the local to get localized messages for.
+     */
     private void initializeContext(String localeName) {
+        AppContext.initialize(localeName, getResourceList(), new Log());
+    }
+
+    /**
+     * Override if you want to load from other message bundles than the common UI messages
+     * and the messages for the specific application.
+     * @return list of bundles to load
+     */
+    protected List<String> getResourceList() {
         String appResources = getClass().getPackage().getName() + ".message";  // NON-NLS
         String commonUiResources = "com.barrybecker4.ui.message";   // NON-NLS
-        AppContext.initialize(localeName, Arrays.asList(appResources, commonUiResources), new Log());
+        return Arrays.asList(appResources, commonUiResources);
     }
 
     /**
