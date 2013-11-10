@@ -2,6 +2,8 @@
 package com.barrybecker4.ui.uber;
 
 import com.barrybecker4.common.app.AppContext;
+import com.barrybecker4.common.math.ComplexNumber;
+import com.barrybecker4.ui.components.ComplexNumberInput;
 import com.barrybecker4.ui.components.NumberInput;
 import com.barrybecker4.ui.components.TexturedPanel;
 import com.barrybecker4.ui.util.GUIUtil;
@@ -13,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
+ * Use this class to test out the various UI components in this library.
  * @author Barry Becker
  */
 public class MainTexturePanel extends TexturedPanel implements ActionListener {
@@ -31,7 +34,6 @@ public class MainTexturePanel extends TexturedPanel implements ActionListener {
         add(numberInput, BorderLayout.CENTER);
     }
 
-
     private JPanel createNumberInputPanel() {
         JPanel panel = new TexturedPanel(BACKGROUND_IMG);
 
@@ -40,11 +42,13 @@ public class MainTexturePanel extends TexturedPanel implements ActionListener {
         NumberInput integerInput = new NumberInput("some integer", 3, "some tooltip", 2, 99, true);
         NumberInput floatInput = new NumberInput("some float", 3, "some tooltip", 2, 99, false);
 
+        ComplexNumberInput complexInput = new ComplexNumberInput("My Complex Number", new ComplexNumber(1.2, 2.3));
 
         panel.add(sampleInput1);
         panel.add(sampleInput2);
         panel.add(integerInput);
         panel.add(floatInput);
+        panel.add(complexInput);
 
         return panel;
     }
