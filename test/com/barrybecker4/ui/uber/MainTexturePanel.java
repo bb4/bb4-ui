@@ -9,6 +9,7 @@ import com.barrybecker4.ui.components.TexturedPanel;
 import com.barrybecker4.ui.util.GUIUtil;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -22,6 +23,7 @@ public class MainTexturePanel extends TexturedPanel implements ActionListener {
 
     private static ImageIcon BACKGROUND_IMG = GUIUtil.getIcon(UberApp.IMAGE_ROOT + "ocean_trans_20.png");
 
+    private ComplexNumberInput complexNumberInput;
     public MainTexturePanel() {
         super(BACKGROUND_IMG);
 
@@ -42,19 +44,24 @@ public class MainTexturePanel extends TexturedPanel implements ActionListener {
         NumberInput integerInput = new NumberInput("some integer", 3, "some tooltip", 2, 99, true);
         NumberInput floatInput = new NumberInput("some float", 3, "some tooltip", 2, 99, false);
 
-        ComplexNumberInput complexInput = new ComplexNumberInput("My Complex Number", new ComplexNumber(1.2, 2.3));
+        complexNumberInput = new ComplexNumberInput("My Complex Number blah blah bnk : ", new ComplexNumber(1.2, 2.3));
+
+        JButton submitButton = new JButton("Submit");
+        submitButton.addActionListener(this);
 
         panel.add(sampleInput1);
         panel.add(sampleInput2);
         panel.add(integerInput);
         panel.add(floatInput);
-        panel.add(complexInput);
+        panel.add(complexNumberInput);
+        panel.add(submitButton);
 
         return panel;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("action happened");
+        System.out.println("Action happened.The Complex Number is = " + complexNumberInput.getValue());
+
     }
 }

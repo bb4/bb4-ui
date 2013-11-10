@@ -24,11 +24,10 @@ import java.awt.event.KeyListener;
  */
 public class ComplexNumberInput extends JPanel {
 
-    private static final ComplexNumber ALL_VALUES = new ComplexNumber(-Double.MAX_VALUE, Double.MAX_VALUE);
-
     /** everything is allowed by default */
     private static final ComplexNumberRange DEFAULT_RANGE =
-            new ComplexNumberRange(ALL_VALUES, ALL_VALUES);
+            new ComplexNumberRange(new ComplexNumber(-Double.MAX_VALUE, -Double.MAX_VALUE),
+                                   new ComplexNumber(Double.MAX_VALUE, Double.MAX_VALUE));
 
     private JTextField realNumberField;
     private JTextField imaginaryNumberField;
@@ -102,7 +101,11 @@ public class ComplexNumberInput extends JPanel {
         return field;
     }
 
-    public double getRealValue() {
+    public ComplexNumber getValue() {
+        return new ComplexNumber(getRealValue(), getImaginaryValue());
+    }
+
+    private double getRealValue() {
         String text = realNumberField.getText();
         if (text.length() == 0) {
             return 0;
@@ -122,7 +125,7 @@ public class ComplexNumberInput extends JPanel {
         return v;
     }
 
-    public double getImaginaryValue() {
+    private double getImaginaryValue() {
         String text = imaginaryNumberField.getText();
         if (text.length() == 0) {
             return 0;
@@ -208,7 +211,7 @@ public class ComplexNumberInput extends JPanel {
                     // if an error occurred during parsing then revert to the initial value
                     field.setText(initialValue);
                     System.out.println("Warning: could not parse " + txt + " as a number. \n"
-                                       + e.getMessage());
+                            + e.getMessage());
                 }
             }
 
