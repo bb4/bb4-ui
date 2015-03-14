@@ -7,7 +7,7 @@ import com.barrybecker4.ui.components.SplashScreen;
 import com.barrybecker4.ui.util.GUIUtil;
 import com.barrybecker4.ui.util.Log;
 
-import javax.swing.Icon;
+import javax.swing.*;
 import java.util.Arrays;
 
 /**
@@ -29,7 +29,13 @@ public class UberApp extends ApplicationFrame {
         Icon image = GUIUtil.getIcon(IMAGE_ROOT + "pool_pennies_small.jpg");
         new SplashScreen(image, this, 2000);
 
-        add(new MainTexturePanel());
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        mainPanel.add(new MainTexturePanel());
+        mainPanel.add(new HistogramTestPanel());
+
+        this.add(mainPanel);
 
         super.createUI();
     }

@@ -20,6 +20,9 @@ public class NumberInput extends JPanel {
     private double min_;
     private double max_;
 
+    private static final int HEIGHT = 20;
+    private static final int DEFAULT_WIDTH = 60;
+
     /**
      * Often the initial value cannot be set when initializing the content of a dialog.
      * This uses a default of 0 until the real default can be set with setInitialValue.
@@ -66,7 +69,7 @@ public class NumberInput extends JPanel {
             numberField_.setToolTipText( "enter a number in the suggested range" );
         else
             numberField_.setToolTipText( toolTip );
-        numberField_.setPreferredSize( new Dimension( 50, 20 ) );
+        numberField_.setPreferredSize( new Dimension( DEFAULT_WIDTH, HEIGHT ) );
 
         numberField_.addKeyListener( new NumberKeyAdapter(integerOnly));
 
@@ -81,6 +84,10 @@ public class NumberInput extends JPanel {
             this.setToolTipText(toolTip);
         else
             this.setToolTipText(labelText);
+    }
+
+    public void setWidth(int newWidth) {
+        numberField_.setPreferredSize(new Dimension(HEIGHT, newWidth));
     }
 
     public double getValue() {

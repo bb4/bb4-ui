@@ -73,7 +73,12 @@ public class HistogramRenderer {
 
     public void increment(double xValue) {
         int xPos = (int)xFunction_.getValue(xValue);
-        data_[xPos]++;
+
+        // it has to be in range to be shown in the histogram.
+        if (xPos < data_.length) {
+             data_[xPos]++;
+        }
+
         mean_ = (mean_ * sum_  + xValue) / (sum_  + 1);
         sum_++;
     }
