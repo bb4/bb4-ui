@@ -1,13 +1,13 @@
 /** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.ui.uber;
 
+import com.barrybecker4.common.math.function.InvertibleFunction;
+import com.barrybecker4.common.math.function.LinearFunction;
 import com.barrybecker4.ui.renderers.HistogramRenderer;
 
 import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.Graphics;
-
-import java.awt.*;
 
 /**
  * Simulates the the generation of a histogram based on
@@ -17,29 +17,34 @@ import java.awt.*;
  */
 public class HistogramTestPanel extends JPanel {
 
-    protected HistogramRenderer histogram_;
-    protected int[] data_;
+    protected HistogramRenderer histogram;
+    protected int[] data;
 
     /** Constructor */
     public HistogramTestPanel() {
-        data_ = new int[10];
-        data_[1] = 20;
-        data_[5] = 40;
-        data_[6] = 50;
+        data = createData();
+        InvertibleFunction func = new LinearFunction(0.01, 1.0);
 
-        histogram_ = new HistogramRenderer(data_);
-        histogram_.setMaxLabelWidth(70);
-        //histogram_.increment(getXPositionToIncrement())
+        histogram = new HistogramRenderer(data, func);
+        histogram.setMaxLabelWidth(70);
 
+        this.setPreferredSize(new Dimension( 800, 600 ));
+    }
 
-        this.setPreferredSize(new Dimension( 600, 500 ));
+    private int[] createData() {
+        int[] data = new int[10];
+        data[1] = 20;
+        data[5] = 40;
+        data[6] = 50;
+        data[7] = 45;
+        return data;
     }
 
 
     @Override
     public void paint( Graphics g ) {
-        histogram_.setSize(getWidth(), getHeight());
-        histogram_.paint(g);
+        histogram.setSize(getWidth(), getHeight());
+        histogram.paint(g);
     }
 
 }
