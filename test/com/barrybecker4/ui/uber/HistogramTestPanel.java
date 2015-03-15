@@ -10,33 +10,37 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 
 /**
- * Simulates the the generation of a histogram based on
- * some stochastic process.
+ * Tests the use of the histogram component.
  *
  * @author Barry Becker
  */
 public class HistogramTestPanel extends JPanel {
 
     protected HistogramRenderer histogram;
-    protected int[] data;
+
 
     /** Constructor */
     public HistogramTestPanel() {
-        data = createData();
-        InvertibleFunction func = new LinearFunction(0.01, 1.0);
+        int[] data = createData();
 
-        histogram = new HistogramRenderer(data, func);
+        histogram = new HistogramRenderer(data, new LinearFunction(1.0/1000.0, 5.0));
         histogram.setMaxLabelWidth(70);
+
+        histogram.increment(-25);
+        histogram.increment(-20);
+        histogram.increment(-15);
+        histogram.increment(15);
+        histogram.increment(20);
+        histogram.increment(25);
 
         this.setPreferredSize(new Dimension( 800, 600 ));
     }
 
     private int[] createData() {
         int[] data = new int[10];
-        data[1] = 20;
-        data[5] = 40;
-        data[6] = 50;
-        data[7] = 45;
+        data[1] = 3;
+        data[5] = 2;
+        data[6] = 1;
         return data;
     }
 

@@ -24,6 +24,8 @@ public class HistogramRenderer {
     private static final Color BACKGROUND_COLOR = new Color(255, 255, 255);
     private static final Color BAR_COLOR = new Color(160, 120, 255);
     private static final Color BAR_BORDER_COLOR = new Color(0, 0, 0);
+    private static final Font FONT = new Font("Sanserif", Font.PLAIN, 12 );
+    private static final Font BOLD_FONT = new Font("Sanserif", Font.BOLD, 12 );
 
     private static final int MARGIN = 24;
     private static final int TICK_LENGTH = 4;
@@ -44,7 +46,7 @@ public class HistogramRenderer {
 
 
     /**
-     * Constructor that assumes no scaling ont he x axis.
+     * Constructor that starts at x=0 and assumes no scaling ont he x axis.
      * @param data  the array to hold counts for each x axis position.
      */
     public HistogramRenderer(int[] data) {
@@ -55,7 +57,7 @@ public class HistogramRenderer {
      * Constructor
      * @param data  the array to hold counts for each x axis position.
      * @param func  a way to scale the values on the x axis.
-     *   This function takes an x value in the domain space and maps it to a bin location.
+     *   This function takes an x value in the domain space and maps it to a bin index location.
      */
     public HistogramRenderer(int[] data, InvertibleFunction func)  {
         data_ = data;
@@ -75,7 +77,7 @@ public class HistogramRenderer {
         int xPos = (int)xFunction_.getValue(xValue);
 
         // it has to be in range to be shown in the histogram.
-        if (xPos < data_.length) {
+        if (xPos >= 0 && xPos < data_.length) {
              data_[xPos]++;
         }
 
@@ -104,6 +106,7 @@ public class HistogramRenderer {
 
         if (g == null)  return;
         Graphics2D g2 = (Graphics2D) g;
+        g2.setFont(FONT);
 
         int maxHeight = getMaxHeight();
         double scale = (height_ -2.0 * MARGIN) / maxHeight;
@@ -146,14 +149,26 @@ public class HistogramRenderer {
         g2.drawLine(medianXpos,    height_ - MARGIN,
                     medianXpos,    MARGIN);
         g2.drawString(AppContext.getLabel("MEDIAN"), medianXpos + 4, MARGIN  + 28);
+
+        // draw a vertical 0 line if its not at the left edge.
+        if (xFunction_.getInverseValue(0) < 0) {
+            double zero = xFunction_.getValue(0);
+            int zeroXpos = (int) (MARGIN + (double) width * zero / numBars_ + barWidth_ / 2);
+            g2.drawLine(zeroXpos, height_ - MARGIN,
+                    zeroXpos, MARGIN);
+            g2.drawString("0", zeroXpos + 4, MARGIN + 38);
+        }
     }
 
     private double calcMedian() {
         long halfTotal = sum_ >> 1;
         int medianPos = 0;
         long cumulativeTotal = 0;
-        while (cumulativeTotal < halfTotal) {
+        while (cumulativeTotal < halfTotal && medianPos < data_.length) {
             cumulativeTotal += data_[medianPos++];
+        }
+        if (medianPos == data_.length) {
+            System.out.println("ERROR: medianPos: "+ medianPos + " got too big. cumTotal = " + cumulativeTotal + " halfTotal = " + halfTotal);
         }
         if (medianPos > 0)
             medianPos -= (cumulativeTotal - halfTotal) / data_[medianPos-1];
@@ -180,16 +195,24 @@ public class HistogramRenderer {
      * draw the label or label and tick if needed for this bar.
      */
     private void drawLabelIfNeeded(Graphics2D g2, float xpos, int ct) {
-        double xValue = xFunction_.getInverseValue(ct); // minX_ + ct * incrementX_;
-        if (numBars_ < maxNumLabels_) {
-            // then draw all labels
-            g2.drawString(formatter_.format(xValue), xpos, height_ - 5);
-        }  else if (ct % ((maxLabelWidth_ + 10) * numBars_ / width_) == 0) {
-            // sparse labeling
-            int x = (int)(xpos + barWidth_/2);
-            g2.drawLine(x, height_ - MARGIN + TICK_LENGTH, x, height_ - MARGIN);
-            g2.drawString(formatter_.format(xValue), xpos - 20, height_ - 5);
+        double xValue = xFunction_.getInverseValue(ct);
+        int x = (int)(xpos + barWidth_/2);
+
+        if (xValue == 0) {
+            g2.setFont(BOLD_FONT);
+            g2.drawString(formatter_.format(xValue), (int)(xpos + barWidth_/2 - 10), height_ - 5);
+            g2.setFont(FONT);
         }
+        else if (numBars_ < maxNumLabels_) {
+            // then draw all labels
+            g2.drawString(formatter_.format(xValue), xpos + 20, height_ - 5);
+        }
+        else if (ct % ((maxLabelWidth_ + 10) * numBars_ / width_) == 0) {
+            // sparse labeling
+            g2.drawString(formatter_.format(xValue), xpos + 20, height_ - 5);
+        }
+
+        g2.drawLine(x, height_ - MARGIN + TICK_LENGTH, x, height_ - MARGIN);
     }
 
     private void clearBackground(Graphics2D g2) {
