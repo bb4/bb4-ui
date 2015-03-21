@@ -1,7 +1,7 @@
 /** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.ui.uber;
 
-import com.barrybecker4.common.math.function.InvertibleFunction;
+import com.barrybecker4.common.math.Range;
 import com.barrybecker4.common.math.function.LinearFunction;
 import com.barrybecker4.ui.renderers.HistogramRenderer;
 
@@ -23,7 +23,7 @@ public class HistogramTestPanel extends JPanel {
     public HistogramTestPanel() {
         int[] data = createData();
 
-        histogram = new HistogramRenderer(data, new LinearFunction(1.0/1000.0, 5.0));
+        histogram = new HistogramRenderer(data, new LinearFunction(new Range(0, 200), data.length));
         histogram.setMaxLabelWidth(70);
 
         histogram.increment(-25);
@@ -37,7 +37,7 @@ public class HistogramTestPanel extends JPanel {
     }
 
     private int[] createData() {
-        int[] data = new int[10];
+        int[] data = new int[20];
         data[1] = 3;
         data[5] = 2;
         data[6] = 1;

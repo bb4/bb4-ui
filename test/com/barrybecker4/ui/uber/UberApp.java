@@ -29,11 +29,13 @@ public class UberApp extends ApplicationFrame {
         Icon image = GUIUtil.getIcon(IMAGE_ROOT + "pool_pennies_small.jpg");
         new SplashScreen(image, this, 2000);
 
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        //JPanel mainPanel = new JPanel();
+        JTabbedPane mainPanel = new JTabbedPane();
+        //mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        mainPanel.add(new MainTexturePanel());
-        mainPanel.add(new HistogramTestPanel());
+        mainPanel.addTab("Input Elements", new MainTexturePanel());
+        mainPanel.addTab("Histogram", new HistogramTestPanel());
+        mainPanel.addTab("Multi-Function", new MultiFunctionTestPanel());
 
         this.add(mainPanel);
 
