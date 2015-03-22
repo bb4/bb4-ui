@@ -170,8 +170,9 @@ public class HistogramRenderer {
         if (medianPos == data_.length) {
             System.out.println("ERROR: medianPos: "+ medianPos + " got too big. cumTotal = " + cumulativeTotal + " halfTotal = " + halfTotal);
         }
-        if (medianPos > 0)
-            medianPos -= (cumulativeTotal - halfTotal) / data_[medianPos-1];
+        if (medianPos > 0 && data_[medianPos - 1] > 0) {
+            medianPos -= (cumulativeTotal - halfTotal) / data_[medianPos - 1];
+        }
         return medianPos - 1;
     }
 

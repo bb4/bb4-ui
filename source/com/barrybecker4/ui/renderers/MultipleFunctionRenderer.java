@@ -17,6 +17,7 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
     /** Functions that provide y values for every point on the x axis. */
     private List<Function> functions_;
     private List<Color> lineColors_;
+    private boolean useAntialiasing = true;
 
     private static final Color DEFAULT_COLOR = new Color(0, 10, 200, 20);
 
@@ -59,13 +60,18 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
          lineColors_ = lineColors;
     }
 
+    public void setUseAntialiasing(boolean use) {
+         useAntialiasing = use;
+    }
+
     /** draw the cartesian functions */
     @Override
     public void paint(Graphics g) {
 
         if (g == null) return;
         Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                useAntialiasing ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF );
 
 
         Range yRange = getRange();
