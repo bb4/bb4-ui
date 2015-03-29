@@ -41,7 +41,7 @@ public class MultiFunctionTestPanel extends JPanel {
 
     private Function createRandomFunction() {
 
-        int num = 100;
+        int num = 50;
         double[] data = new double[num];
         double total = 0;
         double variance = Math.random() * Math.random();

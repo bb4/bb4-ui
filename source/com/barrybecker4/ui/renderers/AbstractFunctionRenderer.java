@@ -18,7 +18,7 @@ public abstract class AbstractFunctionRenderer {
     private static final Color BACKGROUND_COLOR = new Color(255, 255, 255);
     private static final Color LABEL_COLOR = Color.BLACK;
 
-    protected static final int MARGIN = 24;
+    protected static final int MARGIN = 40;
 
     protected int width_;
     protected int height_;
@@ -74,13 +74,21 @@ public abstract class AbstractFunctionRenderer {
         g2.drawLine(xOffset_ + MARGIN-1, yOffset_ + height_ - MARGIN,
                     xOffset_ + MARGIN-1, yOffset_ + MARGIN);
         // x axis
-        g2.drawLine(xOffset_ + MARGIN-1,        yOffset_ + height_- MARGIN -1,
-                    xOffset_ + MARGIN-1 + width_, yOffset_ + height_ - MARGIN -1);
+        g2.drawLine(xOffset_ + MARGIN - 1, yOffset_ + height_ - MARGIN - 1,
+                xOffset_ + MARGIN - 1 + width_, yOffset_ + height_ - MARGIN - 1);
 
-        g2.drawString("max = " + FormatUtil.formatNumber(yRange.getMax()), // NON-NLS
-                xOffset_ + MARGIN/3, yOffset_ + MARGIN -2);
-        g2.drawString("min = " + FormatUtil.formatNumber(yRange.getMin()), // NON-NLS
-                xOffset_ + MARGIN/3, yOffset_ + height_ - MARGIN );
+        // draw y axis labels
+        g2.drawString(FormatUtil.formatNumber(yRange.getMax()),
+                xOffset_ + 5, yOffset_ + MARGIN -2);
+
+        double eps = yRange.getExtent() * 0.05;
+        if (0 < (yRange.getMax()- eps) && 0 > (yRange.getMin() + eps))  {
+            g2.drawString("0",
+                xOffset_ + MARGIN - 15,
+                (float) (yOffset_ + Math.abs(yRange.getMax()) / yRange.getExtent() * height_ - MARGIN + 10));
+        }
+        g2.drawString(FormatUtil.formatNumber(yRange.getMin()),
+                xOffset_ + 5, yOffset_ + height_ - MARGIN );
     }
 
     /**
