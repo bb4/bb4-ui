@@ -20,6 +20,8 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
     private boolean useAntialiasing = true;
 
     private static final Color DEFAULT_COLOR = new Color(0, 10, 200, 20);
+    protected static final Font FONT = new Font("Sanserif", Font.PLAIN, 12 );
+    protected static final Font BOLD_FONT = new Font("Sanserif", Font.BOLD, 12 );
 
     /**
      * Constructor that assumes no scaling.
@@ -73,11 +75,15 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 useAntialiasing ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF );
 
-
         Range yRange = getRange();
+
+        drawFunctions(g2, yRange);
+        drawDecoration(g2, yRange);
+    }
+
+    private Range drawFunctions(Graphics2D g2, Range yRange) {
+
         double maxHeight = yRange.getExtent();
-
-
         double scale = (height_ - 2.0 * MARGIN) / maxHeight;
         double zeroHeight = -yRange.getMin();
 
@@ -101,7 +107,7 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
                 lastY = y;
             }
         }
-        drawDecoration(g2, yRange);
+        return yRange;
     }
 
 

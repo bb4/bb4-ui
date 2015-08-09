@@ -59,7 +59,7 @@ public class NumberInput extends JPanel {
         numberField_ = new JTextField(initialVal);
 
         setLayout( new BorderLayout());
-        setAlignmentX( Component.LEFT_ALIGNMENT );
+        setAlignmentX( Component.CENTER_ALIGNMENT);
 
         JLabel label = new JLabel( labelText );
         add( label, BorderLayout.WEST );

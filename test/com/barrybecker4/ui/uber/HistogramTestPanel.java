@@ -16,6 +16,7 @@ import java.awt.Graphics;
  */
 public class HistogramTestPanel extends JPanel {
 
+    private static final int NUM_X_POINTS = 2000;
     protected HistogramRenderer histogram;
 
 
@@ -37,10 +38,12 @@ public class HistogramTestPanel extends JPanel {
     }
 
     private int[] createData() {
-        int[] data = new int[20];
-        data[1] = 3;
-        data[5] = 2;
-        data[6] = 1;
+        int[] data = new int[NUM_X_POINTS];
+
+        for (int i=0; i<NUM_X_POINTS; i++) {
+            data[i] =  (int)(Math.random() * 100);
+        }
+
         return data;
     }
 

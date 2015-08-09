@@ -50,7 +50,7 @@ public class TextInput extends JPanel {
         textField_.setMargin(new Insets(0, 4, 0, 4));
         this.setLayout( new BorderLayout());
 
-        this.setAlignmentX( Component.LEFT_ALIGNMENT );
+        this.setAlignmentX( Component.CENTER_ALIGNMENT );
 
         JLabel label = new JLabel( labelText );
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));

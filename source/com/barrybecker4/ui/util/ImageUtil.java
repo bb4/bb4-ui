@@ -1,9 +1,9 @@
 /** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.ui.util;
 
-import com.sun.media.jai.codec.ImageCodec;
-import com.sun.media.jai.codec.ImageEncoder;
-import com.sun.media.jai.codec.PNGEncodeParam;
+//import com.sun.media.jai.codec.ImageCodec;
+//import com.sun.media.jai.codec.ImageEncoder;
+//import com.sun.media.jai.codec.PNGEncodeParam;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -98,12 +98,12 @@ public final class ImageUtil {
             }
         }
         else { // PNG is the default
-            PNGEncodeParam param = PNGEncodeParam.getDefaultEncodeParam( bi );
-
-            ImageEncoder encoder = ImageCodec.createImageEncoder( "PNG", out, param ); //NON-NLS
+            //PNGEncodeParam param = PNGEncodeParam.getDefaultEncodeParam( bi );
+            //ImageEncoder encoder = ImageCodec.createImageEncoder( "PNG", out, param ); //NON-NLS
             try {
                 // Writes it to a file as a .png
-                encoder.encode( bi );
+                ImageIO.write(bi, "png", out);
+                //encoder.encode( bi );
             } catch (IOException e) {
                 throw new IllegalStateException("IOException error.", e);
             } catch (NullPointerException npe) {

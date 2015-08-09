@@ -157,7 +157,7 @@ public final class ImageListPanel extends JPanel
     }
 
     private static double calculateImageRatio(List<BufferedImage> images) {
-        if (images == null) return 1.0;
+        if (images == null || images.isEmpty()) return 1.0;
         // first assert that all the images are the same size
         assert images.size() > 0;
         BufferedImage firstImage = images.get(0);

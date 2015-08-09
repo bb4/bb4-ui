@@ -9,6 +9,7 @@ import com.barrybecker4.ui.util.Log;
 
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * An app that tries to demonstrate the use of most of the UI components in this package.
@@ -25,7 +26,7 @@ public class UberApp extends ApplicationFrame {
     }
 
     protected void createUI() {
-        AppContext.initialize("ENGLISH", Arrays.asList("com.barrybecker4.ui.uber.message"), new Log());
+        AppContext.initialize("ENGLISH", Collections.singletonList("com.barrybecker4.ui.uber.message"), new Log());
         Icon image = GUIUtil.getIcon(IMAGE_ROOT + "pool_pennies_small.jpg");
         new SplashScreen(image, this, 2000);
 

@@ -19,6 +19,7 @@ public abstract class AbstractFunctionRenderer {
     private static final Color LABEL_COLOR = Color.BLACK;
 
     protected static final int MARGIN = 40;
+    private static final int TICK_LENGTH = 3;
 
     protected int width_;
     protected int height_;
@@ -69,17 +70,26 @@ public abstract class AbstractFunctionRenderer {
 
         g2.setColor(LABEL_COLOR);
         g2.drawRect(xOffset_, yOffset_, width_, height_);
+        drawAxes(g2);
+        drawAxisLabels(g2, yRange);
+    }
 
+    private void drawAxes(Graphics2D g2) {
         // left y axis
-        g2.drawLine(xOffset_ + MARGIN-1, yOffset_ + height_ - MARGIN,
-                    xOffset_ + MARGIN-1, yOffset_ + MARGIN);
+        g2.drawLine(xOffset_ + MARGIN - 1, yOffset_ + height_ - MARGIN,
+                xOffset_ + MARGIN - 1, yOffset_ + MARGIN);
         // x axis
         g2.drawLine(xOffset_ + MARGIN - 1, yOffset_ + height_ - MARGIN - 1,
                 xOffset_ + MARGIN - 1 + width_, yOffset_ + height_ - MARGIN - 1);
+    }
 
+    /**
+     * Draw y axis labels. The x-axis doesn't really need labels because it is always [0 - 1].
+     */
+    private void drawAxisLabels(Graphics2D g2, Range yRange) {
         // draw y axis labels
         g2.drawString(FormatUtil.formatNumber(yRange.getMax()),
-                xOffset_ + 5, yOffset_ + MARGIN -2);
+                xOffset_ + 5, yOffset_ + MARGIN - 2);
 
         double eps = yRange.getExtent() * 0.05;
         if (0 < (yRange.getMax()- eps) && 0 > (yRange.getMin() + eps))  {
@@ -88,7 +98,7 @@ public abstract class AbstractFunctionRenderer {
                 (float) (yOffset_ + Math.abs(yRange.getMax()) / yRange.getExtent() * height_ - MARGIN + 10));
         }
         g2.drawString(FormatUtil.formatNumber(yRange.getMin()),
-                xOffset_ + 5, yOffset_ + height_ - MARGIN );
+                xOffset_ + 5, yOffset_ + height_ - MARGIN);
     }
 
     /**
