@@ -117,6 +117,7 @@ public abstract class ApplicationApplet extends JApplet{
     @Override
     public void start() {
         validate();
+        this.repaint();
     }
 }
 
