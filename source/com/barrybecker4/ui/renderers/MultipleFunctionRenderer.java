@@ -14,14 +14,14 @@ import java.util.List;
  */
 public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
 
+    private static final Color DEFAULT_SERIES_COLOR = new Color(0, 10, 200, 40);
+
     /** Functions that provide y values for every point on the x axis. */
     private List<Function> functions_;
     private List<Color> lineColors_;
     private boolean useAntialiasing = true;
+    private Color seriesColor = DEFAULT_SERIES_COLOR;
 
-    private static final Color DEFAULT_COLOR = new Color(0, 10, 200, 20);
-    protected static final Font FONT = new Font("Sanserif", Font.PLAIN, 12 );
-    protected static final Font BOLD_FONT = new Font("Sanserif", Font.BOLD, 12 );
 
     /**
      * Constructor that assumes no scaling.
@@ -81,6 +81,10 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
         drawDecoration(g2, yRange);
     }
 
+    public void setSeriesColor(Color c) {
+        seriesColor = c;
+    }
+
     private Range drawFunctions(Graphics2D g2, Range yRange) {
 
         double maxHeight = yRange.getExtent();
@@ -88,7 +92,7 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
         double zeroHeight = -yRange.getMin();
 
         clearBackground(g2);
-        g2.setColor(DEFAULT_COLOR);
+        g2.setColor(seriesColor);
 
         int numPoints = getNumXPoints() ;
 
