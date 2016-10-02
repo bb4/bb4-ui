@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class MultiFunctionTestPanel extends JPanel {
 
-    protected MultipleFunctionRenderer histogram;
+    private MultipleFunctionRenderer histogram;
 
 
     /** Constructor */
@@ -29,7 +29,7 @@ public class MultiFunctionTestPanel extends JPanel {
 
         List<Function> functions = new ArrayList<>();
 
-        for (int i=0; i<2000; i++) {
+        for (int i=0; i<2; i++) {
             functions.add(createRandomFunction());
         }
 

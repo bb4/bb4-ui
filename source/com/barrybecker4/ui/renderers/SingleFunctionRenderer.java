@@ -45,7 +45,7 @@ public class SingleFunctionRenderer extends AbstractFunctionRenderer {
 
         g2.setColor(LINE_COLOR);
         for (int i = 0; i < numPoints;  i++) {
-            double x = (double)i/numPoints;
+            double x = (double)i / numPoints;
             drawLine(g2, scale, MARGIN + i, function_.getValue(x));
         }
         drawDecoration(g2, yRange);

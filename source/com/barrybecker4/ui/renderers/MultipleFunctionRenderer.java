@@ -1,4 +1,4 @@
-/** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
+/** Copyright by Barry G. Becker, 2000-2016. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
 package com.barrybecker4.ui.renderers;
 
 import com.barrybecker4.common.math.Range;
@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
 
+    /** default color for the line series shown in the chart */
     private static final Color DEFAULT_SERIES_COLOR = new Color(0, 10, 200, 40);
 
     /** Functions that provide y values for every point on the x axis. */
@@ -32,7 +33,7 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
     }
 
     /**
-     * Constructor that assumes no scaling.
+     * Constructor that assumes no scaling and allows separate line colors.
      * @param functions the functions to plot.
      * @param lineColors line colors corresponding to functions
      */
@@ -66,7 +67,7 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
          useAntialiasing = use;
     }
 
-    /** draw the cartesian functions */
+    /** draw the cartesian functions as series in the chart */
     @Override
     public void paint(Graphics g) {
 
@@ -81,11 +82,15 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
         drawDecoration(g2, yRange);
     }
 
-    public void setSeriesColor(Color c) {
-        seriesColor = c;
+    /** @param defaultColor series color to use */
+    public void setSeriesColor(Color defaultColor) {
+        seriesColor = defaultColor;
     }
 
-    private Range drawFunctions(Graphics2D g2, Range yRange) {
+    /**
+     * @param yRange the y axis range
+     */
+    private void drawFunctions(Graphics2D g2, Range yRange) {
 
         double maxHeight = yRange.getExtent();
         double scale = (height_ - 2.0 * MARGIN) / maxHeight;
@@ -105,13 +110,12 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
             double lastY = 0.0;
 
             for (int i = 0; i < numPoints;  i++) {
-                double x = (double)i/numPoints;
+                double x = (double)i / numPoints;
                 double y = functions_.get(f).getValue(x) + zeroHeight;
-                drawConnectedLine(g2, scale, MARGIN + i, y, MARGIN + i - 1, lastY);
+                drawConnectedLine(g2, scale, LEFT_MARGIN + i, y, LEFT_MARGIN + i - 1, lastY);
                 lastY = y;
             }
         }
-        return yRange;
     }
 
 
@@ -122,7 +126,7 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
         int numPoints = getNumXPoints() ;
 
         for (int i = 0; i < numPoints;  i++) {
-            double x = (double)i/numPoints;
+            double x = (double)i / numPoints;
             for (Function func : functions_) {
                 range.add(func.getValue(x));
             }
