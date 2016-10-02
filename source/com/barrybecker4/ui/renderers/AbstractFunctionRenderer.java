@@ -5,6 +5,7 @@ import com.barrybecker4.common.format.DefaultNumberFormatter;
 import com.barrybecker4.common.format.FormatUtil;
 import com.barrybecker4.common.format.INumberFormatter;
 import com.barrybecker4.common.math.Range;
+import com.barrybecker4.common.math.cutpoints.CutPointGenerator;
 
 import java.awt.*;
 
@@ -21,6 +22,7 @@ public abstract class AbstractFunctionRenderer {
 
     static final int LEFT_MARGIN = 60;
     static final int MARGIN = 40;
+    static final int NUM_Y_LABELS = 10;
 
     private int width_;
     int height_;
@@ -89,24 +91,30 @@ public abstract class AbstractFunctionRenderer {
      */
     private void drawAxisLabels(Graphics2D g2, Range yRange) {
         FontMetrics metrics = g2.getFontMetrics();
-        // top max
-        String topLabel = FormatUtil.formatNumber(yRange.getMax());
-        int topLabelWidth = metrics.stringWidth(topLabel);
-        g2.drawString(topLabel,
-                xOffset_ + LEFT_MARGIN - topLabelWidth - 3, yOffset_ + MARGIN + 2);
 
-        // bottom min
-        String bottomLabel = FormatUtil.formatNumber(yRange.getMin());
-        int bottomLabelWidth = metrics.stringWidth(bottomLabel);
-        g2.drawString(bottomLabel,
-                xOffset_ + LEFT_MARGIN - bottomLabelWidth - 3, yOffset_ + height_ - MARGIN + 4);
+        // draw nice number labels.
+        CutPointGenerator cutPointGenerator = new CutPointGenerator();
+        cutPointGenerator.setUseTightLabeling(true);
+        //System.out.println("range = " + yRange + " yOffset=" + yOffset_);
+        double[] cutpoints = cutPointGenerator.getCutPoints(yRange, NUM_Y_LABELS);
+        String[] cutpointLabels = cutPointGenerator.getCutPointLabels(yRange, NUM_Y_LABELS);
+        double ext = yRange.getExtent();
+        double chartHt = height_ - yOffset_ - MARGIN - MARGIN;
+        for (int i=0; i < cutpoints.length; i++) {
+            //System.out.println("cp = " + cutpoints[i] +"  label = " + cutpointLabels[i]);
+
+            String label = cutpointLabels[i]; //FormatUtil.formatNumber(cutpoints[i]);
+            int labelWidth = metrics.stringWidth(label);
+            float yPos = (float)(yOffset_ + MARGIN + Math.abs(yRange.getMax() - cutpoints[i]) / ext * chartHt);
+            g2.drawString(label, xOffset_ + LEFT_MARGIN - labelWidth - 3, yPos + 5);
+        }
 
         double eps = yRange.getExtent() * 0.05;
         // draw origin if 0 is in range
         if (0 < (yRange.getMax()- eps) && 0 > (yRange.getMin() + eps))  {
 
-            float originY = (float) (yOffset_ + Math.abs(yRange.getMax()) / yRange.getExtent() * height_ - MARGIN);
-            g2.drawString("0", xOffset_ + LEFT_MARGIN - 15, originY + 5);
+            float originY = (float) (yOffset_ + MARGIN + Math.abs(yRange.getMax()) / ext * chartHt);
+            //g2.drawString("0", xOffset_ + LEFT_MARGIN - 15, originY + 5);
 
             g2.setColor(ORIGIN_LINE_COLOR);
             g2.drawLine(xOffset_ + LEFT_MARGIN - 1, (int)originY, xOffset_ + LEFT_MARGIN - 1 + width_, (int)originY);

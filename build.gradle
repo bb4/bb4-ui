@@ -14,7 +14,7 @@ dependencies {
 
     def javaHome = System.properties.'java.home'
     compile fileTree(dir: "${javaHome}/../sample/jnlp/servlet", include: 'jnlp.jar') // 1.6
-    compile fileTree(dir: "${javaHome}/../jre/lib", include: 'javaws.jar')       // for 1.7
+    compile fileTree(dir: "${javaHome}/../jre/lib", include: 'javaws.jar')       // for 1.7 and 1.8
 }
 
 jar {
