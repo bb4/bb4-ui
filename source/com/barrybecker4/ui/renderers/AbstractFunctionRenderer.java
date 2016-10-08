@@ -2,7 +2,6 @@
 package com.barrybecker4.ui.renderers;
 
 import com.barrybecker4.common.format.DefaultNumberFormatter;
-import com.barrybecker4.common.format.FormatUtil;
 import com.barrybecker4.common.format.INumberFormatter;
 import com.barrybecker4.common.math.Range;
 import com.barrybecker4.common.math.cutpoints.CutPointGenerator;
@@ -20,7 +19,7 @@ public abstract class AbstractFunctionRenderer {
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final Color ORIGIN_LINE_COLOR = new Color(20, 0, 0, 120);
 
-    static final int LEFT_MARGIN = 60;
+    static final int LEFT_MARGIN = 75;
     static final int MARGIN = 40;
     static final int NUM_Y_LABELS = 10;
 
@@ -31,9 +30,6 @@ public abstract class AbstractFunctionRenderer {
     private int yOffset_ = 0;
 
     private INumberFormatter formatter_ = new DefaultNumberFormatter();
-
-    private static final int DEFAULT_LABEL_WIDTH = 30;
-    private int maxLabelWidth_ = DEFAULT_LABEL_WIDTH;
 
 
     public void setSize(int width, int height) {
@@ -58,8 +54,8 @@ public abstract class AbstractFunctionRenderer {
      * The larger this is, the fewer equally spaced x labels.
      * @param maxLabelWidth   max width of x labels.
      */
+    @Deprecated
     public void setMaxLabelWidth(int maxLabelWidth) {
-        maxLabelWidth_ = maxLabelWidth;
     }
 
     /** draw the cartesian function */
@@ -96,9 +92,11 @@ public abstract class AbstractFunctionRenderer {
         CutPointGenerator cutPointGenerator = new CutPointGenerator();
         cutPointGenerator.setUseTightLabeling(true);
         //System.out.println("range = " + yRange + " yOffset=" + yOffset_);
+        double ext = yRange.getExtent();
+        if (Double.isNaN(ext)) return;
         double[] cutpoints = cutPointGenerator.getCutPoints(yRange, NUM_Y_LABELS);
         String[] cutpointLabels = cutPointGenerator.getCutPointLabels(yRange, NUM_Y_LABELS);
-        double ext = yRange.getExtent();
+
         double chartHt = height_ - yOffset_ - MARGIN - MARGIN;
         for (int i=0; i < cutpoints.length; i++) {
             //System.out.println("cp = " + cutpoints[i] +"  label = " + cutpointLabels[i]);
@@ -111,7 +109,7 @@ public abstract class AbstractFunctionRenderer {
 
         double eps = yRange.getExtent() * 0.05;
         // draw origin if 0 is in range
-        if (0 < (yRange.getMax()- eps) && 0 > (yRange.getMin() + eps))  {
+        if (0 < (yRange.getMax() - eps) && 0 > (yRange.getMin() + eps))  {
 
             float originY = (float) (yOffset_ + MARGIN + Math.abs(yRange.getMax()) / ext * chartHt);
             //g2.drawString("0", xOffset_ + LEFT_MARGIN - 15, originY + 5);
@@ -138,8 +136,8 @@ public abstract class AbstractFunctionRenderer {
         double h = (scale * ypos);
         int top = (int)(height_ - h - MARGIN);
 
-        double lasth = (scale * lastY);
-        int lastTop = (int)(height_ - lasth - MARGIN);
+        double lastHt = (scale * lastY);
+        int lastTop = (int)(height_ - lastHt - MARGIN);
 
         g2.drawLine(xOffset_ + (int)xpos, yOffset_ + top, xOffset_ + (int) lastX, yOffset_ + lastTop);
     }

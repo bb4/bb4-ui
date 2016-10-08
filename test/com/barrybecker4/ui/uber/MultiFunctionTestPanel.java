@@ -34,7 +34,6 @@ public class MultiFunctionTestPanel extends JPanel {
         }
 
         histogram = new MultipleFunctionRenderer(functions);
-        histogram.setMaxLabelWidth(70);
 
         this.setPreferredSize(new Dimension( 800, 600 ));
     }
