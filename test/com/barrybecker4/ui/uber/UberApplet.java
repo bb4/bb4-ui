@@ -1,17 +1,13 @@
 // Copyright by Barry G. Becker, 2013. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.uber;
 
-import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.ui.application.ApplicationApplet;
-import com.barrybecker4.ui.application.ApplicationFrame;
-import com.barrybecker4.ui.components.SplashScreen;
 import com.barrybecker4.ui.util.GUIUtil;
-import com.barrybecker4.ui.util.Log;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.List;
-import java.util.*;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import java.awt.BorderLayout;
+import java.util.ArrayList;
 
 /**
  * An app that tries to demonstrate the use of most of the UI components in this package.
@@ -50,9 +46,6 @@ public class UberApplet extends ApplicationApplet {
     }
 
     protected void createUI() {
-
-
-
     }
 
     public static void main(String[] args) throws Exception {
