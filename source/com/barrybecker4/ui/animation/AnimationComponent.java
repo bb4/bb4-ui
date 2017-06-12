@@ -1,12 +1,12 @@
-/** Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
+// Copyright by Barry G. Becker, 2000-2011. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.animation;
 
 import com.barrybecker4.common.app.AppContext;
 import com.barrybecker4.common.concurrency.ThreadUtil;
 import com.barrybecker4.common.format.FormatUtil;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import javax.swing.JToggleButton;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -15,7 +15,7 @@ import java.awt.event.ItemListener;
  * The calculation and animation rendering are done in a separate thread so the
  * rest of the ui does not lock up.
  */
-public abstract class AnimationComponent extends Container
+public abstract class AnimationComponent extends JComponent
                                       implements Runnable {
 
     /** parameters controlling the animation */

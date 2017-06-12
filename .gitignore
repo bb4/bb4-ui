@@ -4,5 +4,9 @@
 classes/
 build/
 bin/
+gradlew/
 *.iml
 *.class
+*.ipr
+*.iws
+
