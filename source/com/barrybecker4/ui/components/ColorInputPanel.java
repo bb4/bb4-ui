@@ -21,7 +21,7 @@ public class ColorInputPanel extends JPanel
      * @param toolTip  the tooltip for the color button giving the user instructions.
      * @param colorButton  the button to click to bring up the chooser. This button's background is maintains the color.
      */
-    public ColorInputPanel(final String label, String toolTip, fnal JButton colorButton)
+    public ColorInputPanel(final String label, String toolTip, final JButton colorButton)
     {
         this.setLayout( new BoxLayout( this, BoxLayout.X_AXIS ) );
         this.setAlignmentX( Component.LEFT_ALIGNMENT );
