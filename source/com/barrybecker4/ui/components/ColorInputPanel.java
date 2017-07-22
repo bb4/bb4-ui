@@ -51,11 +51,6 @@ public class ColorInputPanel extends JPanel
     /**
      * an alternative constructor which gives a hook for calling back to the client when
      * the color has actually been selected
-     *
-     * @param label
-     * @param toolTip
-     * @param colorButton
-     * @param actionListener
      */
     public ColorInputPanel(final String label, String toolTip, final JButton colorButton, ActionListener actionListener) {
           this(label, toolTip, colorButton);

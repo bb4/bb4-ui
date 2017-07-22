@@ -2,7 +2,7 @@
 
 description = 'Common bb4 swing user interface java code. Library project.'
 group = 'com.barrybecker4'
-version = '1.4-SNAPSHOT'
+version = '1.4'
 
 apply from: 'https://raw.github.com/barrybecker4/bb4-common/master/bb4.gradle'
 
@@ -10,7 +10,7 @@ project.archivesBaseName = 'bb4-ui'
 mainClassName = "com.barrybecker4.ui.application.ApplicationFrame"
 
 dependencies {
-    compile 'com.barrybecker4:bb4-common:1.4-SNAPSHOT'
+    compile 'com.barrybecker4:bb4-common:1.4'
 
     def javaHome = System.properties.'java.home'
     compile fileTree(dir: "${javaHome}/../sample/jnlp/servlet", include: 'jnlp.jar') // 1.6
