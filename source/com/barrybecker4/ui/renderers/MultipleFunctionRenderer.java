@@ -93,7 +93,7 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
     private void drawFunctions(Graphics2D g2, Range yRange) {
 
         double maxHeight = yRange.getExtent();
-        double scale = (height_ - 2.0 * MARGIN) / maxHeight;
+        double scale = (height - 2.0 * MARGIN) / maxHeight;
         double zeroHeight = -yRange.getMin();
 
         clearBackground(g2);

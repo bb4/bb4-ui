@@ -7,8 +7,8 @@ import com.barrybecker4.ui.components.SplashScreen;
 import com.barrybecker4.ui.util.GUIUtil;
 import com.barrybecker4.ui.util.Log;
 
-import javax.swing.*;
-import java.util.Arrays;
+import javax.swing.Icon;
+import javax.swing.JTabbedPane;
 import java.util.Collections;
 
 /**
@@ -22,11 +22,11 @@ public class UberApp extends ApplicationFrame {
 
     public UberApp() {
         super("UberApp Demo");   // NON-NLS
-
     }
 
     protected void createUI() {
-        AppContext.initialize("ENGLISH", Collections.singletonList("com.barrybecker4.ui.uber.message"), new Log());
+        String loc = getClass().getPackage().getName();
+        AppContext.initialize("ENGLISH", Collections.singletonList(loc + ".message"), new Log());
         Icon image = GUIUtil.getIcon(IMAGE_ROOT + "pool_pennies_small.jpg");
         new SplashScreen(image, this, 2000);
 
@@ -46,5 +46,4 @@ public class UberApp extends ApplicationFrame {
     public static void main(String[] args) throws Exception {
         new UberApp();
     }
-
 }

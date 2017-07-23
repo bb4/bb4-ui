@@ -37,7 +37,7 @@ public class SingleFunctionRenderer extends AbstractFunctionRenderer {
 
         Range yRange = getRange();
         double maxHeight = yRange.getExtent();
-        double scale = (height_ - 2.0 * MARGIN) / maxHeight;
+        double scale = (height - 2.0 * MARGIN) / maxHeight;
 
         clearBackground(g2);
 
