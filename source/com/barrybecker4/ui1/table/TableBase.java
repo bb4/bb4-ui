@@ -13,19 +13,17 @@ import java.util.List;
  */
 public abstract class TableBase {
 
-    protected JTable table_;
+    protected JTable table;
 
     /** information about each column and its header. */
-    protected TableColumnMeta[] columnMeta_;
+    protected TableColumnMeta[] columnMeta;
 
-    public TableBase() {
-    }
+    public TableBase() {}
 
     /**
      * Constructor
      */
     public TableBase(List rows, String[] columnNames) {
-
         initColumnMeta(columnNames);
         initializeTable(rows);
     }
@@ -35,7 +33,7 @@ public abstract class TableBase {
      * @param rows to initialize the rows in the table with.
      */
     public TableBase(List rows, TableColumnMeta[] columnMeta) {
-        columnMeta_ = columnMeta;
+        this.columnMeta = columnMeta;
         initializeTable(rows);
     }
 
@@ -44,7 +42,7 @@ public abstract class TableBase {
         for (int i=0; i<columnNames.length; i++) {
             columnMeta[i] = new TableColumnMeta(columnNames[i], columnNames[i]);
         }
-        columnMeta_ = columnMeta;
+        this.columnMeta = columnMeta;
     }
 
     /**
@@ -52,20 +50,20 @@ public abstract class TableBase {
      */
     protected void initializeTable(List rows) {
 
-        String[] columnNames = new String[columnMeta_.length];
-        for (int i=0; i<columnMeta_.length; i++) {
-            columnNames[i] = columnMeta_[i].getName();
+        String[] columnNames = new String[columnMeta.length];
+        for (int i = 0; i< columnMeta.length; i++) {
+            columnNames[i] = columnMeta[i].getName();
         }
         TableModel m = createTableModel(columnNames);
-        table_ = new JTable(m);
+        table = new JTable(m);
 
-        updateColumnMeta(columnMeta_);
+        updateColumnMeta(columnMeta);
 
-        for (TableColumnMeta meta : columnMeta_) {
-            meta.initializeColumn(table_);
+        for (TableColumnMeta meta : columnMeta) {
+            meta.initializeColumn(table);
         }
 
-        table_.doLayout();
+        table.doLayout();
 
         if (rows != null) {
             for (Object p : rows) {
@@ -88,30 +86,30 @@ public abstract class TableBase {
 
 
     public int getSelectedRow() {
-        return table_.getSelectedRow();
+        return table.getSelectedRow();
     }
 
     public JTable getTable()  {
-        return table_;
+        return table;
     }
 
     public void addListSelectionListener(ListSelectionListener l) {
-        table_.getSelectionModel().addListSelectionListener(l);
+        table.getSelectionModel().addListSelectionListener(l);
     }
 
     public TableModel getModel() {
-        return table_.getModel();
+        return table.getModel();
     }
 
     protected void setRowHeight(int height) {
-        table_.setRowHeight(height);
+        table.setRowHeight(height);
     }
 
     protected int getNumColumns() {
-        return columnMeta_.length;
+        return columnMeta.length;
     }
 
     public int getNumRows() {
-        return table_.getRowCount();
+        return table.getRowCount();
     }
 }

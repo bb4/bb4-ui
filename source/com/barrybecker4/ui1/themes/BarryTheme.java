@@ -38,17 +38,17 @@ public class BarryTheme extends DefaultMetalTheme {
 
 
     /** get custom colors for these look and feel properties */
-    private Map<String, Color> hmUIProps_ = new HashMap<String, Color>();
+    private Map<String, Color> hmUIProps = new HashMap<String, Color>();
 
 
-    private ColorUIResource colorResourcePrimary1_;
-    private ColorUIResource colorResourcePrimary2_;
-    private ColorUIResource colorResourcePrimary3_;
-    private ColorUIResource colorResourceSecondary1_;
-    private ColorUIResource colorResourceSecondary2_;
-    private ColorUIResource colorResourceSecondary3_;
+    private ColorUIResource colorResourcePrimary1;
+    private ColorUIResource colorResourcePrimary2;
+    private ColorUIResource colorResourcePrimary3;
+    private ColorUIResource colorResourceSecondary1;
+    private ColorUIResource colorResourceSecondary2;
+    private ColorUIResource colorResourceSecondary3;
 
-    private ColorUIResource black_ = new ColorUIResource( Color.black );
+    private ColorUIResource black = new ColorUIResource( Color.black );
     private ColorUIResource white_ = new ColorUIResource( Color.white );
 
     /**
@@ -65,18 +65,18 @@ public class BarryTheme extends DefaultMetalTheme {
     public BarryTheme( Color black, Color white,
                        Color colorPrimary1, Color colorPrimary2, Color colorPrimary3,
                        Color colorSecondary1, Color colorSecondary2, Color colorSecondary3 ) {
-        black_ = new ColorUIResource( black );
+        this.black = new ColorUIResource( black );
         white_ = new ColorUIResource( white );
 
-        colorResourcePrimary1_ = new ColorUIResource( colorPrimary1 );
-        colorResourcePrimary2_ = new ColorUIResource( colorPrimary2 );
-        colorResourcePrimary3_ = new ColorUIResource( colorPrimary3 );
+        colorResourcePrimary1 = new ColorUIResource( colorPrimary1 );
+        colorResourcePrimary2 = new ColorUIResource( colorPrimary2 );
+        colorResourcePrimary3 = new ColorUIResource( colorPrimary3 );
 
-        colorResourceSecondary1_ = new ColorUIResource( colorSecondary1 );
-        colorResourceSecondary2_ = new ColorUIResource( colorSecondary2 );
-        colorResourceSecondary3_ = new ColorUIResource( colorSecondary3 );
+        colorResourceSecondary1 = new ColorUIResource( colorSecondary1 );
+        colorResourceSecondary2 = new ColorUIResource( colorSecondary2 );
+        colorResourceSecondary3 = new ColorUIResource( colorSecondary3 );
 
-        hmUIProps_ = initiallizeUIProperties();
+        hmUIProps = initiallizeUIProperties();
     }
 
     // the name of the theme
@@ -91,8 +91,8 @@ public class BarryTheme extends DefaultMetalTheme {
      * set all the custom colors for properties.
      */
     public void setUIManagerProperties() {
-        for (String key : hmUIProps_.keySet()) {
-            Color propColor = hmUIProps_.get(key);
+        for (String key : hmUIProps.keySet()) {
+            Color propColor = hmUIProps.get(key);
             assert (propColor != null);
             UIManager.put(key, new ColorUIResource(propColor));
         }
@@ -115,38 +115,38 @@ public class BarryTheme extends DefaultMetalTheme {
 
     private Map<String, Color> initiallizeUIProperties() {
         Map<String, Color> hmUIProps = new HashMap<String, Color>();
-        hmUIProps.put( "Menu.background", colorResourcePrimary2_ );
-        hmUIProps.put( "MenuItem.background", colorResourcePrimary2_ );
-        hmUIProps.put( "PopupMenu.background", colorResourcePrimary2_ );
-        hmUIProps.put( "OptionPane.background", colorResourceSecondary3_ );
-        hmUIProps.put( "ScrollBar.thumb", colorResourceSecondary2_ );
-        hmUIProps.put( "ScrollBar.foreground", colorResourcePrimary2_ );
-        hmUIProps.put( "ScrollBar.track", colorResourcePrimary1_ );
+        hmUIProps.put( "Menu.background", colorResourcePrimary2);
+        hmUIProps.put( "MenuItem.background", colorResourcePrimary2);
+        hmUIProps.put( "PopupMenu.background", colorResourcePrimary2);
+        hmUIProps.put( "OptionPane.background", colorResourceSecondary3);
+        hmUIProps.put( "ScrollBar.thumb", colorResourceSecondary2);
+        hmUIProps.put( "ScrollBar.foreground", colorResourcePrimary2);
+        hmUIProps.put( "ScrollBar.track", colorResourcePrimary1);
         hmUIProps.put( "ScrollBar.trackHighlight", white_ );
-        hmUIProps.put( "ScrollBar.thumbDarkShadow", black_ );
-        hmUIProps.put( "ScrollBar.thumbLightShadow", colorResourcePrimary1_ );
-        hmUIProps.put( "Slider.foreground", colorResourceSecondary3_ );
+        hmUIProps.put( "ScrollBar.thumbDarkShadow", black);
+        hmUIProps.put( "ScrollBar.thumbLightShadow", colorResourcePrimary1);
+        hmUIProps.put( "Slider.foreground", colorResourceSecondary3);
         hmUIProps.put( "Slider.background", UI_BUTTON_BACKGROUND );
         hmUIProps.put( "Slider.highlight", Color.white );
-        hmUIProps.put( "Slider.shadow", colorResourcePrimary1_ );
+        hmUIProps.put( "Slider.shadow", colorResourcePrimary1);
         hmUIProps.put( "Button.background", UI_BUTTON_BACKGROUND );
-        hmUIProps.put( "Label.background", colorResourceSecondary3_ ); // or BUTTON_BACKGROUND
-        hmUIProps.put( "Separator.shadow", colorResourcePrimary1_ );
+        hmUIProps.put( "Label.background", colorResourceSecondary3); // or BUTTON_BACKGROUND
+        hmUIProps.put( "Separator.shadow", colorResourcePrimary1);
         hmUIProps.put( "Separator.highlight", white_ );
-        hmUIProps.put( "ToolBar.background", colorResourceSecondary3_ );
-        hmUIProps.put( "ToolBar.foreground",colorResourcePrimary2_ );
-        hmUIProps.put( "ToolBar.dockingbackground", colorResourceSecondary3_ );
-        hmUIProps.put( "ToolBar.dockingforeground", colorResourcePrimary1_ );
-        hmUIProps.put( "ToolBar.floatingbackground", colorResourceSecondary3_ );
-        hmUIProps.put( "ToolBar.floatingforeground", colorResourcePrimary1_ );
-        hmUIProps.put( "ProgressBar.foreground", colorResourceSecondary1_ );
-        hmUIProps.put( "control", colorResourcePrimary1_ );
+        hmUIProps.put( "ToolBar.background", colorResourceSecondary3);
+        hmUIProps.put( "ToolBar.foreground", colorResourcePrimary2);
+        hmUIProps.put( "ToolBar.dockingbackground", colorResourceSecondary3);
+        hmUIProps.put( "ToolBar.dockingforeground", colorResourcePrimary1);
+        hmUIProps.put( "ToolBar.floatingbackground", colorResourceSecondary3);
+        hmUIProps.put( "ToolBar.floatingforeground", colorResourcePrimary1);
+        hmUIProps.put( "ProgressBar.foreground", colorResourceSecondary1);
+        hmUIProps.put( "control", colorResourcePrimary1);
         return hmUIProps;
     }
 
     @Override
     protected ColorUIResource getBlack() {
-        return black_;
+        return black;
     }
 
     @Override
@@ -155,41 +155,41 @@ public class BarryTheme extends DefaultMetalTheme {
     }
 
     protected ColorUIResource getPrimary0() {
-        return new ColorUIResource( black_ );
+        return new ColorUIResource(black);
     }
 
     @Override
     protected ColorUIResource getPrimary1() {
-        return colorResourcePrimary1_;
+        return colorResourcePrimary1;
     }
 
     @Override
     protected ColorUIResource getPrimary2() {
-        return colorResourcePrimary2_;
+        return colorResourcePrimary2;
     }
 
     @Override
     protected ColorUIResource getPrimary3() {
-        return colorResourcePrimary3_;
+        return colorResourcePrimary3;
     }
 
     protected ColorUIResource getSecondary0() {
-        return black_;
+        return black;
     }
 
     @Override
     protected ColorUIResource getSecondary1() {
-        return colorResourceSecondary1_;
+        return colorResourceSecondary1;
     }
 
     @Override
     protected ColorUIResource getSecondary2() {
-        return colorResourceSecondary2_;
+        return colorResourceSecondary2;
     }
 
     @Override
     protected ColorUIResource getSecondary3() {
-        return colorResourceSecondary3_;
+        return colorResourceSecondary3;
     }
 
     protected ColorUIResource getSecondary4() {

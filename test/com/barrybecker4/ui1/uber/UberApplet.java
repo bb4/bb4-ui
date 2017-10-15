@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class UberApplet extends ApplicationApplet {
 
-    public static final String IMAGE_ROOT = "com/barrybecker4/ui/uber/images/";   // NON-NLS
+    public static final String IMAGE_ROOT = "com/barrybecker4/ui1/uber/images/";   // NON-NLS
 
     public UberApplet() {
     }

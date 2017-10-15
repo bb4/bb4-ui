@@ -12,11 +12,11 @@ import java.awt.*;
  */
 public class ColorCellEditor extends com.barrybecker4.ui1.table.AbstractCellEditor {
 
-    ColorCellRenderer cellRenderer_ = new ColorCellRenderer();
-    String title_;
+    ColorCellRenderer cellRenderer = new ColorCellRenderer();
+    String title;
 
     public ColorCellEditor(String title) {
-        title_ = title;
+        this.title = title;
     }
 
     public Component getTableCellEditorComponent(JTable table, Object value,
@@ -24,7 +24,7 @@ public class ColorCellEditor extends com.barrybecker4.ui1.table.AbstractCellEdit
                                                  int row, int col) {
         // we know the value is a PathColor
         Color color = (Color)value;
-        Color selectedColor = JColorChooser.showDialog(table, title_, color );
+        Color selectedColor = JColorChooser.showDialog(table, title, color );
         if (selectedColor == null)  {
             // then it was canceled.
             selectedColor = color;
@@ -34,7 +34,7 @@ public class ColorCellEditor extends com.barrybecker4.ui1.table.AbstractCellEdit
         // shouldn't need this
         table.getModel().setValueAt(selectedColor, row, col);
 
-        return cellRenderer_.getTableCellRendererComponent(table, selectedColor, true, isSelected, row, col);
+        return cellRenderer.getTableCellRendererComponent(table, selectedColor, true, isSelected, row, col);
     }
 
 }

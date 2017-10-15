@@ -7,7 +7,6 @@ import java.awt.*;
  */
 public class DataPoint {
 
-
     private double yValue;
     private double sizeValue;
     private Color color;

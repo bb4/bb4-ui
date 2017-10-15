@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 public class ColorInputPanel extends JPanel
 {
 
-    private ActionListener actionListener_;
+    private ActionListener actionListener;
 
     /**
      * @param label  the label for this panel entry
@@ -39,8 +39,8 @@ public class ColorInputPanel extends JPanel
                     if ( source == colorButton ) {
                         Color selectedColor = JColorChooser.showDialog( colorButton, label, colorButton.getBackground() );
                         colorButton.setBackground( selectedColor );
-                        if (actionListener_ !=null) {
-                            actionListener_.actionPerformed(evt);
+                        if (actionListener !=null) {
+                            actionListener.actionPerformed(evt);
                         }
                     }
                 }
@@ -54,6 +54,6 @@ public class ColorInputPanel extends JPanel
      */
     public ColorInputPanel(final String label, String toolTip, final JButton colorButton, ActionListener actionListener) {
           this(label, toolTip, colorButton);
-          actionListener_ = actionListener;
+          this.actionListener = actionListener;
     }
 }

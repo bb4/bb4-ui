@@ -27,9 +27,9 @@ public class TableButton extends GradientButton
     private int selectedRow;
     private int selectedColumn;
     private List<TableButtonListener> listeners;
-    private final String id_;
-    private int columnIndex_;
-    private List<Object> disabledValues_;
+    private final String id;
+    private int columnIndex;
+    private List<Object> disabledValues;
 
     /**
      * Constructor
@@ -40,8 +40,8 @@ public class TableButton extends GradientButton
     public TableButton(String text, String id) {
         super(text);
 
-        id_ = id;
-        columnIndex_ = 0; //-1;
+        this.id = id;
+        columnIndex = 0; //-1;
         commonInit();
     }
 
@@ -52,8 +52,8 @@ public class TableButton extends GradientButton
      * @param id   used to identify the button clicked in the tableButton handler.
      */
     public TableButton(int columnIndex, String id) {
-        id_ = id;
-        columnIndex_ = columnIndex;
+        this.id = id;
+        this.columnIndex = columnIndex;
         commonInit();
     }
 
@@ -62,12 +62,12 @@ public class TableButton extends GradientButton
         addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 for (TableButtonListener l : listeners) {
-                    l.tableButtonClicked(selectedRow, selectedColumn, id_);
+                    l.tableButtonClicked(selectedRow, selectedColumn, id);
                 }
             }
         });
         // no disabled values by default
-        disabledValues_ = new LinkedList<Object>();
+        disabledValues = new LinkedList<Object>();
     }
 
 
@@ -84,7 +84,7 @@ public class TableButton extends GradientButton
      * @param disabledValues values to disable button for.
      */
     public void setDisabledValues(List<Object> disabledValues) {
-        disabledValues_ = disabledValues;
+        this.disabledValues = disabledValues;
     }
 
     public Component getTableCellRendererComponent(JTable table,
@@ -103,13 +103,13 @@ public class TableButton extends GradientButton
 
     private void setLabel(TableModel tableModel, int row) {
 
-        Object cellValue = tableModel.getValueAt(row, columnIndex_);
+        Object cellValue = tableModel.getValueAt(row, columnIndex);
 
         boolean isNullValued = cellValue == null;
-        if (columnIndex_ >= 0 && !isNullValued) {
+        if (columnIndex >= 0 && !isNullValued) {
             this.setText(cellValue.toString());
         }
-        this.setEnabled(!(isNullValued || disabledValues_.contains(cellValue)));
+        this.setEnabled(!(isNullValued || disabledValues.contains(cellValue)));
     }
 
     public void addCellEditorListener(CellEditorListener arg0) {

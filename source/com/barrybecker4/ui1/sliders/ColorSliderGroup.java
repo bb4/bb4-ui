@@ -17,11 +17,11 @@ public class ColorSliderGroup extends JPanel implements ChangeListener {
     private static final String RED = "RED";
     private static final String GREEN = "GREEN";
     private static final String BLUE = "BLUE";
-    private JLabel red_, green_, blue_;
-    private JSlider redSlider_, greenSlider_, blueSlider_;
-    private JPanel swatch_;
+    private JLabel red, green, blue;
+    private JSlider redSlider, greenSlider, blueSlider;
+    private JPanel swatch;
 
-    ColorChangeListener colorListener_;
+    private ColorChangeListener colorListener;
 
     /**
      * constructor builds the ui for the slider group
@@ -33,34 +33,34 @@ public class ColorSliderGroup extends JPanel implements ChangeListener {
         setLayout(bl);
         setBorder(BorderFactory.createEtchedBorder());
 
-        red_ = new JLabel( getColorLabel(RED) + '0', JLabel.LEFT  );
-        green_ = new JLabel( getColorLabel(GREEN) + '0', JLabel.LEFT );
-        blue_ = new JLabel( getColorLabel(BLUE) + '0', JLabel.LEFT  );
+        red = new JLabel( getColorLabel(RED) + '0', JLabel.LEFT  );
+        green = new JLabel( getColorLabel(GREEN) + '0', JLabel.LEFT );
+        blue = new JLabel( getColorLabel(BLUE) + '0', JLabel.LEFT  );
 
-        JPanel redPanel = createColorLabelPanel(red_ );
-        JPanel greenPanel = createColorLabelPanel(green_ );
-        JPanel bluePanel = createColorLabelPanel(blue_ );
+        JPanel redPanel = createColorLabelPanel(red);
+        JPanel greenPanel = createColorLabelPanel(green);
+        JPanel bluePanel = createColorLabelPanel(blue);
 
 
-        redSlider_ = new JSlider( JSlider.HORIZONTAL, 0, 255, 0 );
-        redSlider_.addChangeListener( this );
+        redSlider = new JSlider( JSlider.HORIZONTAL, 0, 255, 0 );
+        redSlider.addChangeListener( this );
 
-        greenSlider_ = new JSlider( JSlider.HORIZONTAL, 0, 255, 0 );
-        greenSlider_.addChangeListener( this );
+        greenSlider = new JSlider( JSlider.HORIZONTAL, 0, 255, 0 );
+        greenSlider.addChangeListener( this );
 
-        blueSlider_ = new JSlider( JSlider.HORIZONTAL, 0, 255, 0 );
-        blueSlider_.addChangeListener( this );
+        blueSlider = new JSlider( JSlider.HORIZONTAL, 0, 255, 0 );
+        blueSlider.addChangeListener( this );
 
-        swatch_ = new JPanel();
-        swatch_.setBorder(BorderFactory.createMatteBorder(2,20,2,20, this.getBackground()));
+        swatch = new JPanel();
+        swatch.setBorder(BorderFactory.createMatteBorder(2,20,2,20, this.getBackground()));
 
-        add( swatch_ );
+        add(swatch);
         add( redPanel );
-        add( redSlider_ );
+        add(redSlider);
         add( greenPanel );
-        add( greenSlider_ );
+        add(greenSlider);
         add( bluePanel );
-        add( blueSlider_ );
+        add(blueSlider);
 
         updateSwatch();
     }
@@ -77,21 +77,20 @@ public class ColorSliderGroup extends JPanel implements ChangeListener {
     }
 
     public void setColorChangeListener(ColorChangeListener listener) {
-        colorListener_ = listener;
+        colorListener = listener;
         updateSwatch();
     }
 
-    public void updateSwatch()
-    {
-        Color color = new Color( redSlider_.getValue(), greenSlider_.getValue(), blueSlider_.getValue());
+    public void updateSwatch() {
+        Color color = new Color( redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue());
 
-        if (colorListener_ != null) {
-            colorListener_.colorChanged(color);
+        if (colorListener != null) {
+            colorListener.colorChanged(color);
         }
 
-        swatch_.setBackground( color );
-        swatch_.setOpaque( true );
-        swatch_.repaint();
+        swatch.setBackground( color );
+        swatch.setOpaque( true );
+        swatch.repaint();
     }
 
     /**
@@ -99,18 +98,17 @@ public class ColorSliderGroup extends JPanel implements ChangeListener {
      * @param e
      */
     @Override
-    public void stateChanged( ChangeEvent e )
-    {
+    public void stateChanged( ChangeEvent e ) {
         JSlider src = (JSlider) e.getSource();
 
-        if ( src == redSlider_ ) {
-            red_.setText( getColorLabel(RED) + redSlider_.getValue() );
+        if ( src == redSlider) {
+            red.setText( getColorLabel(RED) + redSlider.getValue() );
         }
-        else if ( src == greenSlider_ ) {
-            green_.setText( getColorLabel(GREEN) + greenSlider_.getValue() );
+        else if ( src == greenSlider) {
+            green.setText( getColorLabel(GREEN) + greenSlider.getValue() );
         }
-        else if ( src == blueSlider_ ) {
-            blue_.setText( getColorLabel(BLUE) + blueSlider_.getValue() );
+        else if ( src == blueSlider) {
+            blue.setText( getColorLabel(BLUE) + blueSlider.getValue() );
         }
         updateSwatch();
     }

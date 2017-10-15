@@ -16,12 +16,12 @@ import java.awt.image.BufferedImage;
 public class ImagePreviewDialog extends AbstractDialog
                                 implements ActionListener {
 
-    private BufferedImage image_;
+    private BufferedImage image;
 
     /** Constructor */
     public ImagePreviewDialog(BufferedImage img) {
 
-        image_ = img;
+        image = img;
         this.setResizable(true);
         setTitle(AppContext.getLabel("IMAGE_PREVIEW"));
         this.setModal( true );
@@ -43,7 +43,7 @@ public class ImagePreviewDialog extends AbstractDialog
         ImageListPanel imagePanel = new ImageListPanel();
         imagePanel.setMaxNumSelections(1);
         imagePanel.setPreferredSize(new Dimension(700, 400));
-        imagePanel.setSingleImage(image_);
+        imagePanel.setSingleImage(image);
         return imagePanel;
     }
 

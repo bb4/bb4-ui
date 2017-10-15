@@ -15,10 +15,10 @@ import java.awt.event.KeyListener;
  */
 public class NumberInput extends JPanel {
 
-    private JTextField numberField_;
-    private double initialValue_;
-    private double min_;
-    private double max_;
+    private JTextField numberField;
+    private double initialValue;
+    private double min;
+    private double max;
 
     private static final int HEIGHT = 20;
     private static final int DEFAULT_WIDTH = 60;
@@ -52,11 +52,11 @@ public class NumberInput extends JPanel {
     public NumberInput( String labelText, double initialValue, String toolTip,
                         double minAllowed, double maxAllowed, boolean integerOnly ) {
 
-        initialValue_ = initialValue;
+        this.initialValue = initialValue;
         setMin(minAllowed);
         setMax(maxAllowed);
         String initialVal = integerOnly? Integer.toString((int) initialValue) : Double.toString(initialValue);
-        numberField_ = new JTextField(initialVal);
+        numberField = new JTextField(initialVal);
 
         setLayout( new BorderLayout());
         setAlignmentX( Component.CENTER_ALIGNMENT);
@@ -65,17 +65,17 @@ public class NumberInput extends JPanel {
         add( label, BorderLayout.WEST );
 
         if (toolTip == null)
-            numberField_.setToolTipText( "enter a number in the suggested range" );
+            numberField.setToolTipText( "enter a number in the suggested range" );
         else
-            numberField_.setToolTipText( toolTip );
-        numberField_.setPreferredSize( new Dimension( DEFAULT_WIDTH, HEIGHT ) );
+            numberField.setToolTipText( toolTip );
+        numberField.setPreferredSize( new Dimension( DEFAULT_WIDTH, HEIGHT ) );
 
-        numberField_.addKeyListener( new NumberKeyAdapter(integerOnly));
+        numberField.addKeyListener( new NumberKeyAdapter(integerOnly));
 
         JPanel numPanel = new JPanel();
         numPanel.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
 
-        numPanel.add( numberField_ );
+        numPanel.add(numberField);
 
         add(numPanel, BorderLayout.EAST);
 
@@ -86,21 +86,21 @@ public class NumberInput extends JPanel {
     }
 
     public void setWidth(int newWidth) {
-        numberField_.setPreferredSize(new Dimension(HEIGHT, newWidth));
+        numberField.setPreferredSize(new Dimension(newWidth, HEIGHT));
     }
 
     public double getValue() {
-        String text = numberField_.getText();
+        String text = numberField.getText();
         if (text.length() == 0) {
             return 0;
         }
         double v = Double.parseDouble(text);
         if (v < getMin()) {
-            numberField_.setText(""+ getMin());
+            numberField.setText(""+ getMin());
             v = getMin();
         }
         else  if (v > getMax()) {
-            numberField_.setText(""+ getMax());
+            numberField.setText(""+ getMax());
             v = getMax();
         }
         return v;
@@ -113,10 +113,10 @@ public class NumberInput extends JPanel {
         }
         int v = Integer.parseInt(text);
         if (v < getMin()) {
-            numberField_.setText(Integer.toString((int) getMin()));
+            numberField.setText(Integer.toString((int) getMin()));
         }
         else  if (v > getMax()) {
-            numberField_.setText(Integer.toString((int) getMax()));
+            numberField.setText(Integer.toString((int) getMax()));
         }
         return v;
     }
@@ -128,7 +128,7 @@ public class NumberInput extends JPanel {
     }
 
     private JTextField getNumberField() {
-        return numberField_;
+        return numberField;
     }
 
     @Override
@@ -138,23 +138,23 @@ public class NumberInput extends JPanel {
 
     public void setInitialValue(double value)
     {
-        this.initialValue_ = value;
+        this.initialValue = value;
     }
 
     public double getMin() {
-        return min_;
+        return min;
     }
 
     public void setMin(double min) {
-        this.min_ = min;
+        this.min = min;
     }
 
     public double getMax() {
-        return max_;
+        return max;
     }
 
     public void setMax(double max) {
-        this.max_ = max;
+        this.max = max;
     }
 
 
@@ -177,7 +177,7 @@ public class NumberInput extends JPanel {
                 JOptionPane.showMessageDialog( null,
                         "no non-numeric characters allowed!", "Error", JOptionPane.ERROR_MESSAGE );
                 // clear the input text since it is in error
-                numberField_.setText( "" );
+                numberField.setText( "" );
                 key.consume(); // don't let it get entered
             }
             else if ((integerOnly_ && c == '.') || (getMin() >= 0 && c == '-')) {
@@ -191,7 +191,7 @@ public class NumberInput extends JPanel {
                 key.consume(); // don't let it get entered
             }
 
-            String txt = numberField_.getText();
+            String txt = numberField.getText();
             if (txt.length() > 1)  {
                 try {
                     if (integerOnly_ && txt.length() > 0) {
@@ -201,12 +201,11 @@ public class NumberInput extends JPanel {
                     }
                 } catch (NumberFormatException e) {
                     // if an error occurred during parsing then revert to the initial value
-                    numberField_.setText("" + initialValue_);
+                    numberField.setText("" + initialValue);
                     System.out.println("Warning: could not parse " + txt + " as a number. \n"
                                        + e.getMessage());
                 }
             }
-
         }
     }
 }

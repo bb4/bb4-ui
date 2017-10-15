@@ -11,7 +11,6 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class BasicCellRenderer extends DefaultTableCellRenderer {
 
-
     public BasicCellRenderer() {}
 
     /**

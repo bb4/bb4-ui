@@ -18,8 +18,8 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
     private static final Color DEFAULT_SERIES_COLOR = new Color(0, 10, 200, 40);
 
     /** Functions that provide y values for every point on the x axis. */
-    private List<Function> functions_;
-    private List<Color> lineColors_;
+    private List<Function> functions;
+    private List<Color> lineColors;
     private boolean useAntialiasing = true;
     private Color seriesColor = DEFAULT_SERIES_COLOR;
 
@@ -29,7 +29,7 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
      * @param functions the functions to plot.
      */
     public MultipleFunctionRenderer(List<Function> functions) {
-        functions_ = functions;
+        this.functions = functions;
     }
 
     /**
@@ -39,8 +39,8 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
      */
     public MultipleFunctionRenderer(List<Function> functions, List<Color> lineColors) {
         this(functions);
-        lineColors_ = lineColors;
-        assert functions_.size() == lineColors_.size() :
+        this.lineColors = lineColors;
+        assert this.functions.size() == this.lineColors.size() :
                 "There must be as many line colors as functions";
     }
 
@@ -49,8 +49,8 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
      * @param functions the functions to plot.
      */
     public void setFunctions(List<Function> functions)  {
-        functions_ = functions;
-        lineColors_ = null;
+        this.functions = functions;
+        lineColors = null;
     }
 
     /**
@@ -59,8 +59,8 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
      * @param lineColors line colors corresponding to functions
      */
     public void setFunctions(List<Function> functions, List<Color> lineColors)  {
-         functions_ = functions;
-         lineColors_ = lineColors;
+         this.functions = functions;
+         this.lineColors = lineColors;
     }
 
     public void setUseAntialiasing(boolean use) {
@@ -101,17 +101,17 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
 
         int numPoints = getNumXPoints() ;
 
-        for (int f = 0; f < functions_.size(); f++) {
+        for (int f = 0; f < functions.size(); f++) {
 
-            if (lineColors_ != null) {
-                g2.setColor(lineColors_.get(f));
+            if (lineColors != null) {
+                g2.setColor(lineColors.get(f));
             }
 
             double lastY = 0.0;
 
             for (int i = 0; i < numPoints;  i++) {
                 double x = (double)i / numPoints;
-                double y = functions_.get(f).getValue(x) + zeroHeight;
+                double y = functions.get(f).getValue(x) + zeroHeight;
                 drawConnectedLine(g2, scale, LEFT_MARGIN + i, y, LEFT_MARGIN + i - 1, lastY);
                 lastY = y;
             }
@@ -127,7 +127,7 @@ public class MultipleFunctionRenderer extends AbstractFunctionRenderer {
 
         for (int i = 0; i < numPoints;  i++) {
             double x = (double)i / numPoints;
-            for (Function func : functions_) {
+            for (Function func : functions) {
                 range.add(func.getValue(x));
             }
         }

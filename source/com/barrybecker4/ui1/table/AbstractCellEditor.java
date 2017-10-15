@@ -16,32 +16,31 @@ import java.util.EventObject;
 public abstract class AbstractCellEditor
                 implements TableCellEditor, TreeCellEditor {
 
-    protected EventListenerList listenerList_ =
-                                        new EventListenerList();
-    protected Object value_;
-    protected ChangeEvent changeEvent_ = null;
-    protected int clickCountToStart_ = 1;
+    protected EventListenerList listenerList = new EventListenerList();
+    protected Object value;
+    protected ChangeEvent changeEvent = null;
+    protected int clickCountToStart = 1;
 
     public Object getCellEditorValue() {
-        return value_;
+        return value;
     }
 
     public void setCellEditorValue(Object value) {
-        this.value_ = value;
+        this.value = value;
     }
 
     public void setClickCountToStart(int count) {
-        clickCountToStart_ = count;
+        clickCountToStart = count;
     }
 
     public int getClickCountToStart() {
-        return clickCountToStart_;
+        return clickCountToStart;
     }
 
     public boolean isCellEditable(EventObject anEvent) {
         if (anEvent instanceof MouseEvent) {
             if (((MouseEvent)anEvent).getClickCount() <
-                                                clickCountToStart_)
+                    clickCountToStart)
                 return false;
         }
         return true;
@@ -61,11 +60,11 @@ public abstract class AbstractCellEditor
     }
 
     public void addCellEditorListener(CellEditorListener l) {
-        listenerList_.add(CellEditorListener.class, l);
+        listenerList.add(CellEditorListener.class, l);
     }
 
     public void removeCellEditorListener(CellEditorListener l) {
-        listenerList_.remove(CellEditorListener.class, l);
+        listenerList.remove(CellEditorListener.class, l);
     }
 
     public Component getTreeCellEditorComponent(
@@ -77,25 +76,25 @@ public abstract class AbstractCellEditor
 
 
     protected void fireEditingStopped() {
-        Object[] listeners = listenerList_.getListenerList();
+        Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length-2; i>=0; i-=2) {
             if (listeners[i] == CellEditorListener.class) {
-                if (changeEvent_ == null)
-                    changeEvent_ = new ChangeEvent(this);
+                if (changeEvent == null)
+                    changeEvent = new ChangeEvent(this);
                 ((CellEditorListener)
-                listeners[i+1]).editingStopped(changeEvent_);
+                listeners[i+1]).editingStopped(changeEvent);
             }
         }
     }
 
     protected void fireEditingCanceled() {
-        Object[] listeners = listenerList_.getListenerList();
+        Object[] listeners = listenerList.getListenerList();
         for (int i = listeners.length-2; i>=0; i-=2) {
             if (listeners[i]==CellEditorListener.class) {
-                if (changeEvent_ == null)
-                    changeEvent_ = new ChangeEvent(this);
+                if (changeEvent == null)
+                    changeEvent = new ChangeEvent(this);
                 ((CellEditorListener)
-                listeners[i+1]).editingCanceled(changeEvent_);
+                listeners[i+1]).editingCanceled(changeEvent);
             }
         }
     }

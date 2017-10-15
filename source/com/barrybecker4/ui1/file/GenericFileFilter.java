@@ -12,20 +12,20 @@ import java.io.FilenameFilter;
 public class GenericFileFilter implements FilenameFilter {
 
     /** the filter to use when figuring out what files to select. */
-    private String pattern_;
+    private String pattern;
 
    /**
      * Creates a new instance of GenericFileFilter
      */
     private GenericFileFilter(String pattern) {
-         pattern_ = pattern;
+         this.pattern = pattern;
     }
 
     /**
      * Acceptance test.
      */
     public boolean accept(File dir, String name) {
-        return (name.contains(pattern_));
+        return (name.contains(pattern));
     }
 
     /**

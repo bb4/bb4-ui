@@ -13,7 +13,7 @@ import java.awt.event.KeyListener;
  */
 public class TextInput extends JPanel {
 
-    private JTextField textField_;
+    private JTextField textField;
 
 
     /**
@@ -38,7 +38,7 @@ public class TextInput extends JPanel {
 
     @Override
     public void addKeyListener(KeyListener listener) {
-        textField_.addKeyListener(listener);
+        textField.addKeyListener(listener);
     }
 
     /**
@@ -46,8 +46,8 @@ public class TextInput extends JPanel {
      * @param initialValue the value to use if nothing else if entered. shows in the ui.
      */
     public TextInput( String labelText, String initialValue ) {
-        textField_ = new JTextField(initialValue);
-        textField_.setMargin(new Insets(0, 4, 0, 4));
+        textField = new JTextField(initialValue);
+        textField.setMargin(new Insets(0, 4, 0, 4));
         this.setLayout( new BorderLayout());
 
         this.setAlignmentX( Component.CENTER_ALIGNMENT );
@@ -59,22 +59,22 @@ public class TextInput extends JPanel {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
 
-        panel.add( textField_, BorderLayout.WEST);
+        panel.add(textField, BorderLayout.WEST);
 
         add(panel, BorderLayout.CENTER);
     }
 
     public void setColumns(int numColumns) {
-        textField_.setColumns(numColumns);
+        textField.setColumns(numColumns);
     }
 
     public String getValue() {
-        return textField_.getText();
+        return textField.getText();
     }
 
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        textField_.setEnabled(enabled);
+        textField.setEnabled(enabled);
     }
 }

@@ -26,16 +26,16 @@ import java.util.TimerTask;
  */
 public final class ImageListPanel extends JPanel
                                   implements MouseMotionListener, MouseListener {
-    private List<BufferedImage> images_;
-    private BufferedImage highlightedImage_ = null;
-    private List<BufferedImage> selectedImages_;
+    private List<BufferedImage> images;
+    private BufferedImage highlightedImage = null;
+    private List<BufferedImage> selectedImages;
 
-    private double imageRatio_;
-    private int baseImageWidth_;
-    private int numColumns_;
-    private int imageDisplayHeight_;
-    private int imageDisplayWidth_;
-    private int maxNumSelections_ = Integer.MAX_VALUE;
+    private double imageRatio;
+    private int baseImageWidth;
+    private int numColumns;
+    private int imageDisplayHeight;
+    private int imageDisplayWidth;
+    private int maxNumSelections = Integer.MAX_VALUE;
     private boolean enlargeHighlightedImage_ = false;
     private static final int TIME_TO_ENLARGE = 900;
 
@@ -47,14 +47,14 @@ public final class ImageListPanel extends JPanel
     private static final int IMAGE_MARGIN = 2;
     private static final int TOTAL_MARGIN = 2 * IMAGE_MARGIN;
 
-    private List<ImageSelectionListener> imgSelectionListeners_;
+    private List<ImageSelectionListener> imageSelectionListeners;
 
     /**
      * Use this Constructor if you just want the empty panel initially.
      * Maybe add constructor for unequal sized images where we specify the desired max size.
      */
     public ImageListPanel() {
-        imgSelectionListeners_ = new LinkedList<ImageSelectionListener>();
+        imageSelectionListeners = new LinkedList<ImageSelectionListener>();
 
         this.setMinimumSize(new Dimension(100, 100));
         this.addComponentListener( new ComponentAdapter()  {
@@ -78,20 +78,20 @@ public final class ImageListPanel extends JPanel
 
     public void setImageList(List<BufferedImage> images) {
         assert images!=null;
-        images_ = images;
-        imageRatio_ = calculateImageRatio(images);
-        baseImageWidth_ = images.get(0).getWidth() + TOTAL_MARGIN;
-        selectedImages_ = new ArrayList<BufferedImage>();
-        highlightedImage_ = null;
+        this.images = images;
+        imageRatio = calculateImageRatio(images);
+        baseImageWidth = images.get(0).getWidth() + TOTAL_MARGIN;
+        selectedImages = new ArrayList<BufferedImage>();
+        highlightedImage = null;
         this.repaint();
     }
 
     public List<BufferedImage> getImageList() {
-        return images_;
+        return images;
     }
 
     public void setMaxNumSelections(int max) {
-        maxNumSelections_ = max;
+        maxNumSelections = max;
     }
 
     /**
@@ -114,7 +114,7 @@ public final class ImageListPanel extends JPanel
      */
     public void addImageSelectionListener( ImageSelectionListener isl )
     {
-        imgSelectionListeners_.add(isl);
+        imageSelectionListeners.add(isl);
     }
 
     /**
@@ -123,20 +123,20 @@ public final class ImageListPanel extends JPanel
      */
     public void removeImageSelectionListener( ImageSelectionListener isl )
     {
-        imgSelectionListeners_.remove(isl);
+        imageSelectionListeners.remove(isl);
     }
 
 
     public List<Integer> getSelectedImageIndices() {
 
-        if (images_ == null)
+        if (images == null)
             return null;
         List<Integer> selectedIndices = new LinkedList<Integer>();
 
-        for (int i = 0; i < images_.size();  i++ ) {
+        for (int i = 0; i < images.size(); i++ ) {
 
-            BufferedImage img =  images_.get(i);
-            if (selectedImages_.contains(img)) {
+            BufferedImage img =  images.get(i);
+            if (selectedImages.contains(img)) {
                 selectedIndices.add(i);
             }
         }
@@ -146,11 +146,11 @@ public final class ImageListPanel extends JPanel
     public void setSelectedImageIndices(List<Integer> selectedIndices) {
         assert selectedIndices != null;
         // replace what we have with the new selections
-        selectedImages_.clear();
-        for (int i = 0; i < images_.size();  i++ ) {
+        selectedImages.clear();
+        for (int i = 0; i < images.size(); i++ ) {
             if (selectedIndices.contains(i)) {
-                BufferedImage img =  images_.get(i);
-                selectedImages_.add(img);
+                BufferedImage img =  images.get(i);
+                selectedImages.add(img);
                 updateImageSelectionListeners(img);
             }
         }
@@ -180,7 +180,7 @@ public final class ImageListPanel extends JPanel
     protected void paintComponent( Graphics g ) {
 
         super.paintComponents( g );
-        if (images_ == null || images_.size() == 0)
+        if (images == null || images.size() == 0)
             return;
 
         // erase what's there and redraw.
@@ -191,28 +191,28 @@ public final class ImageListPanel extends JPanel
         double panelRatio = (double)getWidth() / (double)getHeight();
 
         // find the number of rows that will give the closest match on the aspect ratios
-        int numImages = images_.size();
+        int numImages = images.size();
         int numRows = 1;
-        numColumns_ = numImages;
-        double ratio = imageRatio_ * numImages;
+        numColumns = numImages;
+        double ratio = imageRatio * numImages;
         double lastRatio = 100000000;
         while (ratio > panelRatio) {
             lastRatio = ratio;
             numRows++;
-            numColumns_ = (int)Math.ceil((double)numImages / (double)numRows);
-            ratio = imageRatio_ * (double)numColumns_/(double)numRows;
+            numColumns = (int)Math.ceil((double)numImages / (double)numRows);
+            ratio = imageRatio * (double) numColumns /(double)numRows;
             //System.out.println("ratio="+ ratio +" panelRatio=" + panelRatio + " numRows="+ numRows);
         }
         if (panelRatio - ratio < lastRatio - panelRatio) {
             // then we may have space on right side, but vertical space completely used
-            imageDisplayHeight_ = Math.min(getHeight() / numRows, (int)((baseImageWidth_)/imageRatio_) )- TOTAL_MARGIN;
-            imageDisplayWidth_ = (int) (imageDisplayHeight_ * imageRatio_);
+            imageDisplayHeight = Math.min(getHeight() / numRows, (int)((baseImageWidth)/ imageRatio) )- TOTAL_MARGIN;
+            imageDisplayWidth = (int) (imageDisplayHeight * imageRatio);
         } else {
             // horizontal space completely used
             numRows--;
-            numColumns_ = (int)Math.ceil((double)numImages / (double)numRows);
-            imageDisplayWidth_ = Math.min( getWidth() / numColumns_, baseImageWidth_) - TOTAL_MARGIN;
-            imageDisplayHeight_ = (int) (imageDisplayWidth_ / imageRatio_);
+            numColumns = (int)Math.ceil((double)numImages / (double)numRows);
+            imageDisplayWidth = Math.min( getWidth() / numColumns, baseImageWidth) - TOTAL_MARGIN;
+            imageDisplayHeight = (int) (imageDisplayWidth / imageRatio);
         }
 
         Graphics2D g2 = (Graphics2D)g;
@@ -220,49 +220,49 @@ public final class ImageListPanel extends JPanel
 
         g2.setStroke( BORDER_STROKE );
 
-        for (int i = 0; i < images_.size();  i++ ) {
+        for (int i = 0; i < images.size(); i++ ) {
 
             int colPos = getColumnPosition(i) + IMAGE_MARGIN;
             int rowPos = getRowPosition(i)  + IMAGE_MARGIN;
-            BufferedImage img =  images_.get(i);
-            if (img.equals(highlightedImage_) && enlargeHighlightedImage_) {
+            BufferedImage img =  images.get(i);
+            if (img.equals(highlightedImage) && enlargeHighlightedImage_) {
                 enlargedImageIndex = i;
             }
             g2.drawImage(img, colPos , rowPos,
-                                    imageDisplayWidth_, imageDisplayHeight_, null);
+                    imageDisplayWidth, imageDisplayHeight, null);
 
             // put a border around images that are selected or highlighted
-            if (highlightedImage_ == img || selectedImages_.contains(img)) {
-                g2.setColor((highlightedImage_ == img) ? HIGHLIGHT_COLOR :SELECTION_COLOR);
+            if (highlightedImage == img || selectedImages.contains(img)) {
+                g2.setColor((highlightedImage == img) ? HIGHLIGHT_COLOR :SELECTION_COLOR);
                 g2.drawRect(colPos- IMAGE_MARGIN, rowPos - IMAGE_MARGIN,
-                                     imageDisplayWidth_ + TOTAL_MARGIN, imageDisplayHeight_ + TOTAL_MARGIN);
+                                     imageDisplayWidth + TOTAL_MARGIN, imageDisplayHeight + TOTAL_MARGIN);
             }
         }
 
         if (enlargedImageIndex >= 0) {
-            int w = highlightedImage_.getWidth();
-            int h = highlightedImage_.getHeight();
+            int w = highlightedImage.getWidth();
+            int h = highlightedImage.getHeight();
 
             if (w > getWidth()) {
                 w = getWidth();
-                h = (int)(w/imageRatio_);
+                h = (int)(w/ imageRatio);
             }
             if (h > getHeight()) {
                 h = getHeight();
-                w = (int)(h * imageRatio_);
+                w = (int)(h * imageRatio);
             }
-            g2.drawImage(highlightedImage_, 0 , 0, w, h, null);
+            g2.drawImage(highlightedImage, 0 , 0, w, h, null);
         }
     }
 
     private int getRowPosition(int i) {
-        int row = i / numColumns_;
-        return row * ( imageDisplayHeight_ + TOTAL_MARGIN);
+        int row = i / numColumns;
+        return row * ( imageDisplayHeight + TOTAL_MARGIN);
     }
 
     private int getColumnPosition(int i) {
-        int col = i % numColumns_;
-        return col * ( imageDisplayWidth_ + TOTAL_MARGIN);
+        int col = i % numColumns;
+        return col * ( imageDisplayWidth + TOTAL_MARGIN);
     }
 
 
@@ -271,15 +271,15 @@ public final class ImageListPanel extends JPanel
      */
     private BufferedImage findImageOver(int x, int y) {
 
-        if (images_ == null) return null;
+        if (images == null) return null;
         int selectedIndex = -1;
-        for (int i = 0; i < images_.size(); i++ ) {
-            int row = i / numColumns_;
-            int col = i % numColumns_;
-            int colPos = col * (imageDisplayWidth_ + TOTAL_MARGIN);
-            int rowPos = row * (imageDisplayHeight_ + TOTAL_MARGIN);
-            if (  x > colPos && x <= colPos + imageDisplayWidth_
-                && y > rowPos && y <= rowPos + imageDisplayHeight_) {
+        for (int i = 0; i < images.size(); i++ ) {
+            int row = i / numColumns;
+            int col = i % numColumns;
+            int colPos = col * (imageDisplayWidth + TOTAL_MARGIN);
+            int rowPos = row * (imageDisplayHeight + TOTAL_MARGIN);
+            if (  x > colPos && x <= colPos + imageDisplayWidth
+                && y > rowPos && y <= rowPos + imageDisplayHeight) {
                 selectedIndex = i;
                 break;
             }
@@ -287,19 +287,19 @@ public final class ImageListPanel extends JPanel
         if (selectedIndex == -1) {
             return null;
         }
-        return images_.get(selectedIndex);
+        return images.get(selectedIndex);
     }
 
     public void mouseMoved(MouseEvent e) {
         BufferedImage image = findImageOver(e.getX(), e.getY());
 
-        boolean changed = image != highlightedImage_;
+        boolean changed = image != highlightedImage;
 
         if (changed) {
             if (image != null) {
-                highlightedImage_ = image;
+                highlightedImage = image;
             } else {
-                highlightedImage_ = null;
+                highlightedImage = null;
             }
             this.repaint();
 
@@ -329,15 +329,15 @@ public final class ImageListPanel extends JPanel
     public void mouseReleased(MouseEvent e) {
         BufferedImage img = findImageOver(e.getX(), e.getY());
         if (img != null) {
-            if (selectedImages_.contains(img)) {
-                selectedImages_.remove(img);
+            if (selectedImages.contains(img)) {
+                selectedImages.remove(img);
             }
             else {
                 // if we are at our limit we first need to remove the first selected
-                if (selectedImages_.size() == maxNumSelections_) {
-                    selectedImages_.remove(0);
+                if (selectedImages.size() == maxNumSelections) {
+                    selectedImages.remove(0);
                 }
-                selectedImages_.add(img);
+                selectedImages.add(img);
             }
             this.repaint();
         }
@@ -347,7 +347,7 @@ public final class ImageListPanel extends JPanel
 
     private void updateImageSelectionListeners(BufferedImage selectedImage) {
         // make sure listeners get notification that an image was selected.
-        for (ImageSelectionListener isl : imgSelectionListeners_) {
+        for (ImageSelectionListener isl : imageSelectionListeners) {
                 isl.imageSelected(selectedImage);
          }
     }

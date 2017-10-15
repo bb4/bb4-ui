@@ -14,18 +14,18 @@ public class BasicTableModel extends DefaultTableModel {
 
     private static final long serialVersionUID = 0;
 
-    private boolean editable_;
+    private boolean editable;
 
     public BasicTableModel(Object[][] data, Object[]
             columnNames, boolean editable) {
         super(data, columnNames);
-        editable_ = editable;
+        this.editable = editable;
     }
 
     public BasicTableModel(Object[] columnNames, int rowCount,
                            boolean editable) {
         super(columnNames, rowCount);
-        editable_ = editable;
+        this.editable = editable;
     }
 
     @Override
@@ -36,6 +36,6 @@ public class BasicTableModel extends DefaultTableModel {
 
     @Override
     public boolean isCellEditable(int row, int column) {
-        return editable_;
+        return editable;
     }
 }

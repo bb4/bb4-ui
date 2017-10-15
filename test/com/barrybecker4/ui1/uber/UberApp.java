@@ -18,7 +18,7 @@ import java.util.Collections;
  */
 public class UberApp extends ApplicationFrame {
 
-    public static final String IMAGE_ROOT = "com/barrybecker4/ui/uber/images/";   // NON-NLS
+    public static final String IMAGE_ROOT = "com/barrybecker4/ui1/uber/images/";   // NON-NLS
 
     public UberApp() {
         super("UberApp Demo");   // NON-NLS

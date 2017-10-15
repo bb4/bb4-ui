@@ -15,19 +15,19 @@ import java.util.List;
  */
 public class DomToTreeModelAdapter implements TreeModel {
 
-    private Document document_;
+    private Document document;
 
     private List<TreeModelListener> listenerList_ = new LinkedList<TreeModelListener>();
 
 
     public DomToTreeModelAdapter(Document document) {
-        document_ = document;
+        this.document = document;
     }
 
     // Basic TreeModel operations
     @Override
     public Object getRoot() {
-        return new AdapterNode(document_);
+        return new AdapterNode(document);
     }
 
     /**

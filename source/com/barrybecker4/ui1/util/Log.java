@@ -31,27 +31,26 @@ public class Log implements ILog {
      * Must be static because accessed in static method (logMessage)
      * the default is to log to the console
      */
-    private int logDestination_ = LOG_TO_CONSOLE;
+    private int logDestination = LOG_TO_CONSOLE;
 
     /** an output window for logging  */
-    private OutputWindow logWindow_ = null;
-    private OutputStream fileOutStream_ = null;
+    private OutputWindow logWindow = null;
+    private OutputStream fileOutStream = null;
     /** used if logging to String */
-    private StringBuilder logBuffer_ = null;
+    private StringBuilder logBuffer = null;
 
     /**
      * Log Constructor
      */
-    public Log()
-    {}
+    public Log() {}
 
     /**
      * Log Constructor
      * @param logWindow window to send output to
      */
     public Log( OutputWindow logWindow ) {
-        logWindow_ = logWindow;
-        setDestination( logDestination_ );
+        this.logWindow = logWindow;
+        setDestination(logDestination);
     }
 
     /**
@@ -59,7 +58,7 @@ public class Log implements ILog {
      */
     @Override
     public int getDestination() {
-        return logDestination_;
+        return logDestination;
     }
 
     /**
@@ -68,25 +67,25 @@ public class Log implements ILog {
      */
     @Override
     public void setDestination( int logDestination ) {
-        logDestination_ = logDestination;
-        if ( logWindow_ != null ) {
-            logWindow_.setVisible((logDestination_ & LOG_TO_WINDOW) > 0);
+        this.logDestination = logDestination;
+        if ( logWindow != null ) {
+            logWindow.setVisible((this.logDestination & LOG_TO_WINDOW) > 0);
         }
     }
 
     @Override
     public void setLogFile( String fileName ) throws FileNotFoundException {
-        fileOutStream_ = new BufferedOutputStream(new FileOutputStream(fileName));
+        fileOutStream = new BufferedOutputStream(new FileOutputStream(fileName));
     }
 
     @Override
     public void setStringBuilder(StringBuilder bldr)  {
-        logBuffer_ = bldr;
+        logBuffer = bldr;
     }
 
     /**
      * Log a message to the logDestination
-     * The log destination is defined by logDestination_
+     * The log destination is defined by logDestination
      * @param logLevel message will only be logged if this number is less than the application logLevel (debug_)
      * @param message the message to log
      */
@@ -94,19 +93,19 @@ public class Log implements ILog {
     public void print( int logLevel, int appLogLevel, String message ) {
 
         if ( logLevel <= appLogLevel ) {
-            if ((logDestination_ & LOG_TO_CONSOLE) > 0) {
+            if ((logDestination & LOG_TO_CONSOLE) > 0) {
                 System.err.println( message );
             }
-            if ((logDestination_ & LOG_TO_WINDOW) > 0) {
-                if ( logWindow_ != null )
-                    logWindow_.appendText( message );
+            if ((logDestination & LOG_TO_WINDOW) > 0) {
+                if ( logWindow != null )
+                    logWindow.appendText( message );
                 else
                     System.err.println("no logWindow to print to. First specify with setLogWindow. message=" + message);
             }
-            if ((logDestination_ & LOG_TO_FILE) > 0) {
-                if (fileOutStream_ != null)  {
+            if ((logDestination & LOG_TO_FILE) > 0) {
+                if (fileOutStream != null)  {
                      try {
-                         fileOutStream_.write(message.getBytes());
+                         fileOutStream.write(message.getBytes());
                      } catch (IOException e) {
                          System.err.println( message );
                          e.printStackTrace();
@@ -114,9 +113,9 @@ public class Log implements ILog {
                  }
                  else System.err.println("no logFile to print to. First specify with setLogFile. message="+message);
             }
-            if ((logDestination_ & LOG_TO_STRING) > 0) {
-                if (logBuffer_ != null)  {
-                    logBuffer_.append(message);
+            if ((logDestination & LOG_TO_STRING) > 0) {
+                if (logBuffer != null)  {
+                    logBuffer.append(message);
                 }
                 else System.err.println(
                         "no StringBuilder buffer was set to print to. First specify with setStringBuilder.  " +

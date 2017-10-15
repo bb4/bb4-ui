@@ -14,11 +14,11 @@ import java.awt.image.ImageObserver;
  */
 public class OfflineGraphics  {
 
-    private int width_;
-    private int height_;
-    private Color bgColor_;
-    private BufferedImage offImage_;
-    private Graphics2D offlineGraphics_;
+    private int width;
+    private int height;
+    private Color bgColor;
+    private BufferedImage offImage;
+    private Graphics2D offlineGraphics;
 
     /**
      * Constructor
@@ -28,68 +28,68 @@ public class OfflineGraphics  {
     public OfflineGraphics(Dimension dim, Color backgroundColor) {
 
         assert backgroundColor!=null;
-        width_ = dim.width;
-        height_ = dim.height;
-        assert width_  >0  && height_ > 0;
-        bgColor_ = backgroundColor;
-        offlineGraphics_ = createOfflineGraphics();
+        width = dim.width;
+        height = dim.height;
+        assert width >0  && height > 0;
+        bgColor = backgroundColor;
+        offlineGraphics = createOfflineGraphics();
         clear();
     }
 
     public void setColor(Color c) {
-        if (offlineGraphics_ != null)
-            offlineGraphics_.setColor(c);
+        if (offlineGraphics != null)
+            offlineGraphics.setColor(c);
     }
 
     public void setStroke(Stroke s) {
-        if (offlineGraphics_ != null)
-            offlineGraphics_.setStroke(s);
+        if (offlineGraphics != null)
+            offlineGraphics.setStroke(s);
     }
 
     public void drawLine(int x1, int y1, int x2, int y2) {
-        if (offlineGraphics_ != null)
-            offlineGraphics_.drawLine(x1, y1, x2, y2);
+        if (offlineGraphics != null)
+            offlineGraphics.drawLine(x1, y1, x2, y2);
     }
 
     public void fillRect(int x, int y, int width , int height) {
-        if (offlineGraphics_ != null)
-            offlineGraphics_.fillRect(x, y, width, height);
+        if (offlineGraphics != null)
+            offlineGraphics.fillRect(x, y, width, height);
     }
 
     public void drawPoint(int x1, int y1) {
-        if (offlineGraphics_ != null)
-            offlineGraphics_.drawLine(x1, y1, x1, y1);
+        if (offlineGraphics != null)
+            offlineGraphics.drawLine(x1, y1, x1, y1);
     }
 
     public void fillCircle(int x1, int y1, int rad) {
-        if (offlineGraphics_ != null)
-            offlineGraphics_.fillOval(x1- rad, y1 - rad, rad*2, rad*2);
+        if (offlineGraphics != null)
+            offlineGraphics.fillOval(x1- rad, y1 - rad, rad*2, rad*2);
     }
 
     public void drawRect(int x1, int y1, int width, int height) {
-        if (offlineGraphics_ != null)
-            offlineGraphics_.drawRect(x1, y1, x1, y1);
+        if (offlineGraphics != null)
+            offlineGraphics.drawRect(x1, y1, x1, y1);
     }
 
     public void drawImage(Image img, int x, int y, ImageObserver observer) {
-        if (offlineGraphics_ != null)
-            offlineGraphics_.drawImage(img, x, y, observer);
+        if (offlineGraphics != null)
+            offlineGraphics.drawImage(img, x, y, observer);
     }
 
     /**
      * @return image we render into for better performance. Created lazily.
      */
     public BufferedImage getOfflineImage() {
-        if (offImage_ == null && width_ > 0 && height_ > 0) {
-           offImage_ = ImageUtil.createCompatibleImage(width_, height_);
+        if (offImage == null && width > 0 && height > 0) {
+           offImage = ImageUtil.createCompatibleImage(width, height);
         }
-        return offImage_;
+        return offImage;
     }
 
     public void clear() {
 
-        offlineGraphics_.setColor( bgColor_ );
-        offlineGraphics_.fillRect( 0, 0, width_,  height_);
+        offlineGraphics.setColor(bgColor);
+        offlineGraphics.fillRect( 0, 0, width, height);
     }
 
     /**

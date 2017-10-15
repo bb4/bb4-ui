@@ -25,32 +25,32 @@ class LegendLabelsPanel extends JPanel {
      * By default the min and max come from the colormap min and max
      * in some cases, such as synchronizing with another map, you may want to adjust them.
      */
-    private Range range_;
+    private Range range;
 
     private CutPointGenerator cutPointGenerator;
 
 
     LegendLabelsPanel(ColorMap colormap) {
-        range_ = new Range(colormap.getMinValue(), colormap.getMaxValue());
+        range = new Range(colormap.getMinValue(), colormap.getMaxValue());
         cutPointGenerator = new CutPointGenerator();
     }
 
     public double getMin() {
-        return range_.getMin();
+        return range.getMin();
     }
 
     public void setMin(double min) {
-        assert(min < range_.getMax()) : "Min=" + min + " cannot be greater than the max=" + range_.getMax();
-        range_ = new Range(min, range_.getMax());
+        assert(min < range.getMax()) : "Min=" + min + " cannot be greater than the max=" + range.getMax();
+        range = new Range(min, range.getMax());
     }
 
     public double getMax() {
-        return range_.getMax();
+        return range.getMax();
     }
 
     public void setMax(double max) {
-        assert(max > range_.getMin()) :"Max=" + max + " cannot be less than the min=" + range_.getMin();
-        range_ = new Range(range_.getMin(), max);
+        assert(max > range.getMin()) :"Max=" + max + " cannot be less than the min=" + range.getMin();
+        range = new Range(range.getMin(), max);
     }
 
     @Override
@@ -61,28 +61,28 @@ class LegendLabelsPanel extends JPanel {
 
         int desiredTicks = this.getWidth() / LABEL_SPACING;
 
-        double[] values = cutPointGenerator.getCutPoints(range_, 2 + desiredTicks);
+        double[] values = cutPointGenerator.getCutPoints(range, 2 + desiredTicks);
 
         g2.setColor(this.getBackground());  // was white
         int width = this.getWidth();
         g2.fillRect(0, 0, width, 25);
         int numVals = values.length;
 
-        double rat = (double) (width - 20) / range_.getExtent();
+        double rat = (double) (width - 20) / range.getExtent();
 
         g2.setColor(Color.black);
         g2.setFont(LABEL_FONT);
-        g2.drawString(FormatUtil.formatNumber(range_.getMin()), 2, 10);
+        g2.drawString(FormatUtil.formatNumber(range.getMin()), 2, 10);
         for (int i = 1; i < numVals - 2; i++) {
-            double xpos = rat * (values[i] - range_.getMin());
+            double xpos = rat * (values[i] - range.getMin());
             String label = FormatUtil.formatNumber(values[i]);
             g2.drawString(label, (int) xpos, 10);
         }
-        String maxLabel = FormatUtil.formatNumber(range_.getMax());
+        String maxLabel = FormatUtil.formatNumber(range.getMax());
         Rectangle2D bounds = g2.getFont().getStringBounds(maxLabel, frc);
         double maxLabelWidth = bounds.getWidth();
         if (values.length > 2) {
-            double xpos = rat * (values[numVals - 2] - range_.getMin());
+            double xpos = rat * (values[numVals - 2] - range.getMin());
             String label = FormatUtil.formatNumber(values[numVals - 2]);
             if ((width - xpos) > (maxLabelWidth + (LABEL_SPACING >> 1))) {
                 g2.drawString(label, (int) xpos, 10);

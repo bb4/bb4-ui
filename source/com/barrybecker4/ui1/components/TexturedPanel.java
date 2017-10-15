@@ -14,19 +14,19 @@ public class TexturedPanel extends JPanel {
 
     private static final long serialVersionUID = 0L;
 
-    private ImageIcon texture_ = null;
+    private ImageIcon texture = null;
 
     public TexturedPanel( ImageIcon texture ) {
         setTexture(texture);
     }
 
     public void setTexture( ImageIcon texture ) {
-        texture_ = texture;
+        this.texture = texture;
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        GUIUtil.paintComponentWithTexture(texture_, this, g);
+        GUIUtil.paintComponentWithTexture(texture, this, g);
     }
 
 }

@@ -40,7 +40,7 @@ public class ComplexNumberInput extends JPanel {
      * @param labelText label for the number input element
      */
     public ComplexNumberInput(String labelText) {
-       this(labelText, new ComplexNumber(0, 0), null, DEFAULT_RANGE);
+        this(labelText, new ComplexNumber(0, 0), null, DEFAULT_RANGE);
     }
 
     /**

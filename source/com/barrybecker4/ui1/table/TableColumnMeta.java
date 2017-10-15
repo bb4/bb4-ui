@@ -13,26 +13,26 @@ import javax.swing.table.TableColumn;
 public class TableColumnMeta {
 
     /** name of the column */
-    private String name_;
+    private String name;
     /** mouse over tip (optional)   */
-    private String tooltip_;
-    private Integer minWidth_;
-    private Integer preferredWidth_;
-    private Integer maxWidth_;
-    private boolean resizable_ = true;
-    private TableCellRenderer cellRenderer_ = null;
-    private TableCellEditor cellEditor_ = null;
+    private String tooltip;
+    private Integer minWidth;
+    private Integer preferredWidth;
+    private Integer maxWidth;
+    private boolean resizable = true;
+    private TableCellRenderer cellRenderer = null;
+    private TableCellEditor cellEditor = null;
 
     public TableColumnMeta(String name, String tooltip) {
-        name_ = name;
-        tooltip_ = tooltip;
+        this.name = name;
+        this.tooltip = tooltip;
     }
 
     public TableColumnMeta(String name, String tooltip, int minWidth, int preferredWidth, int maxWidth) {
         this(name, tooltip);
-        minWidth_ = minWidth;
-        preferredWidth_ = preferredWidth;
-        maxWidth_ = maxWidth;
+        this.minWidth = minWidth;
+        this.preferredWidth = preferredWidth;
+        this.maxWidth = maxWidth;
     }
 
     /**
@@ -66,65 +66,65 @@ public class TableColumnMeta {
     }
 
     public String getName() {
-        return name_;
+        return name;
     }
 
 
     public void setTooltip(String tip) {
-        tooltip_ = tip;
+        tooltip = tip;
     }
 
     public String getTooltip() {
-        return tooltip_;
+        return tooltip;
     }
 
     public void setMinWidth(int w) {
-        minWidth_ = w;
+        minWidth = w;
     }
 
     public Integer getMinWidth() {
-        return minWidth_;
+        return minWidth;
     }
 
     public void setPreferredWidth(int w) {
-        preferredWidth_ = w;
+        preferredWidth = w;
     }
 
     public Integer getPreferredWidth() {
-        return preferredWidth_;
+        return preferredWidth;
     }
 
     public void setMaxWidth(int w) {
-        maxWidth_ = w;
+        maxWidth = w;
     }
 
     public Integer getMaxWidth() {
-        return maxWidth_;
+        return maxWidth;
     }
 
     public boolean isResizable() {
-        return resizable_;
+        return resizable;
     }
 
     public void setResizable(boolean resizable) {
-        this.resizable_ = resizable;
+        this.resizable = resizable;
     }
 
 
     public TableCellRenderer getCellRenderer() {
-        return cellRenderer_;
+        return cellRenderer;
     }
 
     public void setCellRenderer(TableCellRenderer cellRenderer) {
-        cellRenderer_ = cellRenderer;
+        this.cellRenderer = cellRenderer;
     }
 
     public TableCellEditor getCellEditor() {
-        return cellEditor_;
+        return cellEditor;
     }
 
     public void setCellEditor(TableCellEditor cellEditor) {
-        cellEditor_ = cellEditor;
+        this.cellEditor = cellEditor;
     }
 
 }

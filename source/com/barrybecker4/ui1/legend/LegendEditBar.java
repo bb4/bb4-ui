@@ -26,14 +26,14 @@ class LegendEditBar extends JPanel
     private static final int MARKER_HALF_SIZE = 3;
     private static final BasicStroke MARKER_STROKE = new BasicStroke(0.5f);
 
-    ColorMap cmap_;
-    private double ratio_;
-    private int dragIndex_ = -1;
-    private int dragPosition_;
+    ColorMap cmap;
+    private double ratio;
+    private int dragIndex = -1;
+    private int dragPosition;
     private Component owner;
 
     LegendEditBar(ColorMap colormap, Component owner) {
-        cmap_ = colormap;
+        cmap = colormap;
         this.owner = owner;
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -50,17 +50,17 @@ class LegendEditBar extends JPanel
         g2.setColor(EDIT_BAR_BG);
         g2.fillRect(MARGIN, 0, getWidth() - 2*MARGIN, MARKER_SIZE + 4);
 
-        ratio_ = (double) (getWidth() - 2*MARGIN) / cmap_.getValueRange();
+        ratio = (double) (getWidth() - 2*MARGIN) / cmap.getValueRange();
 
         g2.setStroke(MARKER_STROKE);
-        for (int i = 0; i < cmap_.getNumValues(); i++) {
-            if (dragIndex_ != i)  {
-                int x = getPositionForValue(cmap_.getValue(i));
-                drawMarker(cmap_.getColor(i), x, g2);
+        for (int i = 0; i < cmap.getNumValues(); i++) {
+            if (dragIndex != i)  {
+                int x = getPositionForValue(cmap.getValue(i));
+                drawMarker(cmap.getColor(i), x, g2);
             }
         }
-        if (dragIndex_ > 0) {
-            drawMarker(cmap_.getColor(dragIndex_), dragPosition_, g2);
+        if (dragIndex > 0) {
+            drawMarker(cmap.getColor(dragIndex), dragPosition, g2);
         }
     }
 
@@ -79,11 +79,11 @@ class LegendEditBar extends JPanel
     }
 
     private double getValueForPosition(int x) {
-        return ((double)x - MARGIN) / ratio_ + cmap_.getMinValue();
+        return ((double)x - MARGIN) / ratio + cmap.getMinValue();
     }
 
     private int getPositionForValue(double v) {
-         return (int) (MARGIN + ratio_ * (v - cmap_.getMinValue()));
+         return (int) (MARGIN + ratio * (v - cmap.getMinValue()));
     }
 
     /**
@@ -92,8 +92,8 @@ class LegendEditBar extends JPanel
     private int getControlIndex(int xpos) {
 
         double v = getValueForPosition(xpos);
-        int i = cmap_.getClosestIndexForValue(v);
-        int diff = Math.abs(xpos - getPositionForValue(cmap_.getValue(i)));
+        int i = cmap.getClosestIndexForValue(v);
+        int diff = Math.abs(xpos - getPositionForValue(cmap.getValue(i)));
         if (diff <= MARKER_HALF_SIZE + 1)
             return i;
         else
@@ -106,7 +106,7 @@ class LegendEditBar extends JPanel
     private int getLeftControlIndex(int xpos) {
 
         double v = getValueForPosition(xpos);
-        return cmap_.getLeftIndexForValue(v);
+        return cmap.getLeftIndexForValue(v);
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -117,21 +117,21 @@ class LegendEditBar extends JPanel
         if (e.getButton() == MouseEvent.BUTTON3) {
             // delete on right click
             if (index != -1) {
-                cmap_.removeControlPoint(index);
+                cmap.removeControlPoint(index);
             }
         }
         else if (e.getClickCount() > 1) {
-            Color oldColor = cmap_.getColorForValue(getValueForPosition(xpos));
+            Color oldColor = cmap.getColorForValue(getValueForPosition(xpos));
             Color newControlColor =
                         JColorChooser.showDialog(this, AppContext.getLabel("NEW_POINT_PATH"), oldColor);
             if (newControlColor != null) {
                 if (index == -1) {
                     // add a new control point and marker here if no point is double clicked on.
-                    cmap_.insertControlPoint(getLeftControlIndex(xpos)+1, getValueForPosition(xpos), newControlColor);
+                    cmap.insertControlPoint(getLeftControlIndex(xpos)+1, getValueForPosition(xpos), newControlColor);
                 }
                 else {
                     // get a new color for this control point  double clicked on
-                    cmap_.setColor(index, newControlColor);
+                    cmap.setColor(index, newControlColor);
                 }
                 owner.repaint();
             }
@@ -141,18 +141,18 @@ class LegendEditBar extends JPanel
     public void mousePressed(MouseEvent e) {
         int index = getControlIndex(e.getX());
 
-        if (index > 0 && index < (cmap_.getNumValues() - 1)) {
+        if (index > 0 && index < (cmap.getNumValues() - 1)) {
             // we are dragging the control point.
             // Note: can't drag the first and last control points.
-            dragIndex_ = index;
-            dragPosition_ = e.getX();
+            dragIndex = index;
+            dragPosition = e.getX();
         }
     }
 
     public void mouseReleased(MouseEvent e) {
         // dropped
         updateDrag(e.getX());
-        dragIndex_ = -1;
+        dragIndex = -1;
         owner.repaint();
     }
 
@@ -160,11 +160,11 @@ class LegendEditBar extends JPanel
     public void mouseExited(MouseEvent e) {}
 
     private void updateDrag(int xpos) {
-        if (dragIndex_ > 0) {
+        if (dragIndex > 0) {
             double v = getValueForPosition(xpos);
-            if (v < cmap_.getValue(dragIndex_+1) && v > cmap_.getValue(dragIndex_ - 1)) {
-                cmap_.setValue(dragIndex_, v);
-                dragPosition_ = xpos;
+            if (v < cmap.getValue(dragIndex +1) && v > cmap.getValue(dragIndex - 1)) {
+                cmap.setValue(dragIndex, v);
+                dragPosition = xpos;
                 //repaint();
                 paint( getGraphics() );
             }

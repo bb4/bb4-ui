@@ -17,10 +17,10 @@ class ColoredLegendLine extends JPanel {
     private static final int MARGIN = LegendEditBar.MARGIN;
 
     private static final int HEIGHT = 20;
-    ColorMap cmap_;
+    ColorMap cmap;
 
     ColoredLegendLine(ColorMap colormap) {
-        cmap_ = colormap;
+        cmap = colormap;
     }
 
     @Override
@@ -31,15 +31,15 @@ class ColoredLegendLine extends JPanel {
         g2.setColor(Color.white);
         g2.fillRect(MARGIN, 0, getWidth() - 2 * MARGIN, HEIGHT);
 
-        double firstVal = cmap_.getValue(0);
-        double rat = (double) (getWidth() - 2 * MARGIN) / cmap_.getValueRange();
+        double firstVal = cmap.getValue(0);
+        double rat = (double) (getWidth() - 2 * MARGIN) / cmap.getValueRange();
 
-        for (int i = 1; i < cmap_.getNumValues(); i++) {
-            double xstart = rat * (cmap_.getValue(i - 1) - firstVal);
-            double xstop =  rat * (cmap_.getValue(i) - firstVal);
+        for (int i = 1; i < cmap.getNumValues(); i++) {
+            double xstart = rat * (cmap.getValue(i - 1) - firstVal);
+            double xstop =  rat * (cmap.getValue(i) - firstVal);
             GradientPaint paint =
-                new GradientPaint((float)xstart, 0.0f, cmap_.getColor(i - 1),
-                                  (float)(xstop), 0.0f, cmap_.getColor(i),
+                new GradientPaint((float)xstart, 0.0f, cmap.getColor(i - 1),
+                                  (float)(xstop), 0.0f, cmap.getColor(i),
                                   true);
             g2.setPaint(paint);
             int w = (int)xstop - (int)xstart;

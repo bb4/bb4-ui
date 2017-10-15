@@ -34,7 +34,7 @@ public class ApplicationFrame extends JFrame {
                 dispose();
                 System.exit( 0 );
             }
-        } );
+        });
 
         this.setVisible(true);
     }

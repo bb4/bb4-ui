@@ -10,16 +10,16 @@ import java.awt.*;
  */
 public class DiscreteColorLegend extends JPanel {
 
-    String title_;
-    Color[] colors_;
-    String[] values_;
+    private String title;
+    private Color[] colors;
+    private String[] values;
 
 
     public DiscreteColorLegend(String title, Color[] colors, String[] values)  {
-        title_ = title;
-        colors_ = colors;
-        values_ = values;
-        assert (colors_.length == values_.length);
+        this.title = title;
+        this.colors = colors;
+        this.values = values;
+        assert (this.colors.length == this.values.length);
         initUI();
     }
 
@@ -27,10 +27,10 @@ public class DiscreteColorLegend extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setOpaque(false);
 
-        if (title_ != null) {
+        if (title != null) {
             JPanel titlePanel = new JPanel();
             titlePanel.setOpaque(false);
-            JLabel title = new JLabel(title_, JLabel.CENTER);
+            JLabel title = new JLabel(this.title, JLabel.CENTER);
             title.setOpaque(false);
             title.setBorder(BorderFactory.createEtchedBorder());
             titlePanel.add(title);
@@ -38,8 +38,8 @@ public class DiscreteColorLegend extends JPanel {
             add(Box.createRigidArea(new Dimension(4, 4)));
         }
 
-        for (int i=0; i < values_.length; i++) {
-             add(createLegendEntry(colors_[i], values_[i]));
+        for (int i = 0; i < values.length; i++) {
+             add(createLegendEntry(colors[i], values[i]));
         }
     }
 

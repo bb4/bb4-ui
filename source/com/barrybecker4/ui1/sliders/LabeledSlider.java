@@ -20,16 +20,16 @@ public class LabeledSlider extends JPanel implements ChangeListener {
 
     private static final int DEFAULT_SLIDER_RESOLUTION = 2000;
     private static final int MAX_WIDTH = 1000;
-    private JLabel label_;
-    private String labelText_;
-    private JSlider slider_;
-    private List<SliderChangeListener> listeners_;
+    private JLabel label;
+    private String labelText;
+    private JSlider slider;
+    private List<SliderChangeListener> listeners;
 
-    private double min_, max_;
-    private int resolution_ = DEFAULT_SLIDER_RESOLUTION;
-    private double ratio_;
-    private boolean showAsInteger_ = false;
-    private double lastValue_;
+    private double min, max;
+    private int resolution = DEFAULT_SLIDER_RESOLUTION;
+    private double ratio;
+    private boolean showAsInteger = false;
+    private double lastValue;
 
     public LabeledSlider(String labelText, double initialValue, double min, double max) {
 
@@ -37,81 +37,81 @@ public class LabeledSlider extends JPanel implements ChangeListener {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setMaximumSize(new Dimension(MAX_WIDTH, 42));
 
-        min_ = min;
-        max_ = max;
-        ratio_ = (max_ - min_)/resolution_;
-        labelText_ = labelText;
+        this.min = min;
+        this.max = max;
+        ratio = (this.max - this.min)/ resolution;
+        this.labelText = labelText;
 
-        lastValue_ = initialValue;
+        lastValue = initialValue;
         int pos = getPositionFromValue(initialValue);
 
-        slider_ = new JSlider(JSlider.HORIZONTAL, 0, resolution_, pos);
-        slider_.setName(labelText);
-        slider_.setPaintTicks(true);
-        slider_.setPaintTrack(true);
-        slider_.addChangeListener(this);
-        listeners_ = new ArrayList<SliderChangeListener>();
+        slider = new JSlider(JSlider.HORIZONTAL, 0, resolution, pos);
+        slider.setName(labelText);
+        slider.setPaintTicks(true);
+        slider.setPaintTrack(true);
+        slider.addChangeListener(this);
+        listeners = new ArrayList<SliderChangeListener>();
 
-        label_ = createLabel();
-        add(createLabelPanel(label_));
-        add(slider_);
+        label = createLabel();
+        add(createLabelPanel(label));
+        add(slider);
         setBorder(BorderFactory.createEtchedBorder());
-        setResolution(resolution_);
+        setResolution(resolution);
     }
 
     public JSlider getSlider() {
-        return slider_;
+        return slider;
     }
 
     public void setShowAsInteger(boolean showAsInt) {
-        showAsInteger_ = showAsInt;
+        showAsInteger = showAsInt;
     }
 
     public void setResolution(int resolution) {
         double v = this.getValue();
-        resolution_ = resolution;
-        slider_.setMaximum(resolution_);
-        ratio_ = (max_ - min_)/resolution_;
-        slider_.setValue(getPositionFromValue(v));
+        this.resolution = resolution;
+        slider.setMaximum(this.resolution);
+        ratio = (max - min)/ this.resolution;
+        slider.setValue(getPositionFromValue(v));
 
-        slider_.setMajorTickSpacing(resolution/10);
-        if (resolution_ > 30 && resolution_ < 90) {
-            slider_.setMinorTickSpacing(2);
+        slider.setMajorTickSpacing(resolution/10);
+        if (this.resolution > 30 && this.resolution < 90) {
+            slider.setMinorTickSpacing(2);
         }
-        else if (resolution_ >= 90 && resolution_ < 900) {
-            slider_.setMinorTickSpacing(5);
+        else if (this.resolution >= 90 && this.resolution < 900) {
+            slider.setMinorTickSpacing(5);
         }
-        //slider_.setPaintLabels(true);
+        //slider.setPaintLabels(true);
     }
 
     public void addChangeListener(SliderChangeListener l) {
-        listeners_.add(l);
+        listeners.add(l);
     }
 
     public double getValue() {
-        return getValueFromPosition(slider_.getValue());
+        return getValueFromPosition(slider.getValue());
     }
 
     public void setValue(double v) {
-        slider_.setValue(getPositionFromValue(v));
+        slider.setValue(getPositionFromValue(v));
     }
 
     @Override
     public void setEnabled(boolean enable) {
-        slider_.setEnabled(enable);
+        slider.setEnabled(enable);
     }
 
     @Override
     public String getName() {
-        return labelText_;
+        return labelText;
     }
 
     private double getValueFromPosition(int pos) {
-        return  (double)pos * ratio_ + min_;
+        return  (double)pos * ratio + min;
     }
 
     private int getPositionFromValue(double value) {
-        return (int) ((value - min_) / ratio_);
+        return (int) ((value - min) / ratio);
     }
 
     private JLabel createLabel() {
@@ -130,8 +130,8 @@ public class LabeledSlider extends JPanel implements ChangeListener {
     }
 
     private String getLabelText() {
-        String val = showAsInteger_? Integer.toString((int) getValue()) : FormatUtil.formatNumber(getValue());
-        return labelText_ + ": " +  val;
+        String val = showAsInteger ? Integer.toString((int) getValue()) : FormatUtil.formatNumber(getValue());
+        return labelText + ": " +  val;
     }
 
     /**
@@ -141,18 +141,18 @@ public class LabeledSlider extends JPanel implements ChangeListener {
     public void stateChanged(ChangeEvent e) {
 
         double val = getValue();
-        if (val != lastValue_) {
-            label_.setText(getLabelText());
-            for (SliderChangeListener listener : listeners_) {
+        if (val != lastValue) {
+            label.setText(getLabelText());
+            for (SliderChangeListener listener : listeners) {
                 listener.sliderChanged(this);
             }
-            lastValue_ = val;
+            lastValue = val;
         }
     }
 
     @Override
     public String toString() {
         //noinspection HardCodedStringLiteral
-        return "Slider " + labelText_ + " min=" + min_+ " max=" + max_ + "  value=" + getValue() + " ratio=" + ratio_;
+        return "Slider " + labelText + " min=" + min + " max=" + max + "  value=" + getValue() + " ratio=" + ratio;
     }
 }

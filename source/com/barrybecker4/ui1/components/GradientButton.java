@@ -19,16 +19,16 @@ public class GradientButton extends JButton
                             implements MouseListener {
 
     /** color at the top of the button. */
-    private Color gradientStartColor_ = null;
+    private Color gradientStartColor = null;
 
     /**  color at the bottom of the button. */
-    private Color gradientEndColor_ = null;
+    private Color gradientEndColor = null;
 
     private static final long serialVersionUID = 0L;
 
-    private boolean mousedOver_ = false;
+    private boolean mousedOver = false;
 
-    private CustomUI myUI_ = new CustomUI();
+    private CustomUI myUI = new CustomUI();
 
     /**
      * Constructor
@@ -63,17 +63,17 @@ public class GradientButton extends JButton
      * @param endColor  the color at the bottom of the button
      */
     public GradientButton( Color startColor, Color endColor ) {
-        gradientStartColor_ = startColor;
-        gradientEndColor_ = endColor;
-        setUI( myUI_ );
+        gradientStartColor = startColor;
+        gradientEndColor = endColor;
+        setUI(myUI);
     }
 
     private void commonDefaultInit() {
         Color c = UIManager.getColor( "Button.background" );
-        gradientStartColor_ = c.brighter();
-        gradientEndColor_ = c;
+        gradientStartColor = c.brighter();
+        gradientEndColor = c;
         addMouseListener(this);
-        setUI( myUI_ );
+        setUI(myUI);
     }
 
     /**
@@ -81,21 +81,21 @@ public class GradientButton extends JButton
      */
     @Override
     public void setUI( ButtonUI b ) {
-        super.setUI( myUI_ );
+        super.setUI(myUI);
     }
 
     /**
      * Set starting gradient color
      */
     public void setStartColor( Color pStartColor ) {
-        gradientStartColor_ = pStartColor;
+        gradientStartColor = pStartColor;
     }
 
     /**
      * Set ending gradient color
      */
     public void setEndColor( Color pEndColor ) {
-        gradientEndColor_ = pEndColor;
+        gradientEndColor = pEndColor;
     }
 
 
@@ -108,13 +108,13 @@ public class GradientButton extends JButton
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        mousedOver_ = true;
+        mousedOver = true;
         this.repaint();
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        mousedOver_ = false;
+        mousedOver = false;
         this.repaint();
     }
 
@@ -154,7 +154,7 @@ public class GradientButton extends JButton
 
             GradientPaint rtow = createGradient(height);
 
-            float opacity = mousedOver_ ? 1.0f : 0.75f;
+            float opacity = mousedOver ? 1.0f : 0.75f;
             if (!isEnabled()) {
                 opacity = 0.6f;
             }
@@ -168,10 +168,10 @@ public class GradientButton extends JButton
             Point2D.Double origin = new Point2D.Double( 0.0, 0.0 );
             Point2D.Double end = new Point2D.Double( 0.0, height );
 
-            Color startColor = gradientStartColor_;
-            Color endColor = gradientEndColor_;
-            startColor = mousedOver_ ?  startColor.brighter() : startColor;
-            endColor = mousedOver_ ? endColor.brighter() : endColor;
+            Color startColor = gradientStartColor;
+            Color endColor = gradientEndColor;
+            startColor = mousedOver ?  startColor.brighter() : startColor;
+            endColor = mousedOver ? endColor.brighter() : endColor;
 
             GradientPaint rtow;
             if ( isSelected() ) {

@@ -17,22 +17,21 @@ import java.awt.event.ComponentEvent;
  */
 public class ContinuousColorLegend extends JPanel {
 
-    private String title_;
-    private ColorMap colormap_;
+    private String title;
+    private ColorMap colormap;
 
-    private LegendEditBar legendEditBar_;
-    private boolean isEditable_ = false;
-    private LegendLabelsPanel labelsPanel_;
+    private LegendEditBar legendEditBar;
+    private boolean isEditable = false;
+    private LegendLabelsPanel labelsPanel;
 
     public ContinuousColorLegend(String title, ColorMap colormap) {
         this(title, colormap, false);
     }
 
     public ContinuousColorLegend(String title, ColorMap colormap, boolean editable)  {
-        title_ = title;
-        colormap_ = colormap;
-        isEditable_ = editable;
-
+        this.title = title;
+        this.colormap = colormap;
+        isEditable = editable;
         initUI();
     }
 
@@ -44,24 +43,24 @@ public class ContinuousColorLegend extends JPanel {
                       BorderFactory.createMatteBorder(1, 0, 2, 0, this.getBackground())));
 
         int height = 40;
-        if (title_ != null) {
+        if (title != null) {
             JPanel titlePanel = new JPanel();
             titlePanel.setOpaque(false);
-            JLabel title = new JLabel(title_, JLabel.LEFT);
+            JLabel title = new JLabel(this.title, JLabel.LEFT);
             title.setOpaque(false);
             titlePanel.add(title, Component.LEFT_ALIGNMENT);
             add(titlePanel);
             add(Box.createRigidArea(new Dimension(4, 4)));
             height = 55;
         }
-        legendEditBar_ = new LegendEditBar(colormap_, this);
-        if (isEditable_)  {
-            add(legendEditBar_, BorderLayout.NORTH);
+        legendEditBar = new LegendEditBar(colormap, this);
+        if (isEditable)  {
+            add(legendEditBar, BorderLayout.NORTH);
         }
         add(createLegendPanel(), BorderLayout.CENTER);
 
-        labelsPanel_ = new LegendLabelsPanel(colormap_);
-        add(labelsPanel_, BorderLayout.SOUTH);
+        labelsPanel = new LegendLabelsPanel(colormap);
+        add(labelsPanel, BorderLayout.SOUTH);
 
         setMaximumSize(new Dimension(2000, height));
 
@@ -72,39 +71,39 @@ public class ContinuousColorLegend extends JPanel {
     }
 
     private JPanel createLegendPanel() {
-        return new ColoredLegendLine(colormap_);
+        return new ColoredLegendLine(colormap);
     }
 
 
     public boolean isEditable() {
-        return isEditable_;
+        return isEditable;
     }
 
     public void setEditable(boolean editable) {
-        if (isEditable_ == editable) {
+        if (isEditable == editable) {
             return;
         }
-        isEditable_ = editable;
-        if (isEditable_) {
-            add(legendEditBar_, BorderLayout.NORTH);
+        isEditable = editable;
+        if (isEditable) {
+            add(legendEditBar, BorderLayout.NORTH);
         } else {
-            remove(legendEditBar_);
+            remove(legendEditBar);
         }
     }
 
     public double getMin() {
-        return labelsPanel_.getMin();
+        return labelsPanel.getMin();
     }
 
     public void setMin(double min) {
-        labelsPanel_.setMin(min);
+        labelsPanel.setMin(min);
     }
 
     public double getMax() {
-        return labelsPanel_.getMax();
+        return labelsPanel.getMax();
     }
 
     public void setMax(double max) {
-        labelsPanel_.setMax(max);
+        labelsPanel.setMax(max);
     }
 }

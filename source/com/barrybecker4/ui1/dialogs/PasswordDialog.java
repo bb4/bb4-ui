@@ -20,12 +20,11 @@ public class PasswordDialog extends AbstractDialog
                             implements ActionListener, KeyListener {
 
     private static final String DEFAULT_PASSWORD = "hello123"; //NON-NLS
-    private String password_;
-
-    private JPasswordField passwordField_;
+    private String password;
+    private JPasswordField passwordField;
 
     /** click this when the password has been entered. */
-    protected GradientButton okButton_;
+    protected GradientButton okButton;
 
     /** newline is like clicking ok. */
     private static final char NEWLINE_CHAR = 10;
@@ -38,9 +37,9 @@ public class PasswordDialog extends AbstractDialog
     public PasswordDialog(String expectedPassword) {
         super();
         if (expectedPassword == null)
-            password_ = DEFAULT_PASSWORD;
+            password = DEFAULT_PASSWORD;
         else
-            password_ = expectedPassword;
+            password = expectedPassword;
 
         showContent();
     }
@@ -58,12 +57,12 @@ public class PasswordDialog extends AbstractDialog
         JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel pwPanel = new JPanel(new FlowLayout());
 
-        passwordField_= new JPasswordField();
-        passwordField_.addKeyListener(this);
-        passwordField_.setColumns(password_.length());
+        passwordField = new JPasswordField();
+        passwordField.addKeyListener(this);
+        passwordField.setColumns(password.length());
 
         pwPanel.add(new JLabel(AppContext.getLabel("PASSWORD")));
-        pwPanel.add(passwordField_);
+        pwPanel.add(passwordField);
 
         JPanel buttonsPanel = createButtonsPanel();
 
@@ -81,13 +80,14 @@ public class PasswordDialog extends AbstractDialog
     protected  JPanel createButtonsPanel() {
         JPanel buttonsPanel = new JPanel( new FlowLayout() );
 
-        okButton_ = new GradientButton();
-        initBottomButton( okButton_,
+        okButton = new GradientButton();
+        initBottomButton(okButton,
                 AppContext.getLabel("OK"), "Check to see if the password is correct. " );
         initBottomButton(cancelButton,
-                AppContext.getLabel("CANCEL"), "Go back to the main window without entering a password." );
+                AppContext.getLabel("CANCEL"),
+                "Go back to the main window without entering a password." );
 
-        buttonsPanel.add( okButton_ );
+        buttonsPanel.add(okButton);
         buttonsPanel.add(cancelButton);
 
         return buttonsPanel;
@@ -99,13 +99,13 @@ public class PasswordDialog extends AbstractDialog
         super.actionPerformed(e);
         Object source = e.getSource();
 
-        if ( source == okButton_ ) {
+        if ( source == okButton) {
             validatePassword();
         }
     }
 
     private void validatePassword() {
-        if (password_.equals(new String(passwordField_.getPassword()))) {
+        if (password.equals(new String(passwordField.getPassword()))) {
                 this.setVisible( false );
         }
         else {

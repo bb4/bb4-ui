@@ -15,13 +15,13 @@ import java.io.File;
  */
 public class ExtensionFileFilter extends FileFilter {
 
-    private String extension_;
+    private String extension;
 
     /**
      * @param extension a file extension (excluding the dot)
      */
     public ExtensionFileFilter(String extension) {
-        extension_ = extension;
+        this.extension = extension;
     }
 
     /**
@@ -34,14 +34,14 @@ public class ExtensionFileFilter extends FileFilter {
        if  (!accept) {
             String suffix = GUIUtil.getFileSuffix(file);
             if (suffix != null)
-               accept = (suffix.equals(extension_));
+               accept = (suffix.equals(extension));
        }
        return accept;
     }
 
     @Override
     public String getDescription() {
-         return "*." + extension_;
+         return "*." + extension;
     }
 
     /**

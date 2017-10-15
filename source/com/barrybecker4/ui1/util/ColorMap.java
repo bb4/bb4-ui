@@ -13,8 +13,8 @@ import java.util.List;
  */
 public class ColorMap {
 
-    final private List<Double> values_;
-    private volatile List<Color> colors_;
+    final private List<Double> values;
+    private volatile List<Color> colors;
 
     /**
      * give a list of (increasing) values and colors to map to.
@@ -30,11 +30,11 @@ public class ColorMap {
         check(colors.length > 0, "colors was empty");
         // should also assert that the values are increasing
         check(values.length == colors.length, "there must be as many values as colors");
-        values_ = new ArrayList<Double>();
-        colors_ = new ArrayList<Color>();
+        this.values = new ArrayList<Double>();
+        this.colors = new ArrayList<Color>();
         for (int i=0; i<values.length; i++) {
-            values_.add(values[i]);
-            colors_.add(colors[i]);
+            this.values.add(values[i]);
+            this.colors.add(colors[i]);
         }
     }
 
@@ -54,21 +54,21 @@ public class ColorMap {
      */
     public Color getColorForValue( final double value ) {
         int len = getNumValues();
-        if ( value <= values_.get(0)) {
-            return colors_.get(0);
+        if ( value <= values.get(0)) {
+            return colors.get(0);
         }
-        if (value >= values_.get(len-1)) {
-            return colors_.get(len-1);
+        if (value >= values.get(len-1)) {
+            return colors.get(len-1);
         }
         int i = 1;
-        while ( i < len && value > values_.get(i) ) {
+        while ( i < len && value > values.get(i) ) {
             i++;
         }
         if ( i == len ) {
-            return colors_.get(len - 1);
+            return colors.get(len - 1);
         }
 
-        double x = (double) i - 1.0 + (value - values_.get(i - 1)) / (values_.get(i) - values_.get(i - 1));
+        double x = (double) i - 1.0 + (value - values.get(i - 1)) / (values.get(i) - values.get(i - 1));
         return interpolate( x );
     }
 
@@ -80,11 +80,11 @@ public class ColorMap {
     public synchronized void setGlobalAlpha(int alpha) {
         List<Color> newColors = new ArrayList<Color>();
 
-        for (Color c : colors_) {
+        for (Color c : colors) {
             newColors.add(new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha));
         }
-        colors_.clear();
-        colors_ = newColors;
+        colors.clear();
+        colors = newColors;
     }
 
     /**
@@ -98,8 +98,8 @@ public class ColorMap {
         double delta = x - (double) i;
         float[] rgba_ = new float[4];
         float[] rgba1_ = new float[4];
-        colors_.get(i).getComponents( rgba_ );
-        colors_.get(i + 1).getComponents( rgba1_ );
+        colors.get(i).getComponents( rgba_ );
+        colors.get(i + 1).getComponents( rgba1_ );
         return new Color( (float) (rgba_[0] + delta * (rgba1_[0] - rgba_[0])),
                 (float) (rgba_[1] + delta * (rgba1_[1] - rgba_[1])),
                 (float) (rgba_[2] + delta * (rgba1_[2] - rgba_[2])),
@@ -107,11 +107,11 @@ public class ColorMap {
     }
 
     public double getMinValue() {
-        return values_.get(0);
+        return values.get(0);
     }
 
     public double getMaxValue() {
-        return values_.get(getNumValues() - 1);
+        return values.get(getNumValues() - 1);
     }
 
     public double getValueRange() {
@@ -119,42 +119,42 @@ public class ColorMap {
     }
 
     public double getValue(int index) {
-        return values_.get(index);
+        return values.get(index);
     }
 
     public synchronized void setValue(int index, double value) {
         if (index > 0) {
-            assert(value >= values_.get(index - 1)):
-                    "Can't set value="+value+" that is less than "+ values_.get(index - 1);
+            assert(value >= values.get(index - 1)):
+                    "Can't set value="+value+" that is less than "+ values.get(index - 1);
         }
         if (index < getNumValues() -1) {
-            assert(value <= values_.get(index + 1)):
-                    "Can't set value="+value+" that is greater than "+ values_.get(index + 1);
+            assert(value <= values.get(index + 1)):
+                    "Can't set value="+value+" that is greater than "+ values.get(index + 1);
         }
-        values_.set(index, value);
+        values.set(index, value);
     }
 
 
     public Color getColor(int index) {
-        return colors_.get(index);
+        return colors.get(index);
     }
 
     public synchronized void setColor(int index, Color newColor) {
-         colors_.set(index, newColor);
+         colors.set(index, newColor);
     }
 
     public int getNumValues() {
-        return values_.size();
+        return values.size();
     }
 
     public void insertControlPoint(int index, double value, Color color) {
-        values_.add(index, value);
-        colors_.add(index, color);
+        values.add(index, value);
+        colors.add(index, color);
     }
 
     public void removeControlPoint(int index) {
-        values_.remove(index);
-        colors_.remove(index);
+        values.remove(index);
+        colors.remove(index);
     }
 
     /**
@@ -164,21 +164,21 @@ public class ColorMap {
     public int getClosestIndexForValue(double value) {
 
         int len = getNumValues();
-        if ( value <= values_.get(0)) {
+        if ( value <= values.get(0)) {
             return 0;
         }
-        if (value >= values_.get(len-1)) {
+        if (value >= values.get(len-1)) {
             return len-1;
         }
 
         int i = 1;
-        while ( i < len && value > values_.get(i) ) {
+        while ( i < len && value > values.get(i) ) {
             i++;
         }
         if ( i == len ) {
             return len - 1;
         }
-        if (value - values_.get(i - 1) > values_.get(i) - value) {
+        if (value - values.get(i - 1) > values.get(i) - value) {
             return i;
         }
         else {
@@ -192,11 +192,11 @@ public class ColorMap {
      */
     public int getLeftIndexForValue(double value) {
         int len = getNumValues();
-        assert(value >= values_.get(0));
-        if (value >= values_.get(len-2))
+        assert(value >= values.get(0));
+        if (value >= values.get(len-2))
             return len-2;
         int i = 1;
-        while ( value > values_.get(i) ) {
+        while ( value > values.get(i) ) {
             i++;
         }
         return i - 1;

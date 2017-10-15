@@ -12,6 +12,7 @@ import java.awt.*;
  * @author Barry Becker
  */
 public class ColorCellRenderer extends DefaultTableCellRenderer {
+
     public ColorCellRenderer() {
         setHorizontalAlignment(JLabel.CENTER);
     }

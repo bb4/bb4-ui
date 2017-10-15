@@ -13,10 +13,10 @@ import java.awt.*;
  */
 public class OutputWindow extends AbstractDialog {
 
-    protected ScrollingTextArea textArea_ = null;
+    private static final long serialVersionUID = 1L;
+    protected ScrollingTextArea textArea = null;
 
     private static final Font TEXT_FONT = new Font("Times-Roman", Font.PLAIN, 10 ); //NON-NLS
-    private static final long serialVersionUID = 1234L;
 
     /**
      * Constructor
@@ -30,12 +30,12 @@ public class OutputWindow extends AbstractDialog {
 
     @Override
     protected JComponent createDialogContent() {
-        textArea_ = new ScrollingTextArea(40, 30);
+        textArea = new ScrollingTextArea(40, 30);
 
         // if its editable then we can copy from it
-        textArea_.setEditable( true );
-        textArea_.setFont( TEXT_FONT );
-        return textArea_;
+        textArea.setEditable( true );
+        textArea.setFont( TEXT_FONT );
+        return textArea;
     }
 
     /**
@@ -43,13 +43,13 @@ public class OutputWindow extends AbstractDialog {
      */
     public void appendText( String text ) {
         if ( text != null )
-            textArea_.append( text );
+            textArea.append( text );
     }
 
     /**
      * replace current text with this text
      */
     public void setText( String text )  {
-        textArea_.setText( text );
+        textArea.setText( text );
     }
 }

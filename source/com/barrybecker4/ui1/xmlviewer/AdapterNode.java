@@ -11,9 +11,8 @@ import org.w3c.dom.NodeList;
 @SuppressWarnings("HardCodedStringLiteral")
 public class AdapterNode {
 
-    private Node domNode_;
-
-    private boolean compress_ = false;
+    private Node domNode;
+    private boolean compress = false;
 
     /**
      * An array of names for DOM node-types
@@ -42,7 +41,7 @@ public class AdapterNode {
 
     // Construct an Adapter node from a DOM node
     public AdapterNode(Node node) {
-        domNode_ = node;
+        domNode = node;
     }
 
     /**
@@ -50,25 +49,25 @@ public class AdapterNode {
      * Refer to table at top of org.w3c.dom.Node ***
      */
      public String toString() {
-        String s = typeName[domNode_.getNodeType()];
-        String nodeName = domNode_.getNodeName();
+        String s = typeName[domNode.getNodeType()];
+        String nodeName = domNode.getNodeName();
         if (! "#".startsWith(nodeName)) {
            s += ": " + nodeName;
         }
-        if (compress_) {
+        if (compress) {
            String t = content().trim();
            int x = t.indexOf("\n");
            if (x >= 0) t = t.substring(0, x);
            s += ' ' + t;
            return s;
         }
-        if (domNode_.getNodeValue() != null) {
+        if (domNode.getNodeValue() != null) {
            if (s.startsWith("ProcInstr"))      // NON-NLS
               s += ", ";
            else
               s += ": ";
            // Trim the value to get rid of NL's at the front
-           String t = domNode_.getNodeValue().trim();
+           String t = domNode.getNodeValue().trim();
            int x = t.indexOf("\n");
            if (x >= 0) t = t.substring(0, x);
            s += t;
@@ -78,7 +77,7 @@ public class AdapterNode {
 
     public String content() {
         StringBuilder buf = new StringBuilder();
-        NodeList nodeList = domNode_.getChildNodes();
+        NodeList nodeList = domNode.getChildNodes();
         for (int i=0; i<nodeList.getLength(); i++) {
             serialize(buf, nodeList, i);
         }
@@ -147,7 +146,7 @@ public class AdapterNode {
     int count = childCount();
     for (int i=0; i<count; i++) {
       AdapterNode n = this.child(i);
-      if (child.domNode_ == n.domNode_) return i;
+      if (child.domNode == n.domNode) return i;
     }
     return -1; // Should never get here.
   }
@@ -155,12 +154,12 @@ public class AdapterNode {
   public AdapterNode child(int searchIndex) {
     //Note: JTree index is zero-based.
     Node node =
-         domNode_.getChildNodes().item(searchIndex);
-    if (compress_) {
+         domNode.getChildNodes().item(searchIndex);
+    if (compress) {
       // Return Nth displayable node
       int elementNodeIndex = 0;
-      for (int i=0; i<domNode_.getChildNodes().getLength(); i++) {
-        node = domNode_.getChildNodes().item(i);
+      for (int i = 0; i< domNode.getChildNodes().getLength(); i++) {
+        node = domNode.getChildNodes().item(i);
         if (node.getNodeType() == ELEMENT_TYPE
         && treeElement( node.getNodeName() )
         && elementNodeIndex++ == searchIndex) {
@@ -172,13 +171,13 @@ public class AdapterNode {
   }
 
   public int childCount() {
-      if (!compress_) {
+      if (!compress) {
             // Indent this
-            return domNode_.getChildNodes().getLength();
+            return domNode.getChildNodes().getLength();
       }
       int count = 0;
-      for (int i=0; i<domNode_.getChildNodes().getLength(); i++) {
-          Node node = domNode_.getChildNodes().item(i);
+      for (int i = 0; i< domNode.getChildNodes().getLength(); i++) {
+          Node node = domNode.getChildNodes().item(i);
           if (node.getNodeType() == ELEMENT_TYPE
           && treeElement( node.getNodeName() ))  {
                // Note:
@@ -209,7 +208,7 @@ public class AdapterNode {
     }
 
     public Node getDomNode() {
-        return domNode_;
+        return domNode;
     }
 
 }

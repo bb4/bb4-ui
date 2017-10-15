@@ -19,10 +19,10 @@ public abstract class AbstractDialog extends JDialog implements ActionListener {
     /** there is always a cancel button so it is included here. */
     protected GradientButton cancelButton = new GradientButton();
 
-    protected boolean canceled_ = false;
+    protected boolean canceled = false;
 
     /** Cache a pointer to this in case we have children */
-    protected Component parent_;
+    protected Component myParent;
 
 
     /**
@@ -38,7 +38,7 @@ public abstract class AbstractDialog extends JDialog implements ActionListener {
      * @param parent parent component to place ourselves relative to.
      */
     public AbstractDialog(Component parent) {
-        parent_ = parent;
+        this.myParent = parent;
     }
 
     /**
@@ -73,9 +73,9 @@ public abstract class AbstractDialog extends JDialog implements ActionListener {
      * @return true if the dialog is canceled
      */
     public boolean showDialog() {
-        canceled_ = false;
-        if (parent_ != null)  {
-            this.setLocationRelativeTo( parent_ );
+        canceled = false;
+        if (myParent != null)  {
+            this.setLocationRelativeTo(myParent);
         } else {
             // something besides the corner.
             this.setLocation(100, 100);
@@ -85,7 +85,7 @@ public abstract class AbstractDialog extends JDialog implements ActionListener {
         this.toFront();
         this.pack();
 
-        return canceled_;
+        return canceled;
     }
 
 
@@ -117,7 +117,7 @@ public abstract class AbstractDialog extends JDialog implements ActionListener {
      * cancel button pressed
      */
     protected void cancel() {
-        canceled_ = true;
+        canceled = true;
         this.setVisible( false );
     }
 

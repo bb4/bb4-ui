@@ -16,11 +16,10 @@ import java.awt.*;
  */
 public class SliderGroup extends JPanel implements ChangeListener {
 
-    private SliderGroupChangeListener sliderListener_;
-
-    private SliderProperties[] sliderProps_;
-    private JLabel[] labels_;
-    private JSlider[] sliders_;
+    private SliderGroupChangeListener sliderListener;
+    private SliderProperties[] sliderProps;
+    private JLabel[] labels;
+    private JSlider[] sliders;
 
     private static final int DEFAULT_MIN = 0;
     private static final int DEFAULT_MAX = 100;
@@ -48,7 +47,7 @@ public class SliderGroup extends JPanel implements ChangeListener {
     }
 
     protected SliderProperties[] getSliderProperties() {
-        return sliderProps_;
+        return sliderProps;
     }
 
     /**
@@ -56,20 +55,20 @@ public class SliderGroup extends JPanel implements ChangeListener {
      */
     protected void commonInit(SliderProperties[] sliderProps) {
 
-        sliderProps_ = sliderProps;
-        int numSliders = sliderProps_.length;
+        this.sliderProps = sliderProps;
+        int numSliders = this.sliderProps.length;
 
-        labels_ = new JLabel[numSliders];
-        sliders_ = new JSlider[numSliders];
+        labels = new JLabel[numSliders];
+        sliders = new JSlider[numSliders];
 
         for (int i=0; i < numSliders; i++) {
-            double scale = sliderProps_[i].getScale();
-            int intInitial = (int) (sliderProps_[i].getInitialValue() * scale);
-            int intMin = (int) (sliderProps_[i].getMinValue() * scale);
-            int intMax = (int) (sliderProps_[i].getMaxValue() * scale);
-            labels_[i] = new JLabel(getSliderTitle(i, intInitial));
-            sliders_[i] = new JSlider(JSlider.HORIZONTAL, intMin, intMax, intInitial);
-            sliders_[i].addChangeListener(this);
+            double scale = this.sliderProps[i].getScale();
+            int intInitial = (int) (this.sliderProps[i].getInitialValue() * scale);
+            int intMin = (int) (this.sliderProps[i].getMinValue() * scale);
+            int intMax = (int) (this.sliderProps[i].getMaxValue() * scale);
+            labels[i] = new JLabel(getSliderTitle(i, intInitial));
+            sliders[i] = new JSlider(JSlider.HORIZONTAL, intMin, intMax, intInitial);
+            sliders[i].addChangeListener(this);
 
         }
         buildUI();
@@ -79,9 +78,9 @@ public class SliderGroup extends JPanel implements ChangeListener {
      * return all the sliders to their initial value.
      */
     public void reset() {
-         for (int i=0; i<sliderProps_.length; i++) {
-             int initial = (int) (sliderProps_[i].getInitialValue() * sliderProps_[i].getScale());
-            sliders_[i].setValue(initial);
+         for (int i = 0; i< sliderProps.length; i++) {
+             int initial = (int) (sliderProps[i].getInitialValue() * sliderProps[i].getScale());
+            sliders[i].setValue(initial);
         }
     }
 
@@ -90,41 +89,41 @@ public class SliderGroup extends JPanel implements ChangeListener {
     }
 
     public double getSliderValue(int sliderIndex) {
-        return sliderProps_[sliderIndex].getScale() * (double)sliders_[sliderIndex].getValue();
+        return sliderProps[sliderIndex].getScale() * (double) sliders[sliderIndex].getValue();
     }
 
     public void setSliderValue(int sliderIndex, double value) {
-        double v = (value * sliderProps_[sliderIndex].getScale());
-        sliders_[sliderIndex].setValue((int) v);
-        labels_[sliderIndex].setText(sliderProps_[sliderIndex].getName() + " " + FormatUtil.formatNumber(value));
+        double v = (value * sliderProps[sliderIndex].getScale());
+        sliders[sliderIndex].setValue((int) v);
+        labels[sliderIndex].setText(sliderProps[sliderIndex].getName() + " " + FormatUtil.formatNumber(value));
     }
 
     public void setSliderValue(int sliderIndex, int value) {
-        assert(sliderProps_[sliderIndex].getScale() == 1.0) : "you should call setSliderValue(int, double) if you have a slider with real values";
-        sliders_[sliderIndex].setValue(value);
-        labels_[sliderIndex].setText(getSliderTitle(sliderIndex, value));
+        assert(sliderProps[sliderIndex].getScale() == 1.0) : "you should call setSliderValue(int, double) if you have a slider with real values";
+        sliders[sliderIndex].setValue(value);
+        labels[sliderIndex].setText(getSliderTitle(sliderIndex, value));
     }
 
     public void setSliderMinimum(int sliderIndex, int min) {
-         assert(sliderProps_[sliderIndex].getScale() == 1.0) : "you should call setSliderMinimum(int, double) if you have a slider with real values";
-        sliders_[sliderIndex].setMinimum(min);
+         assert(sliderProps[sliderIndex].getScale() == 1.0) : "you should call setSliderMinimum(int, double) if you have a slider with real values";
+        sliders[sliderIndex].setMinimum(min);
     }
 
     public void setSliderMinimum(int sliderIndex, double min) {
-        double mn = (min * sliderProps_[sliderIndex].getScale());
-        sliders_[sliderIndex].setMinimum((int) mn);
+        double mn = (min * sliderProps[sliderIndex].getScale());
+        sliders[sliderIndex].setMinimum((int) mn);
     }
 
     public void addSliderChangeListener(SliderGroupChangeListener listener) {
-        sliderListener_ = listener;
+        sliderListener = listener;
     }
 
     private String getSliderTitle(int index, int value) {
-        String title = sliderProps_[index].getName() + " : " ;
-        if (sliderProps_[index].getScale() == 1.0) {
+        String title = sliderProps[index].getName() + " : " ;
+        if (sliderProps[index].getScale() == 1.0) {
             return  title + FormatUtil.formatNumber(value);
         } else {
-            return  title + FormatUtil.formatNumber((double) value / sliderProps_[index].getScale());
+            return  title + FormatUtil.formatNumber((double) value / sliderProps[index].getScale());
         }
     }
 
@@ -132,9 +131,9 @@ public class SliderGroup extends JPanel implements ChangeListener {
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-        for (int i=0; i < sliderProps_.length; i++) {
-           add( createLabelPanel(labels_[i]) );
-           add( sliders_[i] );
+        for (int i = 0; i < sliderProps.length; i++) {
+           add( createLabelPanel(labels[i]) );
+           add( sliders[i] );
         }
     }
 
@@ -146,7 +145,7 @@ public class SliderGroup extends JPanel implements ChangeListener {
     }
 
     public void setSliderListener(SliderGroupChangeListener listener) {
-        sliderListener_ = listener;
+        sliderListener = listener;
     }
 
     /**
@@ -155,9 +154,9 @@ public class SliderGroup extends JPanel implements ChangeListener {
     public void setEnabled(String name, boolean enable)
     {
         JSlider slider = null;
-        for (int i=0; i < sliderProps_.length; i++) {
-            if (name.equals(sliderProps_[i].getName())) {
-                slider = sliders_[i];
+        for (int i = 0; i < sliderProps.length; i++) {
+            if (name.equals(sliderProps[i].getName())) {
+                slider = sliders[i];
             }
         }
         assert slider!=null: "no slider by the name of " + name;
@@ -173,14 +172,14 @@ public class SliderGroup extends JPanel implements ChangeListener {
     {
         JSlider src = (JSlider) e.getSource();
 
-        for (int i=0; i < sliderProps_.length; i++) {
-            JSlider slider = sliders_[i];
+        for (int i = 0; i < sliderProps.length; i++) {
+            JSlider slider = sliders[i];
             if (src == slider) {
                 int value = slider.getValue();
-                labels_[i].setText(getSliderTitle(i, value));
-                if (sliderListener_ != null) {
-                    double v = (double)value / sliderProps_[i].getScale();
-                    sliderListener_.sliderChanged(i, sliderProps_[i].getName(), v);
+                labels[i].setText(getSliderTitle(i, value));
+                if (sliderListener != null) {
+                    double v = (double)value / sliderProps[i].getScale();
+                    sliderListener.sliderChanged(i, sliderProps[i].getName(), v);
                 }
             }
         }

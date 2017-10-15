@@ -20,7 +20,7 @@ import java.util.List;
  */
 public abstract class ApplicationApplet extends JApplet{
 
-    protected ResizableAppletPanel resizablePanel_;
+    protected ResizableAppletPanel resizablePanel;
 
     /**
      * Construct the application.
@@ -65,8 +65,8 @@ public abstract class ApplicationApplet extends JApplet{
             initializeContext(localeName);
         }
 
-        resizablePanel_ = new ResizableAppletPanel(createMainPanel());
-        getContentPane().add(resizablePanel_);
+        resizablePanel = new ResizableAppletPanel(createMainPanel());
+        getContentPane().add(resizablePanel);
     }
 
     /**
@@ -101,8 +101,8 @@ public abstract class ApplicationApplet extends JApplet{
     public void setSize( int width, int height ) {
 
         getContentPane().setSize(width, height);
-        if (resizablePanel_ != null) {
-            resizablePanel_.setSize( width, height );
+        if (resizablePanel != null) {
+            resizablePanel.setSize( width, height );
         }
     }
 

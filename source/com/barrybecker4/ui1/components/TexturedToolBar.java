@@ -12,8 +12,8 @@ import java.awt.event.ActionListener;
  * The background gets tiled with the image that is passed in.
  */
 public class TexturedToolBar extends JToolBar {
-    private ImageIcon texture_ = null;
     private static final long serialVersionUID = 0L;
+    private ImageIcon texture = null;
 
     protected static final Dimension MAX_BUTTON_SIZE = new Dimension( 100, 24 );
 
@@ -35,7 +35,7 @@ public class TexturedToolBar extends JToolBar {
     }
 
     public void setTexture( ImageIcon texture ) {
-        texture_ = texture;
+        this.texture = texture;
     }
 
     /**
@@ -52,7 +52,7 @@ public class TexturedToolBar extends JToolBar {
 
     @Override
     public void paintComponent(Graphics g) {
-        GUIUtil.paintComponentWithTexture(texture_, this, g);
+        GUIUtil.paintComponentWithTexture(texture, this, g);
     }
 
 }
