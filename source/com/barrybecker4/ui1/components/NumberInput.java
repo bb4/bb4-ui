@@ -163,11 +163,11 @@ public class NumberInput extends JPanel {
      */
     private class NumberKeyAdapter extends KeyAdapter {
 
-        boolean integerOnly_;
+        boolean integerOnly;
 
 
         protected NumberKeyAdapter(boolean integerOnly) {
-            integerOnly_ = integerOnly;
+            this.integerOnly = integerOnly;
         }
 
         @Override
@@ -180,7 +180,7 @@ public class NumberInput extends JPanel {
                 numberField.setText( "" );
                 key.consume(); // don't let it get entered
             }
-            else if ((integerOnly_ && c == '.') || (getMin() >= 0 && c == '-')) {
+            else if ((integerOnly && c == '.') || (getMin() >= 0 && c == '-')) {
                 JOptionPane.showMessageDialog( null,
                         "unexpected character: " + c, "Error", JOptionPane.ERROR_MESSAGE);
                 key.consume();
@@ -194,7 +194,7 @@ public class NumberInput extends JPanel {
             String txt = numberField.getText();
             if (txt.length() > 1)  {
                 try {
-                    if (integerOnly_ && txt.length() > 0) {
+                    if (integerOnly && txt.length() > 0) {
                         Integer.parseInt(txt);
                     }  else {
                         Double.parseDouble(txt);
