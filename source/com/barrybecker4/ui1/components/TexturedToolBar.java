@@ -18,11 +18,11 @@ public class TexturedToolBar extends JToolBar {
     protected static final Dimension MAX_BUTTON_SIZE = new Dimension( 100, 24 );
 
     /** the thing that processes the toolbar button presses. */
-    protected ActionListener listener_;
+    protected ActionListener listener;
 
 
     public TexturedToolBar( ImageIcon texture, ActionListener listener ) {
-        listener_ = listener;
+        this.listener = listener;
         setTexture(texture);
     }
 
@@ -31,7 +31,7 @@ public class TexturedToolBar extends JToolBar {
     }
 
     public void setListener(ActionListener listener ) {
-        listener_ = listener;
+        this.listener = listener;
     }
 
     public void setTexture( ImageIcon texture ) {
@@ -43,7 +43,7 @@ public class TexturedToolBar extends JToolBar {
      */
     public GradientButton createToolBarButton( String text, String tooltip, Icon icon ) {
         GradientButton button = new GradientButton( text, icon );
-        button.addActionListener( listener_ );
+        button.addActionListener(listener);
         button.setToolTipText( tooltip );
         button.setMaximumSize( MAX_BUTTON_SIZE );
         return button;
