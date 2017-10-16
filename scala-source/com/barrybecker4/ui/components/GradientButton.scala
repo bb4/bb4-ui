@@ -23,7 +23,7 @@ class GradientButton() extends JButton with MouseListener {
   /** color at the bottom of the button. */
   private var gradientEndColor: Color = _
   private var mousedOver = false
-  private val myUI = new GradientButton#CustomUI
+  private val myUI = new CustomUI
   commonDefaultInit()
 
   /** Constructor. default to colors from the UIManager */
@@ -100,8 +100,8 @@ class GradientButton() extends JButton with MouseListener {
     /** Does the work of actually drawing the gradient background. */
     private def addGradientBackground(g: Graphics) = {
       val g2D = g.asInstanceOf[Graphics2D]
-      val width = getSize.getWidth
-      val height = getSize.getHeight
+      val width = getSize().width
+      val height = getSize().height
       val rtow = createGradient(height)
       var opacity = if (mousedOver) 1.0f
       else 0.75f

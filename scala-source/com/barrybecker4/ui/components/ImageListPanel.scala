@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage
 import java.util
 import java.util.{Timer, TimerTask}
 import collection.JavaConverters._
-import com.barrybecker4.ui1.components.ImageSelectionListener
 import ImageListPanel._
 
 

@@ -76,7 +76,7 @@ class ComplexNumberInput(val labelText: String, var initialValue: ComplexNumber,
     val ttip = if (toolTip == null) "Enter a number in the suggested range" else toolTip
     field.setToolTipText(ttip)
     field.setPreferredSize(new Dimension(50, 20))
-    field.addKeyListener(new ComplexNumberInput#NumberKeyAdapter(field, initialVal))
+    field.addKeyListener(new NumberKeyAdapter(field, initialVal))
     field
   }
 

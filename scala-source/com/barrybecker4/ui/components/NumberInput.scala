@@ -35,7 +35,7 @@ class NumberInput(val labelText: String, var initialValue: Double,
   if (toolTip == null) numberField.setToolTipText("enter a number in the suggested range")
   else numberField.setToolTipText(toolTip)
   numberField.setPreferredSize(new Dimension(NumberInput.DEFAULT_WIDTH, NumberInput.HEIGHT))
-  numberField.addKeyListener(new NumberInput#NumberKeyAdapter(integerOnly))
+  numberField.addKeyListener(new NumberKeyAdapter(integerOnly))
   val numPanel = new JPanel
   numPanel.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2))
   numPanel.add(numberField)
@@ -112,7 +112,8 @@ class NumberInput(val labelText: String, var initialValue: Double,
   def setMax(max: Double): Unit = {this.max = max}
 
   /** Handle number input. Give dynamic feedback if invalid. */
-  private class NumberKeyAdapter protected(var integerOnly: Boolean) extends KeyAdapter {
+  private class NumberKeyAdapter(var integerOnly: Boolean) extends KeyAdapter {
+
     override def keyTyped(key: KeyEvent): Unit = {
       val c = key.getKeyChar
       if (c >= 'A' && c <= 'z') {
