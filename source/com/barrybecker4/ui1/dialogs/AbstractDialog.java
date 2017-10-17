@@ -98,7 +98,7 @@ public abstract class AbstractDialog extends JDialog implements ActionListener {
     }
 
     /**
-     *  If the user clicks the X in the upper right, its the same as pressing cancel
+     * If the user clicks the X in the upper right, its the same as pressing cancel
      */
     @Override
     protected void processWindowEvent( WindowEvent e ) {

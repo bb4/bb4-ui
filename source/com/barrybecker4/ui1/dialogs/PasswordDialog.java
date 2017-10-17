@@ -6,25 +6,22 @@ import com.barrybecker4.ui1.components.GradientButton;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
+
 
 /**
  * Allow the user to enter a top secret password to gain access to restricted content.
  *
  * @author Barry Becker
  */
-public class PasswordDialog extends AbstractDialog
-                            implements ActionListener, KeyListener {
+public class PasswordDialog extends AbstractDialog implements ActionListener, KeyListener {
 
     private static final String DEFAULT_PASSWORD = "hello123"; //NON-NLS
     private String password;
     private JPasswordField passwordField;
 
     /** click this when the password has been entered. */
-    protected GradientButton okButton;
+    private GradientButton okButton;
 
     /** newline is like clicking ok. */
     private static final char NEWLINE_CHAR = 10;
@@ -72,7 +69,6 @@ public class PasswordDialog extends AbstractDialog
         return mainPanel;
     }
 
-
     /**
      *  create the buttons that go at the bottom ( eg OK, Cancel, ...)
      * @return panel with ok cancel buttons.
@@ -94,7 +90,6 @@ public class PasswordDialog extends AbstractDialog
     }
 
 
-    @Override
     public void actionPerformed( ActionEvent e ) {
         super.actionPerformed(e);
         Object source = e.getSource();
@@ -124,11 +119,11 @@ public class PasswordDialog extends AbstractDialog
 
     public void keyPressed(KeyEvent key) {
         char c = key.getKeyChar();
-        //System.out.println("key="+ Integer.toString(c) + " key2=" + c);
         if (c == NEWLINE_CHAR) {
             validatePassword();
         }
     }
-    public void keyReleased(KeyEvent key) {}
+    public void keyReleased(KeyEvent key) {
+    }
 
 }
