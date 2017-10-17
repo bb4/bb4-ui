@@ -6,7 +6,6 @@ import javax.swing._
 import java.awt._
 
 
-
 object OutputWindow {
   private val TEXT_FONT = new Font("Times-Roman", Font.PLAIN, 10) //NON-NLS
 }
@@ -21,7 +20,6 @@ class OutputWindow(title: String, parent: JFrame) extends AbstractDialog(parent)
   this.setTitle(title)
   this.setModal(false)
   showContent()
-
 
   override protected def createDialogContent: JComponent = {
     textArea = new ScrollingTextArea(40, 30)
