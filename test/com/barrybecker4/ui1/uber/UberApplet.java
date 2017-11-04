@@ -41,7 +41,7 @@ public class UberApplet extends ApplicationApplet {
 
     protected java.util.List<String> getResourceList() {
         java.util.List<String> resources = new ArrayList<>(super.getResourceList());
-        resources.add("com.barrybecker4.ui.uber.message");
+        resources.add("com.barrybecker4.ui1.uber.message");
         return resources;
     }
 

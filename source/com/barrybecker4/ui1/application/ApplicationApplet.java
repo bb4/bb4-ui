@@ -84,7 +84,7 @@ public abstract class ApplicationApplet extends JApplet{
      */
     protected List<String> getResourceList() {
         String appResources = getClass().getPackage().getName() + ".message";  // NON-NLS
-        String commonUiResources = "com.barrybecker4.ui.message";   // NON-NLS
+        String commonUiResources = "com.barrybecker4.ui1.message";   // NON-NLS
         return Arrays.asList(appResources, commonUiResources);
     }
 
