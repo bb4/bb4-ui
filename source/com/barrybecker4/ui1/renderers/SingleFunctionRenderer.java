@@ -8,13 +8,12 @@ import java.awt.*;
 
 /**
  * This class draws a specified function.
- *
  * @author Barry Becker
  */
 public class SingleFunctionRenderer extends AbstractFunctionRenderer {
 
     /** y values for every point on the x axis. */
-    private Function function_;
+    private Function function;
 
     private static final Color LINE_COLOR = new Color(0, 0, 0);
 
@@ -24,11 +23,11 @@ public class SingleFunctionRenderer extends AbstractFunctionRenderer {
      * @param func the function to plot.
      */
     public SingleFunctionRenderer(Function func) {
-        function_ = func;
+        function = func;
     }
 
 
-    /** draw the cartesian function */
+    /** Draw the cartesian function */
     @Override
     public void paint(Graphics g) {
 
@@ -40,13 +39,12 @@ public class SingleFunctionRenderer extends AbstractFunctionRenderer {
         double scale = (height - 2.0 * MARGIN) / maxHeight;
 
         clearBackground(g2);
-
         int numPoints = getNumXPoints() ;
 
         g2.setColor(LINE_COLOR);
         for (int i = 0; i < numPoints;  i++) {
             double x = (double)i / numPoints;
-            drawLine(g2, scale, MARGIN + i, function_.getValue(x));
+            drawLine(g2, scale, MARGIN + i, function.getValue(x));
         }
         drawDecoration(g2, yRange);
     }
@@ -59,7 +57,7 @@ public class SingleFunctionRenderer extends AbstractFunctionRenderer {
         int numPoints = getNumXPoints() ;
         for (int i = 0; i < numPoints;  i++) {
             double x = (double)i/numPoints;
-            range.add(function_.getValue(x));
+            range.add(function.getValue(x));
         }
         return range;
     }
