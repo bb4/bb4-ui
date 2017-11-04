@@ -1,3 +1,4 @@
+// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.legend
 
 import com.barrybecker4.ui1.util.ColorMap
@@ -14,15 +15,14 @@ import java.awt._
   */
 object LegendLabelsPanel {
   private val LABEL_FONT = new Font("Sanserif", Font.PLAIN, 10) //NON-NLS
-
   private val LABEL_SPACING = 110
 }
 
 class LegendLabelsPanel private[legend](val colormap: ColorMap) extends JPanel {
 
   /**
-    * By default the min and max come from the colormap min and max
-    * in some cases, such as synchronizing with another map, you may want to adjust them.
+    * By default the min and max come from the colormap min and max.
+    * In some cases, such as synchronizing with another map, you may want to adjust them.
     */
   private var range = new Range(colormap.getMinValue, colormap.getMaxValue)
   private var cutPointGenerator = new CutPointGenerator
@@ -61,6 +61,7 @@ class LegendLabelsPanel private[legend](val colormap: ColorMap) extends JPanel {
       val label = FormatUtil.formatNumber(values(i))
       g2.drawString(label, xpos.toInt, 10)
     }
+
     val maxLabel = FormatUtil.formatNumber(range.getMax)
     val bounds = g2.getFont.getStringBounds(maxLabel, frc)
     val maxLabelWidth = bounds.getWidth

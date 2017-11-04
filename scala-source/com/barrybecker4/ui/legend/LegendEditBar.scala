@@ -66,9 +66,7 @@ class LegendEditBar private[legend](var cmap: ColorMap, var owner: Component)
 
   private def getPositionForValue(v: Double) = (LegendEditBar.MARGIN + ratio * (v - cmap.getMinValue)).toInt
 
-  /**
-    * @return -1 if no control index under the given x pos
-    */
+  /** @return -1 if no control index under the given x pos  */
   private def getControlIndex(xpos: Int) = {
     val v = getValueForPosition(xpos)
     val i = cmap.getClosestIndexForValue(v)
@@ -77,9 +75,7 @@ class LegendEditBar private[legend](var cmap: ColorMap, var owner: Component)
     else -1
   }
 
-  /**
-    * @return the index at or to the left of xpos
-    */
+  /** @return the index at or to the left of xpos */
   private def getLeftControlIndex(xpos: Int) = {
     val v = getValueForPosition(xpos)
     cmap.getLeftIndexForValue(v)
@@ -121,11 +117,8 @@ class LegendEditBar private[legend](var cmap: ColorMap, var owner: Component)
     owner.repaint()
   }
 
-  override def mouseEntered(e: MouseEvent): Unit = {
-  }
-
-  override def mouseExited(e: MouseEvent): Unit = {
-  }
+  override def mouseEntered(e: MouseEvent): Unit = {}
+  override def mouseExited(e: MouseEvent): Unit = {}
 
   private def updateDrag(xpos: Int) = {
     if (dragIndex > 0) {
@@ -139,10 +132,6 @@ class LegendEditBar private[legend](var cmap: ColorMap, var owner: Component)
     }
   }
 
-  override def mouseDragged(e: MouseEvent): Unit = {
-    updateDrag(e.getX)
-  }
-
-  override def mouseMoved(e: MouseEvent): Unit = {
-  }
+  override def mouseDragged(e: MouseEvent): Unit = { updateDrag(e.getX) }
+  override def mouseMoved(e: MouseEvent): Unit = {}
 }

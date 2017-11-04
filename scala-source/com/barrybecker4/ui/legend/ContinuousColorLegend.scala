@@ -1,3 +1,4 @@
+// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.legend
 
 import com.barrybecker4.ui1.util.ColorMap
@@ -8,10 +9,9 @@ import java.awt.event.ComponentEvent
 
 
 /**
-  * shows a continuous color legend given a list of colors and corresponding values.
+  * Shows a continuous color legend given a list of colors and corresponding values.
   * It may be editable if isEditable is set.
   * Might be nice to throw a change event when edited.
-  *
   * @author Barry Becker
   */
 class ContinuousColorLegend(var title: String, var colormap: ColorMap, val editable: Boolean) extends JPanel {
