@@ -49,7 +49,7 @@ public class BarryTheme extends DefaultMetalTheme {
     private ColorUIResource colorResourceSecondary3;
 
     private ColorUIResource black = new ColorUIResource( Color.black );
-    private ColorUIResource white_ = new ColorUIResource( Color.white );
+    private ColorUIResource whitish = new ColorUIResource( Color.white );
 
     /**
      * Default constructor.
@@ -66,7 +66,7 @@ public class BarryTheme extends DefaultMetalTheme {
                        Color colorPrimary1, Color colorPrimary2, Color colorPrimary3,
                        Color colorSecondary1, Color colorSecondary2, Color colorSecondary3 ) {
         this.black = new ColorUIResource( black );
-        white_ = new ColorUIResource( white );
+        whitish = new ColorUIResource( white );
 
         colorResourcePrimary1 = new ColorUIResource( colorPrimary1 );
         colorResourcePrimary2 = new ColorUIResource( colorPrimary2 );
@@ -122,7 +122,7 @@ public class BarryTheme extends DefaultMetalTheme {
         hmUIProps.put( "ScrollBar.thumb", colorResourceSecondary2);
         hmUIProps.put( "ScrollBar.foreground", colorResourcePrimary2);
         hmUIProps.put( "ScrollBar.track", colorResourcePrimary1);
-        hmUIProps.put( "ScrollBar.trackHighlight", white_ );
+        hmUIProps.put( "ScrollBar.trackHighlight", whitish);
         hmUIProps.put( "ScrollBar.thumbDarkShadow", black);
         hmUIProps.put( "ScrollBar.thumbLightShadow", colorResourcePrimary1);
         hmUIProps.put( "Slider.foreground", colorResourceSecondary3);
@@ -132,7 +132,7 @@ public class BarryTheme extends DefaultMetalTheme {
         hmUIProps.put( "Button.background", UI_BUTTON_BACKGROUND );
         hmUIProps.put( "Label.background", colorResourceSecondary3); // or BUTTON_BACKGROUND
         hmUIProps.put( "Separator.shadow", colorResourcePrimary1);
-        hmUIProps.put( "Separator.highlight", white_ );
+        hmUIProps.put( "Separator.highlight", whitish);
         hmUIProps.put( "ToolBar.background", colorResourceSecondary3);
         hmUIProps.put( "ToolBar.foreground", colorResourcePrimary2);
         hmUIProps.put( "ToolBar.dockingbackground", colorResourceSecondary3);
@@ -151,7 +151,7 @@ public class BarryTheme extends DefaultMetalTheme {
 
     @Override
     protected ColorUIResource getWhite() {
-        return white_;
+        return whitish;
     }
 
     protected ColorUIResource getPrimary0() {
@@ -193,6 +193,6 @@ public class BarryTheme extends DefaultMetalTheme {
     }
 
     protected ColorUIResource getSecondary4() {
-        return white_;
+        return whitish;
     }
 }
