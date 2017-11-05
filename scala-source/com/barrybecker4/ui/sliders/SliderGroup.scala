@@ -10,26 +10,26 @@ import java.awt._
 import SliderGroup._
 
 
-/**
-  * A group of horizontal sliders arranged vertically.
-  * @author Barry Becker
-  */
 object SliderGroup {
   private val DEFAULT_MIN = 0
   private val DEFAULT_MAX = 100
   private val DEFAULT_INITIAL = 50
 
-  def sliderPropsFromNames(sliderNames: Array[String]): Unit = {
+  def sliderPropsFromNames(sliderNames: Array[String]): Array[SliderProperties] = {
     val numSliders = sliderNames.length
     val sliderProps = new Array[SliderProperties](numSliders)
 
     for (i <- 0 until numSliders) {
       sliderProps(i) = new SliderProperties(sliderNames(i), DEFAULT_MIN, DEFAULT_MAX, DEFAULT_INITIAL)
     }
+    sliderProps
   }
 }
 
-/** Protected constructor so derived class can do its own initialization. */
+/**
+  * A group of horizontal sliders arranged vertically.
+  * @author Barry Becker
+  */
 class SliderGroup(sliderProps: Array[SliderProperties]) extends JPanel with ChangeListener {
   private var sliderListener: SliderGroupChangeListener = _
   private var labels: Array[JLabel] = _
