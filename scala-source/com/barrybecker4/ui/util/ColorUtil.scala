@@ -3,6 +3,8 @@ package com.barrybecker4.ui.util
 
 import java.awt._
 
+import scala.runtime.RichInt
+
 
 /**
   * Static utility functions for manipulating colors.
@@ -41,13 +43,19 @@ object ColorUtil {
     */
   def getHTMLColorFromColor(color: Color): String = {
     var intval = color.getRGB
+
     intval -= 0xFF000000
     //System.out.println("NodePres getString from PathColor = "+Integer.toHexString(intval).toUpperCase());
-    var strColor = Integer.toHexString(intval).toUpperCase
-    while (strColor.length < 6) {
-      strColor = "0" + strColor
+    var hex = Integer.toHexString(intval).toUpperCase
+    if (hex.length <= 6) {
+      hex = "00000".substring(0, 6 - hex.length) + hex
+    } else {
+      hex = "0000000".substring(0, 8 - hex.length) + hex
     }
-    '#' + strColor
+    //val f: RichInt = intval & 0x00FFFFFF
+    //val c: String = f.toHexString.toUpperCase
+    //val strColor = "00000".substring(0, 6 - c.length) + c
+    '#' + hex
   }
 
   def invertColor(cColor: Color): Color = invertColor(cColor, 255)

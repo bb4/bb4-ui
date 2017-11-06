@@ -36,7 +36,7 @@ public final class GUIUtil {
     public static final String DEFAULT_FONT_FAMILY = "SansSerif";  // NON-NLS
 
     /** webstart services  */
-    private static BasicService basicService_ = null;
+    private static BasicService basicService = null;
 
     /**
      *  Set the ui look and feel to my very own.
@@ -240,9 +240,9 @@ public final class GUIUtil {
      * @return the basic jnlp service or null if it is not available.
      */
     public static BasicService getBasicService() {
-        if (basicService_ == null) {
+        if (basicService == null) {
             try {
-                basicService_ = (BasicService)ServiceManager.lookup("javax.jnlp.BasicService");
+                basicService = (BasicService)ServiceManager.lookup("javax.jnlp.BasicService");
             }
             catch (Exception e) {
                 System.out.println("Not running through webstart: "+e.getMessage());  // NON-NLS
@@ -253,6 +253,6 @@ public final class GUIUtil {
                 return null;
             }
         }
-        return basicService_;
+        return basicService;
     }
 }

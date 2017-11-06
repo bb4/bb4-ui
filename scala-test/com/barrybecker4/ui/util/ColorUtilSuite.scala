@@ -26,4 +26,8 @@ class ColorUtilSuite extends FunSuite {
   test("get html color from color with opacity") {
     assertResult("#64DF2DA5") { ColorUtil.getHTMLColorFromColor(new Color(223, 45, 165, 99))}
   }
+
+  test("get html color from color with small opacity") {
+    assertResult("#0ADF2DA5") { ColorUtil.getHTMLColorFromColor(new Color(223, 45, 165, 9))}
+  }
 }
