@@ -17,7 +17,7 @@ public class DomToTreeModelAdapter implements TreeModel {
 
     private Document document;
 
-    private List<TreeModelListener> listenerList_ = new LinkedList<TreeModelListener>();
+    private List<TreeModelListener> listenerList = new LinkedList<TreeModelListener>();
 
 
     public DomToTreeModelAdapter(Document document) {
@@ -73,15 +73,15 @@ public class DomToTreeModelAdapter implements TreeModel {
      */
     @Override
     public void addTreeModelListener(TreeModelListener listener) {
-        if ( listener != null  && ! listenerList_.contains( listener ) ) {
-           listenerList_.add( listener );
+        if ( listener != null  && ! listenerList.contains( listener ) ) {
+           listenerList.add( listener );
         }
     }
 
     @Override
     public void removeTreeModelListener(TreeModelListener listener) {
         if ( listener != null ) {
-           listenerList_.remove( listener );
+           listenerList.remove( listener );
         }
     }
 
@@ -94,25 +94,25 @@ public class DomToTreeModelAdapter implements TreeModel {
      * is more elegant.
      */
     public void fireTreeNodesChanged( TreeModelEvent e ) {
-        for ( TreeModelListener listener : listenerList_ ) {
+        for ( TreeModelListener listener : listenerList) {
           listener.treeNodesChanged( e );
         }
     }
 
     public void fireTreeNodesInserted( TreeModelEvent e ) {
-        for ( TreeModelListener listener : listenerList_ ) {
+        for ( TreeModelListener listener : listenerList) {
           listener.treeNodesInserted( e );
         }
     }
 
     public void fireTreeNodesRemoved( TreeModelEvent e ) {
-        for ( TreeModelListener listener : listenerList_ ) {
+        for ( TreeModelListener listener : listenerList) {
           listener.treeNodesRemoved( e );
         }
     }
 
     public void fireTreeStructureChanged( TreeModelEvent e ) {
-        for ( TreeModelListener listener : listenerList_ ) {
+        for ( TreeModelListener listener : listenerList) {
           listener.treeStructureChanged( e );
         }
     }
