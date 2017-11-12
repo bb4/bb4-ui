@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.file
 
-import com.barrybecker4.ui1.util.GUIUtil
+import com.barrybecker4.ui.util.GUIUtil
 import javax.swing.filechooser.FileFilter
 import java.io.File
 

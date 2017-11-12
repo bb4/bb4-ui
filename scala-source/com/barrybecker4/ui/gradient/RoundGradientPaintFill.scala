@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.gradient
 
-import com.barrybecker4.ui1.application.ApplicationFrame
+import com.barrybecker4.ui.application.ApplicationFrame
 import java.awt._
 import java.awt.geom.Point2D
 import java.awt.geom.RoundRectangle2D

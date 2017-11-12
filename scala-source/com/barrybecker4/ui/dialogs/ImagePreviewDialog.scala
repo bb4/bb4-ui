@@ -2,7 +2,7 @@
 package com.barrybecker4.ui.dialogs
 
 import com.barrybecker4.common.app.AppContext
-import com.barrybecker4.ui1.components.ImageListPanel
+import com.barrybecker4.ui.components.ImageListPanel
 import javax.swing._
 import java.awt._
 import java.awt.event.ActionListener

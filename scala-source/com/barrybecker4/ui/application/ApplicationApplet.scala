@@ -2,9 +2,9 @@ package com.barrybecker4.ui.application
 
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.common.app.CommandLineOptions
-import com.barrybecker4.ui1.components.ResizableAppletPanel
-import com.barrybecker4.ui1.util.GUIUtil
-import com.barrybecker4.ui1.util.Log
+import com.barrybecker4.ui.components.ResizableAppletPanel
+import com.barrybecker4.ui.util.GUIUtil
+import com.barrybecker4.ui.util.Log
 import javax.swing.JApplet
 import javax.swing.JPanel
 import java.util
@@ -61,7 +61,7 @@ abstract class ApplicationApplet(val args: Array[String]) extends JApplet {
   protected def getResourceList: util.List[String] = {
     val appResources = getClass.getPackage.getName + ".message"
     // NON-NLS
-    val commonUiResources = "com.barrybecker4.ui1.message"
+    val commonUiResources = "com.barrybecker4.ui.message"
     util.Arrays.asList(appResources, commonUiResources)
   }
 

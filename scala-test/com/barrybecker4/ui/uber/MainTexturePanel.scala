@@ -14,8 +14,6 @@ import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 
-import com.barrybecker4.ui1.uber.{UberApp, UberToolbar}
-
 
 /**
   * Use this class to test out the various UI components in this library.

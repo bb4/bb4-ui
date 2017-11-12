@@ -1,7 +1,7 @@
 /* Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT */
 package com.barrybecker4.ui.renderers
 
-import com.barrybecker4.ui1.util.ImageUtil
+import com.barrybecker4.ui.util.ImageUtil
 import java.awt._
 import java.awt.image.BufferedImage
 import java.awt.image.ImageObserver

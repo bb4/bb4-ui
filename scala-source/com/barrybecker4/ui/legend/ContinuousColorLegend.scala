@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.legend
 
-import com.barrybecker4.ui1.util.ColorMap
+import com.barrybecker4.ui.util.ColorMap
 import javax.swing._
 import java.awt._
 import java.awt.event.ComponentAdapter

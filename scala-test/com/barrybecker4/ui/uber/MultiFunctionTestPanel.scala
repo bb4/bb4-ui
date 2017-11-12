@@ -1,22 +1,22 @@
 /* Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT */
 package com.barrybecker4.ui.uber
 
+import java.awt.{Dimension, Graphics}
+
 import com.barrybecker4.common.math.function.Function
 import com.barrybecker4.common.math.function.HeightFunction
 import com.barrybecker4.ui.renderers.MultipleFunctionRenderer
 import javax.swing._
-import java.awt._
+
 
 
 /**
   * Tests the use of the multi-function renderer.
   * @author Barry Becker
   */
-class MultiFunctionTestPanel()
+class MultiFunctionTestPanel() extends JPanel {
 
-/** Constructor */
-  extends JPanel {
-  var functions = List[Function]()
+  var functions: List[Function] = List[Function]()
   for (i <- 0 until 2) {
     functions +:= createRandomFunction
   }
@@ -26,7 +26,7 @@ class MultiFunctionTestPanel()
   private def createRandomFunction = {
     val num = 50
     val data = new Array[Double](num)
-    var total = 0
+    var total: Double = 0
     val variance = Math.random * Math.random
     for (i <- 0 until num) {
       total += Math.random

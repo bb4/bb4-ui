@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.dialogs
 
-import com.barrybecker4.ui1.components.ScrollingTextArea
+import com.barrybecker4.ui.components.ScrollingTextArea
 import javax.swing._
 import java.awt._
 

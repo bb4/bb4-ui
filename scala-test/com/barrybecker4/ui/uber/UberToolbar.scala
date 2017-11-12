@@ -15,7 +15,7 @@ import com.barrybecker4.ui1.uber.UberApp
   * Sample Toolbar that appears a the top of the application window.
   * @author Barry Becker
   */
-class UberToolbar(val listener: ActionListener)
+class UberToolbar(listener: ActionListener)
   extends TexturedToolBar(GUIUtil.getIcon(UberApp.IMAGE_ROOT + "ocean_trans_20.png"), listener) {
 
   init()

@@ -2,7 +2,7 @@
 package com.barrybecker4.ui.util
 
 import com.barrybecker4.common.app.ILog
-import com.barrybecker4.ui1.dialogs.OutputWindow
+import com.barrybecker4.ui.dialogs.OutputWindow
 import java.io._
 
 

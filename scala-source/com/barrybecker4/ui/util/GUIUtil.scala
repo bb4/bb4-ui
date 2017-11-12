@@ -2,9 +2,9 @@
 package com.barrybecker4.ui.util
 
 import com.barrybecker4.common.app.ClassLoaderSingleton
-import com.barrybecker4.ui1.components.SplashScreen
-import com.barrybecker4.ui1.file.FileChooserUtil
-import com.barrybecker4.ui1.themes.BarryTheme
+import com.barrybecker4.ui.components.SplashScreen
+import com.barrybecker4.ui.file.FileChooserUtil
+import com.barrybecker4.ui.themes.BarryTheme
 import javax.jnlp.BasicService
 import javax.jnlp.ServiceManager
 import javax.swing._
@@ -84,7 +84,7 @@ object GUIUtil {
     * @return loaded image or null if not found.
     */
   def getBufferedImage(path: String): BufferedImage = {
-    val img: ImageIcon = GUIUtil.getIcon(path, false)
+    val img: ImageIcon = GUIUtil.getIcon(path, failIfNotFound = false)
     var image: BufferedImage = null
     if (img != null && img.getIconWidth > 0) image = ImageUtil.makeBufferedImage(img.getImage)
     image

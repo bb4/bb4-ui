@@ -1,7 +1,7 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.dialogs
 
-import com.barrybecker4.ui1.components.GradientButton
+import com.barrybecker4.ui.components.GradientButton
 import javax.swing._
 import javax.swing.border.Border
 import java.awt._

@@ -5,7 +5,7 @@ import java.awt.event.{ActionEvent, ActionListener, KeyEvent, KeyListener}
 import javax.swing._
 
 import com.barrybecker4.common.app.AppContext
-import com.barrybecker4.ui1.components.GradientButton
+import com.barrybecker4.ui.components.GradientButton
 import PasswordDialog._
 
 

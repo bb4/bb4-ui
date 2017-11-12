@@ -2,7 +2,7 @@
 package com.barrybecker4.ui.legend
 
 import com.barrybecker4.common.app.AppContext
-import com.barrybecker4.ui1.util.ColorMap
+import com.barrybecker4.ui.util.ColorMap
 import javax.swing._
 import java.awt._
 import java.awt.event.MouseEvent
