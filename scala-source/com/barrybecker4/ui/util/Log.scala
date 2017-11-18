@@ -15,10 +15,10 @@ import java.io._
 @SuppressWarnings(Array("HardCodedStringLiteral"))
 object Log { // you can specify the debug, profile info, warning, and error resources to go to one
   // or more of these places.
-  val LOG_TO_CONSOLE = 0x1
-  val LOG_TO_WINDOW = 0x2
-  val LOG_TO_FILE = 0x4
-  val LOG_TO_STRING = 0x8
+  final val LOG_TO_CONSOLE = 0x1
+  final val LOG_TO_WINDOW = 0x2
+  final val LOG_TO_FILE = 0x4
+  final val LOG_TO_STRING = 0x8
 }
 
 /**

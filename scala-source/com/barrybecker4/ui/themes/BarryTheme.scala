@@ -41,16 +41,16 @@ class BarryTheme(myBlack: Color = BarryTheme.UI_BLACK,
                  colorSecondary1: Color = BarryTheme.UI_COLOR_SECONDARY1,
                  colorSecondary2: Color = BarryTheme.UI_COLOR_SECONDARY2,
                  colorSecondary3: Color = BarryTheme.UI_COLOR_SECONDARY3) extends DefaultMetalTheme {
-  private var black = new ColorUIResource(myBlack)
-  private var white = new ColorUIResource(myWhite)
+  private val black = new ColorUIResource(myBlack)
+  private val white = new ColorUIResource(myWhite)
   // get custom colors for these look and feel properties
-  private var hmUIProps = initiallizeUIProperties
-  private var colorResourcePrimary1 = new ColorUIResource(colorPrimary1)
-  private var colorResourcePrimary2 = new ColorUIResource(colorPrimary2)
-  private var colorResourcePrimary3 = new ColorUIResource(colorPrimary3)
-  private var colorResourceSecondary1 = new ColorUIResource(colorSecondary1)
-  private var colorResourceSecondary2 = new ColorUIResource(colorSecondary2)
-  private var colorResourceSecondary3 = new ColorUIResource(colorSecondary3)
+  private val colorResourcePrimary1 = new ColorUIResource(colorPrimary1)
+  private val colorResourcePrimary2 = new ColorUIResource(colorPrimary2)
+  private val colorResourcePrimary3 = new ColorUIResource(colorPrimary3)
+  private val colorResourceSecondary1 = new ColorUIResource(colorSecondary1)
+  private val colorResourceSecondary2 = new ColorUIResource(colorSecondary2)
+  private val colorResourceSecondary3 = new ColorUIResource(colorSecondary3)
+  private val hmUIProps = initializeUIProperties
 
   // the name of the theme
   override def getName = "Barry's theme"
@@ -62,12 +62,12 @@ class BarryTheme(myBlack: Color = BarryTheme.UI_BLACK,
   def setUIManagerProperties(): Unit = {
     for (key <- hmUIProps.keySet) {
       val propColor = hmUIProps(key)
-      assert(propColor != null)
+      assert(propColor != null, "The color for prop " + key + " was null")
       UIManager.put(key, new ColorUIResource(propColor))
     }
   }
 
-  private def initiallizeUIProperties = {
+  private def initializeUIProperties = {
     Map[String, Color](
       "Menu.background" -> colorResourcePrimary2,
       "MenuItem.background" -> colorResourcePrimary2,
