@@ -2,10 +2,10 @@
 package com.barrybecker4.ui.uber
 
 import com.barrybecker4.common.app.AppContext
-import com.barrybecker4.ui1.application.ApplicationFrame
-import com.barrybecker4.ui1.components.SplashScreen
-import com.barrybecker4.ui1.util.GUIUtil
-import com.barrybecker4.ui1.util.Log
+import com.barrybecker4.ui.application.ApplicationFrame
+import com.barrybecker4.ui.components.SplashScreen
+import com.barrybecker4.ui.util.GUIUtil
+import com.barrybecker4.ui.util.Log
 import javax.swing.JTabbedPane
 import java.util.Collections
 
@@ -15,7 +15,7 @@ import java.util.Collections
   * @author Barry Becker
   */
 object UberApp {
-  val IMAGE_ROOT = "com/barrybecker4/ui1/uber/images/" // NON-NLS
+  val IMAGE_ROOT = "com/barrybecker4/ui/uber/images/" // NON-NLS
 
   @throws[Exception]
   def main(args: Array[String]): Unit = {

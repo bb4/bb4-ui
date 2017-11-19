@@ -10,3 +10,4 @@ gradlew/
 *.ipr
 *.iws
 
+out/

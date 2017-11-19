@@ -1,14 +1,12 @@
 /* Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT */
 package com.barrybecker4.ui.uber
 
-import com.barrybecker4.ui1.components.GradientButton
-import com.barrybecker4.ui1.components.TexturedToolBar
-import com.barrybecker4.ui1.util.GUIUtil
+import com.barrybecker4.ui.components.GradientButton
+import com.barrybecker4.ui.components.TexturedToolBar
+import com.barrybecker4.ui.util.GUIUtil
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.event.ActionListener
-
-import com.barrybecker4.ui1.uber.UberApp
 
 
 /**

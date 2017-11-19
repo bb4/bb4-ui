@@ -4,7 +4,7 @@ package com.barrybecker4.ui.uber
 
 import com.barrybecker4.common.math.Range
 import com.barrybecker4.common.math.function.LinearFunction
-import com.barrybecker4.ui1.renderers.HistogramRenderer
+import com.barrybecker4.ui.renderers.HistogramRenderer
 import javax.swing._
 import java.awt.Dimension
 import java.awt.Graphics

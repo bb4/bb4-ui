@@ -7,7 +7,7 @@ group = 'com.barrybecker4'
 version = '1.5-SNAPSHOT'
 apply from: 'https://raw.github.com/barrybecker4/bb4-common/master/bb4.gradle'
 project.archivesBaseName = 'bb4-ui'
-mainClassName = "com.barrybecker4.ui1.application.ApplicationFrame"
+mainClassName = "com.barrybecker4.ui.application.ApplicationFrame"
 
 dependencies {
     compile 'com.barrybecker4:bb4-common:1.5-SNAPSHOT'

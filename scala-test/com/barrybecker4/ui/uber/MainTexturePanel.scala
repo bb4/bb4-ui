@@ -3,10 +3,10 @@ package com.barrybecker4.ui.uber
 
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.common.math.ComplexNumber
-import com.barrybecker4.ui1.components.ComplexNumberInput
-import com.barrybecker4.ui1.components.NumberInput
-import com.barrybecker4.ui1.components.TexturedPanel
-import com.barrybecker4.ui1.util.GUIUtil
+import com.barrybecker4.ui.components.ComplexNumberInput
+import com.barrybecker4.ui.components.NumberInput
+import com.barrybecker4.ui.components.TexturedPanel
+import com.barrybecker4.ui.util.GUIUtil
 import javax.swing.ImageIcon
 import javax.swing.JButton
 import javax.swing.JPanel

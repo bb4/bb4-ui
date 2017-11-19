@@ -4,8 +4,8 @@
 
 package com.barrybecker4.ui.uber
 
-import com.barrybecker4.ui1.application.ApplicationApplet
-import com.barrybecker4.ui1.util.GUIUtil
+import com.barrybecker4.ui.application.ApplicationApplet
+import com.barrybecker4.ui.util.GUIUtil
 import javax.swing.JPanel
 import javax.swing.JTabbedPane
 import java.awt.BorderLayout
@@ -19,7 +19,7 @@ import java.util
   * @author Barry Becker
   */
 object UberApplet {
-  val IMAGE_ROOT = "com/barrybecker4/ui1/uber/images/" // NON-NLS
+  val IMAGE_ROOT = "com/barrybecker4/ui/uber/images/" // NON-NLS
 
   @throws[Exception]
   def main(args: Array[String]): Unit = {
@@ -45,7 +45,7 @@ class UberApplet() extends ApplicationApplet {
 
   override protected def getResourceList: util.List[String] = {
     val resources = new util.ArrayList[String](super.getResourceList)
-    resources.add("com.barrybecker4.ui1.uber.message")
+    resources.add("com.barrybecker4.ui.uber.message")
     resources
   }
 
