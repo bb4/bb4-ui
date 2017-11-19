@@ -15,7 +15,7 @@ abstract class TableBase() {
   /** information about each column and its header. */
   protected var columnMeta: Array[TableColumnMeta] = _
 
-  def this(rows: List[_], columnNames: Array[String]) {
+  def this(rows: Seq[_], columnNames: Array[String]) {
     this()
     initColumnMeta(columnNames)
     initializeTable(rows)
@@ -25,7 +25,7 @@ abstract class TableBase() {
     * Constructor
     * @param rows to initialize the rows in the table with.
     */
-  def this(rows: List[_], columnMeta: Array[TableColumnMeta]) {
+  def this(rows: Seq[_], columnMeta: Array[TableColumnMeta]) {
     this()
     this.columnMeta = columnMeta
     initializeTable(rows)
@@ -42,7 +42,7 @@ abstract class TableBase() {
   /**
     * @param rows initial data to show in the table.
     */
-  protected def initializeTable(rows: List[_]): Unit = {
+  protected def initializeTable(rows: Seq[_]): Unit = {
     val columnNames = new Array[String](columnMeta.length)
     for (i <- columnMeta.indices) {
       columnNames(i) = columnMeta(i).getName

@@ -87,6 +87,11 @@ abstract class AbstractDialog() extends JDialog with ActionListener {
     this.setVisible(false)
   }
 
+  protected def closeWithoutCanceling(): Unit = {
+    canceled = false
+    this.setVisible(false)
+  }
+
   def close(): Unit = {
     this.setVisible(false)
     this.dispose()
