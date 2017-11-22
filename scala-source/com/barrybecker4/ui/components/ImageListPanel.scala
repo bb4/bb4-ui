@@ -60,7 +60,7 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
   private var numColumns = 0
   private var imageDisplayHeight = 0
   private var imageDisplayWidth = 0
-  private var maxNumSelections = Integer.MAX_VALUE
+  private var maxNumSelections = Int.MaxValue
   private var enlargeHighlightedImage: Boolean = false
 
   this.setMinimumSize(new Dimension(100, 100))
@@ -123,7 +123,7 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
     images.zipWithIndex.filter(img => selectedImages.contains(img._1)).map(img => img._2)
   }
 
-  def setSelectedImageIndices(selectedIndices: Seq[Integer]): Unit = {
+  def setSelectedImageIndices(selectedIndices: Seq[Int]): Unit = {
     assert(selectedIndices != null)
     // replace what we have with the new selections
     selectedImages = images.zipWithIndex.filter(img => selectedIndices.contains(img._2)).map(_._1)
