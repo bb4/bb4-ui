@@ -134,7 +134,7 @@ class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
   } */
 
   private def verifyFrameRateAfterN(numFrames: Int, frameDelay: Int, expRate: Double): Unit = {
-    verifyFrameRateAfterN(numFrames, frameDelay, expRate, 1.2)
+    verifyFrameRateAfterN(numFrames, frameDelay, expRate, 1.8)
   }
 
   /**
