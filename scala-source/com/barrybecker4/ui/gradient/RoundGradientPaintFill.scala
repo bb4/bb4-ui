@@ -7,9 +7,7 @@ import java.awt.geom.Point2D
 import java.awt.geom.RoundRectangle2D
 
 
-/**
-  * Source derived from Java 2D graphics book by J. Knudsen.
-  */
+/** Source derived from Java 2D graphics book by J. Knudsen. */
 object RoundGradientPaintFill {
   def main(args: Array[String]): Unit = {
     val f = new RoundGradientPaintFill

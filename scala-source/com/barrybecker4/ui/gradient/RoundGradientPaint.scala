@@ -9,10 +9,9 @@ import java.awt.image.ColorModel
 import java.awt.Transparency._
 
 
-/**
-  * Source derived from Java 2D graphics book by J. Knudsen.
-  */
-class RoundGradientPaint(val x: Double, val y: Double, var pointColor: Color, var radius: Point2D, var bgColor: Color)
+/** Source derived from Java 2D graphics book by J. Knudsen. */
+class RoundGradientPaint(val x: Double, val y: Double,
+                         var pointColor: Color, var radius: Point2D, var bgColor: Color)
   extends Paint {
 
   if (radius.distance(0, 0) <= 0) throw new IllegalArgumentException("Radius must be greater than 0.")
