@@ -8,7 +8,7 @@ import java.awt._
 final class AnimationFrame(val component: AnimationComponent, title: String)
   extends ApplicationFrame(title) with AnimationChangeListener {
 
-  /** Shows the current animation status. Like the framerate for example */
+  /** Shows the current animation status. Like the frame rate for example */
   private var statusLabel = new Label()
 
   val contentPane: Container = this.getContentPane

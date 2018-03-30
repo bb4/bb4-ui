@@ -32,10 +32,7 @@ abstract class AnimationComponent()
     *
     * @param doIt if true, then the animation will be recorded.
     */
-  def setRecordAnimation(doIt: Boolean): Unit = {
-    params.recordAnimation = doIt
-  }
-
+  def setRecordAnimation(doIt: Boolean): Unit = params.recordAnimation = doIt
   def getRecordAnimation: Boolean = params.recordAnimation
 
   /**
@@ -45,12 +42,8 @@ abstract class AnimationComponent()
     *
     * @param num number of time steps to calculate each animation frame.
     */
-  def setNumStepsPerFrame(num: Int): Unit = {
-    params.numStepsPerFrame = num
-  }
-
+  def setNumStepsPerFrame(num: Int): Unit = params.numStepsPerFrame = num
   def getNumStepsPerFrame: Int = params.numStepsPerFrame
-
   def timeStep: Double
 
   /** @return the base filename when recording  */
@@ -70,14 +63,9 @@ abstract class AnimationComponent()
       render()
       if (params.recordAnimation) recorder.saveFrame(frameRateCalc.getFrameCount)
       var i = 0
-      while ( {
-        i < params.getNumStepsPerFrame
-      }) {
+      while (i < params.getNumStepsPerFrame) {
         timeStep
-
-        {
-          i += 1; i - 1
-        }
+        i += 1
       }
       animationChangeListener.statusChanged(getStatusMessage)
     }
@@ -93,9 +81,7 @@ abstract class AnimationComponent()
     else params.animating = false
   }
 
-  /**
-    * @return a start button that says Pause or Resume once started.
-    */
+  /** @return a start button that says Pause or Resume once started */
   protected def createStartButton: JToggleButton = {
     val toggleButton = new JToggleButton(AppContext.getLabel("START"), true)
     toggleButton.addItemListener(new ItemListener() {
@@ -109,23 +95,19 @@ abstract class AnimationComponent()
     toggleButton
   }
 
-  /**
-    * render the animation component as an image
-    */
+  /** render the animation component as an image */
   protected def render(): Unit = {
     recorder.renderImage(this)
   }
 
-  /**
-    * Message to show in the status bar at the bottom
-    */
-  protected def getStatusMessage: String = FormatUtil.formatNumber(getFrameRate) + AppContext.getLabel("FPS") + " "
+  /** Message to show in the status bar at the bottom */
+  protected def getStatusMessage: String =
+    FormatUtil.formatNumber(getFrameRate) + AppContext.getLabel("FPS") + " "
 
   def getFrameRate: Double = frameRateCalc.getFrameRate
 
   /**
     * If paused is true the animation is stopped
-    *
     * @param paused true if you want the animation to stop temporarily.
     */
   def setPaused(paused: Boolean): Unit = {
@@ -133,15 +115,12 @@ abstract class AnimationComponent()
     frameRateCalc.setPaused(paused)
   }
 
-  /**
-    * @return true if currently paused.
-    */
+  /** @return true if currently paused */
   def isPaused: Boolean = params.paused
 
   /** Property change support. */
   private var animationChangeListener: AnimationChangeListener = _
 
-  def setChangeListener(af: AnimationChangeListener): Unit = {
+  def setChangeListener(af: AnimationChangeListener): Unit =
     animationChangeListener = af
-  }
 }

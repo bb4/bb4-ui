@@ -128,7 +128,9 @@ class ComplexNumberInput(val labelText: String, var initialValue: ComplexNumber,
     override def keyTyped(key: KeyEvent): Unit = {
       val c = key.getKeyChar
       if (c >= 'A' && c <= 'z') {
-        JOptionPane.showMessageDialog(null, "no non-numeric characters allowed!", "Error", JOptionPane.ERROR_MESSAGE)
+        JOptionPane.showMessageDialog(null,
+          "no non-numeric characters allowed!", "Error",
+          JOptionPane.ERROR_MESSAGE)
         // clear the input text since it is in error
         realNumberField.setText("")
         key.consume() // don't let it get entered
