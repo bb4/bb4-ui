@@ -14,20 +14,17 @@ import java.awt.Dimension
 import java.awt.event._
 
 
-/**
-  * A panel that allows the user to enter a complex number.
-  * There are two numeric fields, one for the real part, and one for the imaginary part.
-  * @author Barry Becker
-  */
 object ComplexNumberInput {
   /** everything is allowed by default */
-  private val DEFAULT_RANGE = new ComplexNumberRange(
+  private val DEFAULT_RANGE = ComplexNumberRange(
     new ComplexNumber(-Double.MaxValue, -Double.MaxValue),
     new ComplexNumber(Double.MaxValue, Double.MaxValue)
   )
 }
 
 /**
+  * A panel that allows the user to enter a complex number.
+  * There are two numeric fields, one for the real part, and one for the imaginary part.
   * @param labelText    label for the number input element
   * @param initialValue the value to use if nothing else if entered. shows in the ui.
   * @param toolTip      the tooltip for the whole panel
@@ -37,8 +34,8 @@ object ComplexNumberInput {
 class ComplexNumberInput(val labelText: String, var initialValue: ComplexNumber,
                          val toolTip: String, val allowedRange: ComplexNumberRange) extends JPanel {
   setAllowedRange(allowedRange)
-  private var realNumberField = createNumberField(initialValue.getReal, toolTip)
-  private var imaginaryNumberField = createNumberField(initialValue.getImaginary, toolTip)
+  private var realNumberField = createNumberField(initialValue.real, toolTip)
+  private var imaginaryNumberField = createNumberField(initialValue.imaginary, toolTip)
   private var range: ComplexNumberRange = _
 
   setLayout(new BorderLayout)
@@ -53,8 +50,7 @@ class ComplexNumberInput(val labelText: String, var initialValue: ComplexNumber,
   setToolTipText(if (toolTip != null) toolTip
   else labelText)
 
-  /**
-    * Often the initial value cannot be set when initializing the content of a dialog.
+  /** Often the initial value cannot be set when initializing the content of a dialog.
     * This uses a default of 0 until the real default can be set with setInitialValue.
     * @param labelText label for the number input element
     */
@@ -62,8 +58,7 @@ class ComplexNumberInput(val labelText: String, var initialValue: ComplexNumber,
     this(labelText, new ComplexNumber(0, 0), null, ComplexNumberInput.DEFAULT_RANGE)
   }
 
-  /**
-    * @param labelText label for the number input element
+  /** @param labelText label for the number input element
     * @param initialValue the value to use if nothing else if entered. shows in the ui.
     */
   def this(labelText: String, initialValue: ComplexNumber) {
@@ -83,13 +78,13 @@ class ComplexNumberInput(val labelText: String, var initialValue: ComplexNumber,
   def getValue = new ComplexNumber(getRealValue, getImaginaryValue)
 
   private def getRealValue: Double = {
-    val min = range.getPoint1.getReal
-    val max = range.getPoint2.getReal
+    val min = range.point1.real
+    val max = range.point2.real
     getValue(realNumberField, min, max)
   }
   private def getImaginaryValue: Double = {
-    val min = range.getPoint1.getImaginary
-    val max = range.getPoint2.getImaginary
+    val min = range.point1.imaginary
+    val max = range.point2.imaginary
     getValue(imaginaryNumberField, min, max)
   }
 
@@ -121,9 +116,7 @@ class ComplexNumberInput(val labelText: String, var initialValue: ComplexNumber,
   def getAllowedRange: ComplexNumberRange = range
   private def getNumberField = realNumberField
 
-  /**
-    * Handle number input. Give dynamic feedback if invalid.
-    */
+  /** Handle number input. Give dynamic feedback if invalid. */
   private class NumberKeyAdapter(var field: JTextField, var initialValue: String) extends KeyAdapter {
     override def keyTyped(key: KeyEvent): Unit = {
       val c = key.getKeyChar

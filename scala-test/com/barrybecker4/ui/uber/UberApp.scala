@@ -26,7 +26,7 @@ object UberApp {
 class UberApp() extends ApplicationFrame("UberApp Demo") {
   override protected def createUI(): Unit = {
     val loc = getClass.getPackage.getName
-    AppContext.initialize("ENGLISH", Collections.singletonList(loc + ".message"), new Log)
+    AppContext.initialize("ENGLISH", List(loc + ".message"), new Log)
     val image = GUIUtil.getIcon(UberApp.IMAGE_ROOT + "pool_pennies_small.jpg")
     new SplashScreen(image, this, 2000)
 

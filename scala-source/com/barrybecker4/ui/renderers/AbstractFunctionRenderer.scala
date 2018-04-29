@@ -79,19 +79,19 @@ abstract class AbstractFunctionRenderer {
     val cutpoints = cutPointGenerator.getCutPoints(yRange, NUM_Y_LABELS)
     val cutpointLabels = cutPointGenerator.getCutPointLabels(yRange, NUM_Y_LABELS)
     val chartHt = height - yOffset - MARGIN - MARGIN
-    for (i <- 0 until cutpoints.length) {
+    for (i <- cutpoints.indices) {
       //System.out.println("cp = " + cutpoints[i] +"  label = " + cutpointLabels[i]);
       val label = cutpointLabels(i)
       //FormatUtil.formatNumber(cutpoints[i]);
       val labelWidth = metrics.stringWidth(label)
-      val yPos = (yOffset + MARGIN + Math.abs(yRange.getMax - cutpoints(i)) / ext * chartHt).toFloat
+      val yPos = (yOffset + MARGIN + Math.abs(yRange.max - cutpoints(i)) / ext * chartHt).toFloat
       g2.drawString(label, xOffset + LEFT_MARGIN - labelWidth - 3, yPos + 5)
     }
 
     val eps = yRange.getExtent * 0.05
     // draw origin if 0 is in range
-    if (0 < (yRange.getMax - eps) && 0 > (yRange.getMin + eps)) {
-      val originY = (yOffset + MARGIN + Math.abs(yRange.getMax) / ext * chartHt).toFloat
+    if (0 < (yRange.max - eps) && 0 > (yRange.min + eps)) {
+      val originY = (yOffset + MARGIN + Math.abs(yRange.max) / ext * chartHt).toFloat
       //g2.drawString("0", xOffset + LEFT_MARGIN - 15, originY + 5);
       g2.setColor(ORIGIN_LINE_COLOR)
       g2.drawLine(xOffset + LEFT_MARGIN - 1, originY.toInt,

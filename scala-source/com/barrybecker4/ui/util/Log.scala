@@ -6,12 +6,6 @@ import com.barrybecker4.ui.dialogs.OutputWindow
 import java.io._
 
 
-/**
-  * Provide support for general logging.
-  * You have the option of logging output to the console, to a separate window, or to a file
-  * @see OutputWindow
-  * @author Barry Becker
-  */
 @SuppressWarnings(Array("HardCodedStringLiteral"))
 object Log { // you can specify the debug, profile info, warning, and error resources to go to one
   // or more of these places.
@@ -22,7 +16,8 @@ object Log { // you can specify the debug, profile info, warning, and error reso
 }
 
 /**
-  * Log Constructor
+  * Provide support for general logging.
+  * You have the option of logging output to the console, to a separate window, or to a file
   * @param logWindow window to send output to
   * @author Barry Becker
   */
@@ -35,7 +30,7 @@ class Log(logWindow: OutputWindow) extends ILog {
   //private var logWindow: OutputWindow = _
   private var fileOutStream: OutputStream = _
   /** used if logging to String */
-  private var logBuffer: java.lang.StringBuilder = _
+  private var logBuffer: StringBuilder = _
 
 
   def this() {this(null)}
@@ -57,7 +52,7 @@ class Log(logWindow: OutputWindow) extends ILog {
     fileOutStream = new BufferedOutputStream(new FileOutputStream(fileName))
   }
 
-  override def setStringBuilder(bldr: java.lang.StringBuilder): Unit = { logBuffer = bldr }
+  override def setStringBuilder(bldr: StringBuilder): Unit = { logBuffer = bldr }
 
   /**
     * Log a message to the logDestination. The log destination is defined by logDestination.
@@ -78,7 +73,8 @@ class Log(logWindow: OutputWindow) extends ILog {
       }
       else System.err.println("no logFile to print to. First specify with setLogFile. message=" + message)
       if ((logDestination & Log.LOG_TO_STRING) > 0) if (logBuffer != null) logBuffer.append(message)
-      else System.err.println("no StringBuilder buffer was set to print to. First specify with setStringBuilder.  " + "message=" + message)
+      else System.err.println("no StringBuilder buffer was set to print to. First specify with setStringBuilder.  " +
+        "message=" + message)
     }
   }
 

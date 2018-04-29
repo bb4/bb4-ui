@@ -23,8 +23,7 @@ class MultipleFunctionRenderer(var functions: Seq[Function]) extends AbstractFun
   private var useAntialiasing: Boolean = true
   private var seriesColor: Color = MultipleFunctionRenderer.DEFAULT_SERIES_COLOR
 
-  /**
-    * Constructor that assumes no scaling and allows separate line colors.
+  /** Constructor that assumes no scaling and allows separate line colors.
     * @param functions  the functions to plot.
     * @param lineColors line colors corresponding to functions
     */
@@ -34,8 +33,7 @@ class MultipleFunctionRenderer(var functions: Seq[Function]) extends AbstractFun
     assert(this.functions.size == this.lineColors.size, "There must be as many line colors as functions")
   }
 
-  /**
-    * Update the currently shown functions
+  /** Update the currently shown functions
     * @param functions the functions to plot.
     */
   def setFunctions(functions: Seq[Function]): Unit = {
@@ -43,8 +41,7 @@ class MultipleFunctionRenderer(var functions: Seq[Function]) extends AbstractFun
     lineColors = null
   }
 
-  /**
-    * Update the currently shown functions
+  /** Update the currently shown functions
     * @param functions  the functions to plot.
     * @param lineColors line colors corresponding to functions
     */
@@ -76,7 +73,7 @@ class MultipleFunctionRenderer(var functions: Seq[Function]) extends AbstractFun
   private def drawFunctions(g2: Graphics2D, yRange: Range): Unit = {
     val maxHeight = yRange.getExtent
     val scale = (height - 2.0 * MARGIN) / maxHeight
-    val zeroHeight = -yRange.getMin
+    val zeroHeight = -yRange.min
     clearBackground(g2)
     g2.setColor(seriesColor)
     val numPoints = getNumXPoints
