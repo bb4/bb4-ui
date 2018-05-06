@@ -24,8 +24,7 @@ object NumberInput {
 class NumberInput(val labelText: String, var initialValue: Double,
                   val toolTip: String, val minAllowed: Double, val maxAllowed: Double,
                   val integerOnly: Boolean) extends JPanel {
-  setMin(minAllowed)
-  setMax(maxAllowed)
+
   val initialVal: String = if (integerOnly) initialValue.toInt.toString else initialValue.toString
   private var numberField = new JTextField(initialVal)
   setLayout(new BorderLayout)
@@ -41,9 +40,6 @@ class NumberInput(val labelText: String, var initialValue: Double,
   numPanel.add(numberField)
   add(numPanel, BorderLayout.EAST)
   if (toolTip != null) this.setToolTipText(toolTip) else this.setToolTipText(labelText)
-
-  private var min = .0
-  private var max = .0
 
   /**
     * Often the initial value cannot be set when initializing the content of a dialog.
@@ -72,25 +68,25 @@ class NumberInput(val labelText: String, var initialValue: Double,
 
   def getValue: Double = {
     val text = numberField.getText
-    if (text.length == 0) return 0
+    if (text.length == 0) return minAllowed
     var v = text.toDouble
-    if (v < getMin) {
-      numberField.setText("" + getMin)
-      v = getMin
+    if (v < minAllowed) {
+      numberField.setText("" + minAllowed)
+      v = minAllowed
     }
-    else if (v > getMax) {
-      numberField.setText("" + getMax)
-      v = getMax
+    else if (v > maxAllowed) {
+      numberField.setText("" + maxAllowed)
+      v = maxAllowed
     }
     v
   }
 
   def getIntValue: Int = {
     val text = getNumberField.getText
-    if (text.length == 0) return 0
+    if (text.length == 0) return minAllowed.toInt
     val v = text.toInt
-    if (v < getMin) numberField.setText(Integer.toString(getMin.toInt))
-    else if (v > getMax) numberField.setText(Integer.toString(getMax.toInt))
+    if (v < minAllowed) numberField.setText(Integer.toString(minAllowed.toInt))
+    else if (v > maxAllowed) numberField.setText(Integer.toString(minAllowed.toInt))
     v
   }
 
@@ -106,10 +102,6 @@ class NumberInput(val labelText: String, var initialValue: Double,
   }
 
   def setInitialValue(value: Double): Unit = {this.initialValue = value}
-  def getMin: Double = min
-  def setMin(min: Double): Unit = {this.min = min}
-  def getMax: Double = max
-  def setMax(max: Double): Unit = {this.max = max}
 
   /** Handle number input. Give dynamic feedback if invalid. */
   private class NumberKeyAdapter(var integerOnly: Boolean) extends KeyAdapter {
@@ -117,13 +109,15 @@ class NumberInput(val labelText: String, var initialValue: Double,
     override def keyTyped(key: KeyEvent): Unit = {
       val c = key.getKeyChar
       if (c >= 'A' && c <= 'z') {
-        JOptionPane.showMessageDialog(null, "no non-numeric characters allowed!", "Error", JOptionPane.ERROR_MESSAGE)
+        JOptionPane.showMessageDialog(null, "no non-numeric characters allowed!",
+          "Error", JOptionPane.ERROR_MESSAGE)
         // clear the input text since it is in error
         numberField.setText("")
         key.consume() // don't let it get entered
       }
-      else if ((integerOnly && c == '.') || (getMin >= 0 && c == '-')) {
-        JOptionPane.showMessageDialog(null, "unexpected character: " + c, "Error", JOptionPane.ERROR_MESSAGE)
+      else if ((integerOnly && c == '.') || (minAllowed >= 0 && c == '-')) {
+        JOptionPane.showMessageDialog(null, "unexpected character: " + c,
+          "Error", JOptionPane.ERROR_MESSAGE)
         key.consume()
       }
       else if ((c < '0' || c > '9') && (c != 8) && (c != '.') && (c != '-')) { // 8=backspace
