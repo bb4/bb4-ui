@@ -6,6 +6,7 @@ import java.awt._
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
+import scala.beans.BeanProperty
 
 
 object NumberInput {
@@ -21,18 +22,22 @@ object NumberInput {
   * @param toolTip      the tooltip for the whole panel
   * @author Barry Becker
   */
-class NumberInput(val labelText: String, var initialValue: Double,
-                  val toolTip: String, var minAllowed: Double, var maxAllowed: Double,
+class NumberInput(val labelText: String, var initialValue: Double, val toolTip: String,
+                  @BeanProperty var minAllowed: Double,
+                  @BeanProperty var maxAllowed: Double,
                   val integerOnly: Boolean) extends JPanel {
 
   val initialVal: String = if (integerOnly) initialValue.toInt.toString else initialValue.toString
   private var numberField = new JTextField(initialVal)
+
   setLayout(new BorderLayout)
   setAlignmentX(Component.CENTER_ALIGNMENT)
   val label = new JLabel(labelText)
   add(label, BorderLayout.WEST)
+
   if (toolTip == null) numberField.setToolTipText("enter a number in the suggested range")
   else numberField.setToolTipText(toolTip)
+
   numberField.setPreferredSize(new Dimension(NumberInput.DEFAULT_WIDTH, NumberInput.HEIGHT))
   numberField.addKeyListener(new NumberKeyAdapter(integerOnly))
   val numPanel = new JPanel
@@ -41,8 +46,7 @@ class NumberInput(val labelText: String, var initialValue: Double,
   add(numPanel, BorderLayout.EAST)
   if (toolTip != null) this.setToolTipText(toolTip) else this.setToolTipText(labelText)
 
-  /**
-    * Often the initial value cannot be set when initializing the content of a dialog.
+  /** Often the initial value cannot be set when initializing the content of a dialog.
     * This uses a default of 0 until the real default can be set with setInitialValue.
     * @param labelText label for the number input element
     */
@@ -50,8 +54,7 @@ class NumberInput(val labelText: String, var initialValue: Double,
     this(labelText, 0, null, Integer.MIN_VALUE, Integer.MAX_VALUE, true)
   }
 
-  /**
-    * @param labelText    label for the number input element
+  /** @param labelText    label for the number input element
     * @param initialValue the value to use if nothing else if entered. shows in the ui.
     */
   def this(labelText: String, initialValue: Int) {

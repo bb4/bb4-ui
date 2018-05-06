@@ -4,14 +4,24 @@ package com.barrybecker4.ui.table
 import javax.swing._
 import javax.swing.event.ListSelectionListener
 import javax.swing.table.TableModel
+import scala.collection.JavaConverters
+import TableBase.conv
 
+
+object TableBase {
+  private def conv(items: java.util.ArrayList[AnyRef]): Seq[_] = {
+    JavaConverters.asScalaIteratorConverter(items.iterator).asScala.toSeq
+  }
+}
 
 /**
   * This represents a generic table, with a set of columns and tooltips for those column headers.
   * @author Barry Becker
   */
 abstract class TableBase() {
+
   protected var table: JTable = _
+
   /** information about each column and its header. */
   protected var columnMeta: Array[TableColumnMeta] = _
 
@@ -29,6 +39,10 @@ abstract class TableBase() {
     this()
     this.columnMeta = columnMeta
     initializeTable(rows)
+  }
+
+  def this(rows: java.util.ArrayList[AnyRef], columnMeta: Array[TableColumnMeta]) {
+    this(conv(rows), columnMeta)
   }
 
   protected def initColumnMeta(columnNames: Array[String]): Unit = {
