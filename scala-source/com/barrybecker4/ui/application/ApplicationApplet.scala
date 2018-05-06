@@ -62,7 +62,7 @@ abstract class ApplicationApplet(val args: Array[String]) extends JApplet {
     val appResources = getClass.getPackage.getName + ".message"
     // NON-NLS
     val commonUiResources = "com.barrybecker4.ui.message"
-    util.Arrays.asList(appResources, commonUiResources)
+    new util.ArrayList(util.Arrays.asList(appResources, commonUiResources))
   }
 
   /** create and initialize the application(init required for applet) */
