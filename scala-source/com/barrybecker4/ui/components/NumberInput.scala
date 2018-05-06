@@ -22,7 +22,7 @@ object NumberInput {
   * @author Barry Becker
   */
 class NumberInput(val labelText: String, var initialValue: Double,
-                  val toolTip: String, val minAllowed: Double, val maxAllowed: Double,
+                  val toolTip: String, var minAllowed: Double, var maxAllowed: Double,
                   val integerOnly: Boolean) extends JPanel {
 
   val initialVal: String = if (integerOnly) initialValue.toInt.toString else initialValue.toString
