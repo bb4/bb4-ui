@@ -9,6 +9,7 @@ import javax.swing.JApplet
 import javax.swing.JPanel
 import java.util
 
+import scala.collection.JavaConversions
 
 /**
   * Base class for programs that you want to be
@@ -48,18 +49,20 @@ abstract class ApplicationApplet(val args: Array[String]) extends JApplet {
   /** Initialize the applet for the given locale.
     * @param localeName name of the local to get localized messages for.
     */
-  private def initializeContext(localeName: String): Unit =
-    AppContext.initialize(localeName, getResourceList, new Log)
+  private def initializeContext(localeName: String): Unit = {
+    AppContext.initialize(localeName, getResourceList.toArray.toList.asInstanceOf[List[String]], new Log)
+  }
+
 
   /** Override if you want to load from other message bundles than the common UI messages
     * and the messages for the specific application.
     * @return list of bundles to load
     */
-  protected def getResourceList: List[String] = {
+  protected def getResourceList: util.List[String] = {
     val appResources = getClass.getPackage.getName + ".message"
     // NON-NLS
     val commonUiResources = "com.barrybecker4.ui.message"
-    List(appResources, commonUiResources)
+    util.Arrays.asList(appResources, commonUiResources)
   }
 
   /** create and initialize the application(init required for applet) */

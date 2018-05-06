@@ -38,8 +38,12 @@ class UberApplet() extends ApplicationApplet {
     //super.createUI();
   }
 
-  override protected def getResourceList: List[String] =
-    super.getResourceList :+ "com.barrybecker4.ui.uber.message"
+  override protected def getResourceList: util.List[String] = {
+    val list = super.getResourceList
+    list.add("com.barrybecker4.ui.uber.message")
+    list
+  }
+
 
   protected def createUI(): Unit = {}
 }
