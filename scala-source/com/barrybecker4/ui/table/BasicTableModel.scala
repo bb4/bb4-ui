@@ -20,8 +20,10 @@ class BasicTableModel(columnNames: Array[AnyRef], rowCount: Int, isEditable: Boo
   }
 
   override def getColumnClass(col: Int): Class[_] = {
-    val v = dataVector.elementAt(0).asInstanceOf[List[_]]
-    v(col).getClass
+    dataVector.elementAt(0) match { // // .asInstanceOf[List[_]]
+      case list: List[_] => list(col).getClass
+      case vec: java.util.Vector[_] => vec.get(col).getClass
+    }
   }
 
   override def isCellEditable(row: Int, column: Int): Boolean = editable
