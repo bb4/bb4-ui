@@ -1,5 +1,4 @@
 /* Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT */
-
 package com.barrybecker4.ui.table
 
 import javax.swing.table.DefaultTableModel
@@ -10,14 +9,14 @@ import javax.swing.table.DefaultTableModel
   * @author Barry Becker
   */
 @SerialVersionUID(0)
-class BasicTableModel(data: Array[Array[AnyRef]], columnNames: Array[AnyRef], isEditable: Boolean)
-  extends DefaultTableModel(data, columnNames) {
+class BasicTableModel(columnNames: Array[AnyRef], rowCount: Int, isEditable: Boolean = false)
+  extends DefaultTableModel(columnNames, rowCount) {
 
   private val editable = isEditable
 
-  def this(columnNames: Array[AnyRef], rowCount: Int) {
-    this(null, columnNames, false)
-    this.setRowCount(rowCount)
+  def this(data: Array[Array[AnyRef]], columnNames: Array[AnyRef], isEditable: Boolean) {
+    this(columnNames, 0, false)
+    throw new UnsupportedOperationException("This constructor is not supported")
   }
 
   override def getColumnClass(col: Int): Class[_] = {
