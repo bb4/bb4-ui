@@ -90,12 +90,12 @@ class MultipleFunctionRenderer(var functions: Seq[Function]) extends AbstractFun
   }
 
   override protected def getRange: Range = {
-    val range = new Range
+    var range = new Range
     val numPoints = getNumXPoints
     for (i <- 0 until numPoints) {
       val x = i.toDouble / numPoints
       for (func <- functions) {
-        range.add(func.getValue(x))
+        range = range.add(func.getValue(x))
       }
     }
     range

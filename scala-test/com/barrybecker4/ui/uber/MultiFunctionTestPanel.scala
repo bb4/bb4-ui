@@ -17,7 +17,7 @@ import javax.swing._
 class MultiFunctionTestPanel() extends JPanel {
 
   var functions: List[Function] = List[Function]()
-  for (i <- 0 until 2) {
+  for (i <- 0 until 7) {
     functions +:= createRandomFunction
   }
   private var histogram  = new MultipleFunctionRenderer(functions)
