@@ -6,11 +6,15 @@ import com.barrybecker4.common.math.function.Function
 import java.awt._
 import AbstractFunctionRenderer._
 import RenderingHints._
+import MultipleFunctionRenderer._
 
 
 object MultipleFunctionRenderer {
   /** default color for the line series shown in the chart */
   private val DEFAULT_SERIES_COLOR = new Color(0, 10, 200, 40)
+
+  /** Normalize the hieght based on the y extent of the right half of the chart by default */
+  private val DEFAULT_RIGHT_NORMALIZE_PCT: Int = 50
 }
 
 /**
@@ -20,6 +24,7 @@ object MultipleFunctionRenderer {
   */
 class MultipleFunctionRenderer(var functions: Seq[Function]) extends AbstractFunctionRenderer {
   private var lineColors: Seq[Color] = _
+  private var rightNormalizePct: Double = DEFAULT_RIGHT_NORMALIZE_PCT
   private var useAntialiasing: Boolean = true
   private var seriesColor: Color = MultipleFunctionRenderer.DEFAULT_SERIES_COLOR
 
@@ -52,6 +57,11 @@ class MultipleFunctionRenderer(var functions: Seq[Function]) extends AbstractFun
 
   def setUseAntialiasing(use: Boolean): Unit = {
     useAntialiasing = use
+  }
+
+  def setRightNormalizePercent(pct: Int): Unit = {
+    assert(pct > 0 && pct <= 100)
+    rightNormalizePct = pct
   }
 
   /** draw the cartesian functions as series in the chart */
@@ -92,7 +102,8 @@ class MultipleFunctionRenderer(var functions: Seq[Function]) extends AbstractFun
   override protected def getRange: Range = {
     var range = new Range
     val numPoints = getNumXPoints
-    for (i <- 0 until numPoints) {
+    val start: Int = Math.max(1, rightNormalizePct * numPoints / 100).toInt
+    for (i <- start until numPoints) {
       val x = i.toDouble / numPoints
       for (func <- functions) {
         range = range.add(func.getValue(x))
