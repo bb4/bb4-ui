@@ -17,6 +17,7 @@ object ApplicationFrame {
   @throws[Exception]
   def main(args: Array[String]): Unit = {
     new ApplicationFrame("Test Frame")
+    println("bb4-ui is meant to be used as a UI library for Scala or Java applications.")
   }
 }
 

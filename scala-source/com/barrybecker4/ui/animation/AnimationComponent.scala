@@ -15,31 +15,24 @@ import java.awt.event.ItemListener
   * The calculation and animation rendering are done in a separate thread so the
   * rest of the ui does not lock up.
   */
-abstract class AnimationComponent()
-
-/** Constructor */
-  extends JComponent with Runnable {
+abstract class AnimationComponent extends JComponent with Runnable {
   /** parameters controlling the animation */
-  private var params = new AnimationParameters()
-  private var frameRateCalc = new FrameRateCalculator
+  private val params = new AnimationParameters()
+  private val frameRateCalc = new FrameRateCalculator
   /** records images showing animation frames */
   protected var recorder = new FrameRecorder(getFileNameBase)
 
 
-  /**
-    * if recordAnimation is true then each frame is written to a numbered file for
+  /** If recordAnimation is true, then each frame is written to a numbered file for
     * compilation into a movie later
-    *
     * @param doIt if true, then the animation will be recorded.
     */
   def setRecordAnimation(doIt: Boolean): Unit = params.recordAnimation = doIt
   def getRecordAnimation: Boolean = params.recordAnimation
 
-  /**
-    * set the number of time steps to computer for every frame of animation
-    * for unstable calculations using simple numerical methods (like Eulers integration for eg)
+  /** Set the number of time steps to computer for every frame of animation
+    * for unstable calculations using simple numerical methods (like Euler's integration for eg)
     * this can speed things a lot.
-    *
     * @param num number of time steps to calculate each animation frame.
     */
   def setNumStepsPerFrame(num: Int): Unit = params.numStepsPerFrame = num
@@ -49,15 +42,13 @@ abstract class AnimationComponent()
   /** @return the base filename when recording  */
   protected def getFileNameBase: String
 
-  /**
-    * Do the timeStepping and rendering in a separate thread
+  /** Do the timeStepping and rendering in a separate thread
     * so the rest of the GUI does not freeze and can still handle events.
     */
   override def run(): Unit = {
     render()
-    while ( {
-      params.animating
-    }) if (isPaused) ThreadUtil.sleep(500)
+    while (params.animating)
+      if (isPaused) ThreadUtil.sleep(500)
     else {
       frameRateCalc.incrementFrameCount()
       render()
@@ -106,8 +97,7 @@ abstract class AnimationComponent()
 
   def getFrameRate: Double = frameRateCalc.getFrameRate
 
-  /**
-    * If paused is true the animation is stopped
+  /** If paused is true the animation is stopped
     * @param paused true if you want the animation to stop temporarily.
     */
   def setPaused(paused: Boolean): Unit = {
