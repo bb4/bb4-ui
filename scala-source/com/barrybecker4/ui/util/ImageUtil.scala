@@ -8,9 +8,9 @@ import javax.imageio.plugins.jpeg.JPEGImageWriteParam
 import java.awt.Color
 import java.awt.GraphicsEnvironment
 import java.awt.Image
-import java.awt.image.BufferedImage
-import java.awt.image.RenderedImage
+import java.awt.image.{BufferedImage, ImageObserver, RenderedImage}
 import java.io._
+
 import ImageUtil.ImageType.ImageType
 
 
@@ -29,7 +29,10 @@ object ImageUtil {
   def makeBufferedImage(image: Image): BufferedImage = {
     val bImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB)
     val g2 = bImg.createGraphics
-    g2.drawImage(image, null, null)
+    g2.drawImage(image, null, (img: Image, infoflags: Int, x: Int, y: Int, width: Int, height: Int) => {
+      println(s"loading image w=$width h=$height ...")
+      true
+    })
     g2.dispose()
     bImg
   }
@@ -138,7 +141,6 @@ object ImageUtil {
 
   /**
     * Interpolate among 4 colors (corresponding to the 4 points on a square)
-    *
     * @return The interpolated color.
     */
   def interpolate(x: Double, y: Double,

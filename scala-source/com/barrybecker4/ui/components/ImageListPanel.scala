@@ -37,8 +37,10 @@ object ImageListPanel {
     var w = firstImage.getWidth
     var h = firstImage.getHeight
     for (img <- images) {
-      assert(img.getWidth == w,
-        "Image dimensions " + img.getWidth + ", " + img.getHeight + " do not match first: " + w + ", " + h)
+      if (img != null) {
+        assert(img.getWidth == w,
+          "Image dimensions " + img.getWidth + ", " + img.getHeight + " do not match first: " + w + ", " + h)
+      }
     }
     w += TOTAL_MARGIN
     h += TOTAL_MARGIN

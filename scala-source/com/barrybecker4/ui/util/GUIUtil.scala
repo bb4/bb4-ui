@@ -14,7 +14,6 @@ import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import java.awt.image.BufferedImage
 import java.io.File
-import java.net.URL
 
 
 /**
@@ -24,8 +23,8 @@ import java.net.URL
   * @author Barry Becker
   */
 object GUIUtil {
-  /**
-    * Some other interesting fonts: "Ænigma Scrawl 4 BRK"; "Nyala"; "Raavi";
+
+  /** Some other interesting fonts: "Ænigma Scrawl 4 BRK"; "Nyala"; "Raavi";
     * Verdana is nice, but it does not support japanese or vietnamese character.
     * Only Serif and SansSerif seem to support everything.
     */
@@ -34,9 +33,7 @@ object GUIUtil {
   /** webstart services  */
   private var basicService: BasicService = _
 
-  /**
-    * Set the ui look and feel to my very own.
-    */
+  /** Set the ui look and feel to my very own. */
   def setCustomLookAndFeel(): Unit = {
     val theme = new BarryTheme
     MetalLookAndFeel.setCurrentTheme(theme)
@@ -65,9 +62,7 @@ object GUIUtil {
     }
   }
 
-  /**
-    * @return the image icon given the full path to the image.
-    */
+  /** @return the image icon given the full path to the image.*/
   def getIcon(sPath: String): ImageIcon = getIcon(sPath, failIfNotFound = true)
 
   def getIcon(sPath: String, failIfNotFound: Boolean): ImageIcon = {
@@ -78,9 +73,7 @@ object GUIUtil {
     icon
   }
 
-  /**
-    * Load a buffered image from a file or resource.
-    *
+  /** Load a buffered image from a file or resource.
     * @return loaded image or null if not found.
     */
   def getBufferedImage(path: String): BufferedImage = {
@@ -90,12 +83,11 @@ object GUIUtil {
     image
   }
 
-  /**
-    * Displays a splash screen while the application is busy starting up.
-    *
+  /** Displays a splash screen while the application is busy starting up.
     * @return the window containing the splash screen image.
     */
-  def showSplashScreen(waitMillis: Int, imagePath: String): JWindow = { // show a splash screen initially (if we are running through web start)
+  def showSplashScreen(waitMillis: Int, imagePath: String): JWindow = {
+    // show a splash screen initially (if we are running through web start)
     // so the user knows something is happening
     var splash: ImageIcon = null
     val url = ClassLoaderSingleton.getClassLoader.getResource(imagePath)
@@ -106,10 +98,8 @@ object GUIUtil {
     new SplashScreen(splash, null, waitMillis)
   }
 
-  /**
-    * This method is useful for turning Applets into applications.
+  /** This method is useful for turning Applets into applications.
     * For thread safety, this method should be invoked from the event-dispatching thread.
-    *
     * @param applet the applet to show
     * @return frame containing the applet.
     */
@@ -137,9 +127,7 @@ object GUIUtil {
     baseFrame
   }
 
-  /**
-    * Paint with specified texture.
-    */
+  /** Paint with specified texture. */
   def paintComponentWithTexture(texture: ImageIcon, c: Component, g: Graphics): Unit = {
     if (texture == null) {
       System.out.println("warning no texture to tile with")
@@ -152,18 +140,12 @@ object GUIUtil {
     g.setColor(c.getBackground)
     g.fillRect(0, 0, size.width, size.height)
     var row = 0
-    while ( {
-      row < size.height
-    }) {
+    while (row < size.height) {
       var col = 0
-      while ( {
-        col < size.width
-      }) {
+      while (col < size.width) {
         texture.paintIcon(c, g, col, row)
-
         col += textureWidth
       }
-
       row += textureHeight
     }
   }
@@ -185,10 +167,8 @@ object GUIUtil {
     img
   }
 
-  /**
-    * Get the suffix of a file name.
+  /** Get the suffix of a file name.
     * The part after the "." typically used by FileFilters.
-    *
     * @return the file suffix.
     */
   def getFileSuffix(f: File): String = {
@@ -202,9 +182,7 @@ object GUIUtil {
   /** @return true if running through webstart */
   def hasBasicService: Boolean = getBasicService != null
 
-  /**
-    * @return the basic jnlp service or null if it is not available.
-    */
+  /** @return the basic jnlp service or null if it is not available.*/
   def getBasicService: BasicService = {
     if (basicService == null) try
       basicService = ServiceManager.lookup("javax.jnlp.BasicService").asInstanceOf[BasicService]
@@ -218,7 +196,4 @@ object GUIUtil {
     }
     basicService
   }
-}
-
-final class GUIUtil private() {
 }
