@@ -12,7 +12,7 @@ import javax.swing.plaf.metal.MetalLookAndFeel
 import java.awt._
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
-import java.awt.image.BufferedImage
+import java.awt.image.{BufferedImage, ImageObserver}
 import java.io.File
 
 
@@ -76,12 +76,18 @@ object GUIUtil {
   /** Load a buffered image from a file or resource.
     * @return loaded image or null if not found.
     */
-  def getBufferedImage(path: String): BufferedImage = {
+  def getBufferedImage(path: String, imageObserver: ImageObserver): BufferedImage = {
     val img: ImageIcon = GUIUtil.getIcon(path, failIfNotFound = false)
     var image: BufferedImage = null
-    if (img != null && img.getIconWidth > 0) image = ImageUtil.makeBufferedImage(img.getImage)
+    if (img != null && img.getIconWidth > 0) image = ImageUtil.makeBufferedImage(img.getImage, imageObserver)
     image
   }
+
+  /** Load a buffered image from a file or resource.
+    * @return loaded image or null if not found.
+    */
+  def getBufferedImage(path: String): BufferedImage =
+    getBufferedImage(path, null)
 
   /** Displays a splash screen while the application is busy starting up.
     * @return the window containing the splash screen image.
