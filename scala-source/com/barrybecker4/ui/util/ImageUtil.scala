@@ -26,16 +26,19 @@ object ImageUtil {
   }
 
   /** @return a BufferedImage from an Image*/
-  def makeBufferedImage(image: Image): BufferedImage = {
-    val bImg = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB)
+  def makeBufferedImage(image: Image, imageObserver: ImageObserver): BufferedImage = {
+    val w = image.getWidth(imageObserver)
+    val h = image.getHeight(imageObserver)
+    val bImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB)
     val g2 = bImg.createGraphics
-    g2.drawImage(image, null, (img: Image, infoflags: Int, x: Int, y: Int, width: Int, height: Int) => {
-      println(s"loading image w=$width h=$height ...")
-      true
-    })
+    g2.drawImage(image, null, imageObserver)
     g2.dispose()
     bImg
   }
+
+  /** @return a BufferedImage from an Image*/
+  def makeBufferedImage(image: Image): BufferedImage =
+    makeBufferedImage(image, null)
 
   /** Create an image that is compatible with your hardware */
   def createCompatibleImage(width: Int, height: Int): BufferedImage = {
@@ -45,10 +48,9 @@ object ImageUtil {
     configuration.createCompatibleImage(width, height)
   }
 
-  /**
-    * return a byte array given an image
-    * @param img  the image to convert
+  /** @param img  the image to convert
     * @param imageTypee the type of image to create ("jpg" or "png")
+    * @return a byte array given an image
     */
   def getImageAsByteArray(img: Image, imageTypee: ImageType): Array[Byte] = {
     val bos = new ByteArrayOutputStream
