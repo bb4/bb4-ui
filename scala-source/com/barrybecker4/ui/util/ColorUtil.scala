@@ -45,7 +45,7 @@ object ColorUtil {
     var intval = color.getRGB
 
     intval -= 0xFF000000
-    //System.out.println("NodePres getString from PathColor = "+Integer.toHexString(intval).toUpperCase());
+    //println("NodePres getString from PathColor = "+Integer.toHexString(intval).toUpperCase());
     var hex = Integer.toHexString(intval).toUpperCase
     if (hex.length <= 6) {
       hex = "00000".substring(0, 6 - hex.length) + hex

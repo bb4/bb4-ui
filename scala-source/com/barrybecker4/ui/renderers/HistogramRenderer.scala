@@ -135,15 +135,14 @@ class HistogramRenderer(var data: Array[Int], var xFunction: InvertibleFunction)
     val halfTotal = sum >> 1
     var medianPos = 0
     var cumulativeTotal = 0
-    while ( {
-      cumulativeTotal < halfTotal && medianPos < data.length
-    }) cumulativeTotal += data({
-      medianPos += 1; medianPos - 1
-    })
+    while (cumulativeTotal < halfTotal && medianPos < data.length) {
+      cumulativeTotal += data(medianPos)
+      medianPos += 1
+    }
     if (medianPos == data.length)
-      System.out.println("ERROR: medianPos: " + medianPos + " got too big. cumTotal = " +
-        cumulativeTotal + " halfTotal = " + halfTotal)
-    if (medianPos > 0 && data(medianPos - 1) > 0) medianPos -= (cumulativeTotal - halfTotal) / data(medianPos - 1)
+      println(s"ERROR: medianPos: $medianPos got too big. cumTotal = $cumulativeTotal halfTotal = $halfTotal")
+    if (medianPos > 0 && data(medianPos - 1) > 0)
+      medianPos -= (cumulativeTotal - halfTotal) / data(medianPos - 1)
     medianPos - 1
   }
 

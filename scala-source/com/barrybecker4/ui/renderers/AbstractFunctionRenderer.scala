@@ -73,14 +73,14 @@ abstract class AbstractFunctionRenderer {
     // draw nice number labels.
     val cutPointGenerator = new CutPointGenerator
     cutPointGenerator.setUseTightLabeling(true)
-    //System.out.println("range = " + yRange + " yOffset=" + yOffset);
+    //println("range = " + yRange + " yOffset=" + yOffset);
     val ext = yRange.getExtent
     if (ext.isNaN) return
     val cutpoints = cutPointGenerator.getCutPoints(yRange, NUM_Y_LABELS)
     val cutpointLabels = cutPointGenerator.getCutPointLabels(yRange, NUM_Y_LABELS)
     val chartHt = height - yOffset - MARGIN - MARGIN
     for (i <- cutpoints.indices) {
-      //System.out.println("cp = " + cutpoints[i] +"  label = " + cutpointLabels[i]);
+      //println("cp = " + cutpoints[i] +"  label = " + cutpointLabels[i]);
       val label = cutpointLabels(i)
       //FormatUtil.formatNumber(cutpoints[i]);
       val labelWidth = metrics.stringWidth(label)

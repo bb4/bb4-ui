@@ -83,8 +83,10 @@ object GUIUtil {
     image
   }
 
-  /** Load a buffered image from a file or resource.
-    * @return loaded image or null if not found.
+  /** Load a buffered image from a file or resource. Non-blocking.
+    * If you want an ImageObserver (i.e. component to repaint when done, use the signature that allows you
+    * to pass in the ImageObserver. Also consider the blocking version in bb4-imageproc.
+    * @return loaded image or null if not found. Can be null while loading.
     */
   def getBufferedImage(path: String): BufferedImage =
     getBufferedImage(path, null)
@@ -136,7 +138,7 @@ object GUIUtil {
   /** Paint with specified texture. */
   def paintComponentWithTexture(texture: ImageIcon, c: Component, g: Graphics): Unit = {
     if (texture == null) {
-      System.out.println("warning no texture to tile with")
+      println("warning no texture to tile with")
       return
     }
     val size = c.getSize
@@ -194,10 +196,10 @@ object GUIUtil {
       basicService = ServiceManager.lookup("javax.jnlp.BasicService").asInstanceOf[BasicService]
     catch {
       case e: Exception =>
-        System.out.println("Not running through webstart: " + e.getMessage)
+        println("Not running through webstart: " + e.getMessage)
         return null
       case ncde: NoClassDefFoundError =>
-        System.out.println("jnlp BasicService not available: " + ncde.getMessage)
+        println("jnlp BasicService not available: " + ncde.getMessage)
         return null
     }
     basicService

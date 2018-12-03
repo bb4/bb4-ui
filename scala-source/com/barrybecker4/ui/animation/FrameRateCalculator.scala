@@ -68,7 +68,7 @@ class FrameRateCalculator() {
       deltaTime = now - previousTimes((index + 1) % FrameRateCalculator.HISTORY_LENGTH) - totalPauseTime
       frameRate = (1000.0 * FrameRateCalculator.HISTORY_LENGTH) / deltaTime
     }
-    //System.out.println("index=" + index + " deltaTime="  + deltaTime + " fct=" + frameCount + " fr="+ frameRate);
+    //Sprintln("index=" + index + " deltaTime="  + deltaTime + " fct=" + frameCount + " fr="+ frameRate);
     dirty = false
   }
 

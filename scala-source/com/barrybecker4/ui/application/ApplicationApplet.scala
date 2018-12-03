@@ -24,7 +24,7 @@ abstract class ApplicationApplet(val args: Array[String]) extends JApplet {
   if (args.length > 0) {
     val options = new CommandLineOptions(args)
     if (options.contains("help")) { // NON-NLS
-      System.out.println("Usage: [-locale <locale>]")
+      println("Usage: [-locale <locale>]")
     }
     if (options.contains("locale")) { // then a locale has been specified
       localeName = options.getValueForOption("locale", "ENGLISH")

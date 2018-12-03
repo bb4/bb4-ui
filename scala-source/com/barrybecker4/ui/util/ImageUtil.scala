@@ -103,8 +103,7 @@ object ImageUtil {
     }
   }
 
-  /**
-    * Saves an image to a file using the format specified by the type.
+  /** Saves an image to a file using the format specified by the type.
     * Note the filename should not include the extension. This will be added as appropriate.
     * @param fileName the fileName should not have an extension because it gets added based on VizContext.imageFormat
     * @param img      the image to save
@@ -121,14 +120,12 @@ object ImageUtil {
       os = new BufferedOutputStream(new FileOutputStream(fn))
     } catch {
       case fne: FileNotFoundException =>
-        System.out.println("File " + fileName + " not found: " + fne.getMessage) //NON-NLS
-
+        println("File " + fileName + " not found: " + fne.getMessage) //NON-NLS
     }
     writeImage(img, os, imageType)
   }
 
-  /**
-    * @param pixels one dimension array of pixels where a pixel at x and y can be located with
+  /** @param pixels one dimension array of pixels where a pixel at x and y can be located with
     *               3 *(x * height + y )
     *               Note that there are 4 integers for every pixel (rgb)
     * @param width image width
