@@ -28,14 +28,14 @@ class HistogramModel(val data: Array[Int], val xFunction: InvertibleFunction) {
   def calcMean(): Double = {
     var sumXValues: Double = 0
     for (i <- data.indices) {
-      val binAvgX = (xFunction.getInverseValue(i) + xFunction.getInverseValue(i + 1)) / 2.0
+      val binAvgX = xFunction.getInverseValue(i) //(xFunction.getInverseValue(i) + xFunction.getInverseValue(i + 1)) / 2.0
       sumXValues += data(i) * binAvgX
     }
     sumXValues / sum
   }
 
-  def calcMedian = {
-    val halfTotal = sum >> 1
+  def calcMedianPos: Int = {
+    val halfTotal: Double = sum / 2.0
     var medianPos = 0
     var cumulativeTotal = 0
     while (cumulativeTotal < halfTotal && medianPos < data.length) {
@@ -46,7 +46,7 @@ class HistogramModel(val data: Array[Int], val xFunction: InvertibleFunction) {
       println(s"Warning: medianPosition: $medianPos too big and will not be shown. " +
         s"cumTotal = $cumulativeTotal halfTotal = $halfTotal")
     if (medianPos > 0 && data(medianPos - 1) > 0)
-      medianPos -= (cumulativeTotal - halfTotal) / data(medianPos - 1)
+      medianPos -= ((cumulativeTotal - halfTotal) / data(medianPos - 1)).toInt
     medianPos - 1
   }
 }

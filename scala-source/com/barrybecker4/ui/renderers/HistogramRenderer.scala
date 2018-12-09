@@ -114,7 +114,7 @@ class HistogramRenderer(val data: Array[Int], val xFunction: InvertibleFunction)
   }
 
   private def drawMedianLine(g2: Graphics2D, width: Double) = {
-    val median = model.calcMedian
+    val median = model.calcMedianPos
     val medianXpos = (MARGIN + width * median / model.numBars + barWidth / 2).toInt
     g2.drawLine(medianXpos, height - MARGIN, medianXpos, MARGIN)
     g2.drawString(AppContext.getLabel("MEDIAN"), medianXpos + 4, MARGIN + 28)
