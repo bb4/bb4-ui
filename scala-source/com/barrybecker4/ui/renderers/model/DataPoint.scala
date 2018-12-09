@@ -1,11 +1,15 @@
-/* Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
-package com.barrybecker4.ui.renderers
+/*
+ * Copyright by Barry G. Becker, 2018. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+ */
+package com.barrybecker4.ui.renderers.model
 
 import java.awt._
 
 
 /**
   * @author Barry Becker
+  * Remove this class. I believe that there are no usages.
+  * @deprecated
   */
 class DataPoint {
   private var yValue = .0

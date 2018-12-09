@@ -9,18 +9,22 @@ import javax.swing._
 import java.awt.Dimension
 import java.awt.Graphics
 
+import com.barrybecker4.common.format.CurrencyFormatter
+
+import scala.util.Random
+
 
 /**
   * Tests the use of the histogram component.
   * @author Barry Becker
   */
 object HistogramTestPanel {
-  private val NUM_X_POINTS = 2000
+  private val NUM_X_POINTS = 200
 }
 
 class HistogramTestPanel() extends JPanel {
-  val data: Array[Int] = createData
-  protected var histogram = new HistogramRenderer(data, new LinearFunction(new Range(0, 200), data.length))
+  val data = createData
+  protected var histogram = new HistogramRenderer(data, new LinearFunction(Range(-500, 2000), data.length))
   histogram.setMaxLabelWidth(70)
   histogram.increment(-25)
   histogram.increment(-20)
@@ -28,13 +32,18 @@ class HistogramTestPanel() extends JPanel {
   histogram.increment(15)
   histogram.increment(20)
   histogram.increment(25)
+
+  histogram.setMaxLabelWidth(40)
+  histogram.setXFormatter(new CurrencyFormatter)
+
   this.setPreferredSize(new Dimension(800, 600))
 
 
   private def createData = {
+    val rnd = new Random()
     val data = new Array[Int](HistogramTestPanel.NUM_X_POINTS)
     for (i <- 0 until HistogramTestPanel.NUM_X_POINTS) {
-      data(i) = (Math.random * 100).toInt
+      data(i) = (Math.abs(rnd.nextGaussian()) * 100).toInt
     }
     data
   }
