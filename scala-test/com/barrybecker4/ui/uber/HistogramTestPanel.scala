@@ -33,7 +33,7 @@ class HistogramTestPanel() extends JPanel {
   histogram.increment(20)
   histogram.increment(25)
 
-  histogram.setMaxLabelWidth(40)
+  histogram.setMaxLabelWidth(80)
   histogram.setXFormatter(new CurrencyFormatter)
 
   this.setPreferredSize(new Dimension(800, 600))

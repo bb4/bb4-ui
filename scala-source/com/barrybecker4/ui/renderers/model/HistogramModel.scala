@@ -28,7 +28,8 @@ class HistogramModel(val data: Array[Int], val xFunction: InvertibleFunction) {
   def calcMean(): Double = {
     var sumXValues: Double = 0
     for (i <- data.indices) {
-      val binAvgX = xFunction.getInverseValue(i) //(xFunction.getInverseValue(i) + xFunction.getInverseValue(i + 1)) / 2.0
+      val binAvgX = xFunction.getInverseValue(i)
+        //(xFunction.getInverseValue(i) + xFunction.getInverseValue(i + 1)) / 2.0
       sumXValues += data(i) * binAvgX
     }
     sumXValues / sum

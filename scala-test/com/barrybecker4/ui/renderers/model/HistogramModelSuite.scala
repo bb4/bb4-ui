@@ -77,5 +77,4 @@ class HistogramModelSuite extends FunSuite {
     assertResult(expMedianPos) {medianPos}
     assertResult(expMedian) {model.getValueForPosition(medianPos)}
   }
-
 }

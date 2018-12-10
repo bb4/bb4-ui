@@ -37,7 +37,8 @@ class HistogramRenderer(val data: Array[Int], val xFunction: InvertibleFunction)
   private var width = 0
   private var height = 0
   private var maxNumLabels = 0
-  private var barWidth: Float = 0.0F
+  private var barWidth: Float = 0.0f
+  private var zeroXPos = 0
   private var formatter: INumberFormatter = new DefaultNumberFormatter
   private var maxLabelWidth = DEFAULT_LABEL_WIDTH
 
@@ -53,6 +54,7 @@ class HistogramRenderer(val data: Array[Int], val xFunction: InvertibleFunction)
     this.height = height
     maxNumLabels = this.width / maxLabelWidth
     barWidth = (this.width - 2.0F * MARGIN) / model.numBars
+    zeroXPos = calcZeroPos()
   }
 
   def increment(xValue: Double): Unit = model.increment(xValue)
@@ -76,10 +78,10 @@ class HistogramRenderer(val data: Array[Int], val xFunction: InvertibleFunction)
     val scale = (height - 2.0 * MARGIN) / maxHeight
     clearBackground(g2)
     var xpos: Float = MARGIN
-    var ct = 0
+    var xIdx = 0
     for (value <- data) {
-      drawBar(g2, scale, xpos, ct, value)
-      ct += 1
+      drawBar(g2, scale, xpos, xIdx, value)
+      xIdx += 1
       xpos += barWidth
     }
     drawDecoration(g2, maxHeight)
@@ -107,30 +109,33 @@ class HistogramRenderer(val data: Array[Int], val xFunction: InvertibleFunction)
     drawZeroLine(g2, width)
   }
 
-  private def drawMeanLine(g2: Graphics2D, width: Double) = {
+  private def drawMeanLine(g2: Graphics2D, width: Double): Unit = {
     val meanXpos = (MARGIN + width * xFunction.getValue(model.mean) / model.numBars + barWidth / 2).toInt
     g2.drawLine(meanXpos, height - MARGIN, meanXpos, MARGIN)
     g2.drawString(AppContext.getLabel("MEAN"), meanXpos + 4, MARGIN + 12)
   }
 
-  private def drawMedianLine(g2: Graphics2D, width: Double) = {
+  private def drawMedianLine(g2: Graphics2D, width: Double): Unit = {
     val median = model.calcMedianPos
     val medianXpos = (MARGIN + width * median / model.numBars + barWidth / 2).toInt
     g2.drawLine(medianXpos, height - MARGIN, medianXpos, MARGIN)
     g2.drawString(AppContext.getLabel("MEDIAN"), medianXpos + 4, MARGIN + 28)
   }
 
-  private def drawZeroLine(g2: Graphics2D, width: Double) = {
+  private def drawZeroLine(g2: Graphics2D, width: Double): Unit = {
     if (xFunction.getInverseValue(0) < 0) {
-      val zero = xFunction.getValue(0)
-      val zeroXpos = (MARGIN + width * zero / model.numBars + barWidth / 2).toInt
-      g2.drawLine(zeroXpos, height - MARGIN, zeroXpos, MARGIN)
-      g2.drawString("0", zeroXpos + 4, MARGIN + 38)
+      g2.drawLine(zeroXPos, height - MARGIN, zeroXPos, MARGIN)
+      g2.drawString("0", zeroXPos + 4, MARGIN + 38)
     }
   }
 
+  private def calcZeroPos(): Int = {
+    val zero = xFunction.getValue(0)
+    (MARGIN + width * zero / model.numBars + barWidth / 2).toInt
+  }
+
   /** Draw a single bar in the histogram */
-  private def drawBar(g2: Graphics2D, scale: Double, xpos: Float, ct: Int, value: Int): Unit = {
+  private def drawBar(g2: Graphics2D, scale: Double, xpos: Float, xIdx: Int, value: Int): Unit = {
     val h = scale * value
     val top = (height - h - MARGIN).toInt
     g2.setColor(BAR_COLOR)
@@ -139,38 +144,41 @@ class HistogramRenderer(val data: Array[Int], val xFunction: InvertibleFunction)
     if (model.numBars < maxNumLabels) { // if not too many bars add a nice border.
       g2.drawRect(xpos.toInt, top, barWidth.toInt, h.toInt)
     }
-    drawLabelIfNeeded(g2, xpos, ct)
+    drawLabelIfNeeded(g2, xpos, xIdx)
   }
 
-  /** Draw the label or label and tick if needed for this bar. */
-  private def drawLabelIfNeeded(g2: Graphics2D, xpos: Float, ct: Int): Unit = {
-    val xValue = xFunction.getInverseValue(ct)
+  /** Draw the label or label and tick if needed for this bar.
+    * Avoid drawing the x label if its close to 0 so it does not interfere with the 0 label.
+    */
+  private def drawLabelIfNeeded(g2: Graphics2D, xpos: Float, xIdx: Int): Unit = {
+    val xValue = xFunction.getInverseValue(xIdx)
     val x = (xpos + barWidth / 2).toInt
     val labelXPos = x - 20
     var drawingLabel = false
     val labelSkip = (maxLabelWidth + 10) * model.numBars / width
-    if (xValue == 0) {
+    val closeToZero = Math.abs(xpos - zeroXPos) < maxLabelWidth / 2
+    if (closeToZero) {
       g2.setFont(BOLD_FONT)
-      g2.drawString(formatter.format(xValue), x - 10, height - 5)
+      g2.drawString(formatter.format(0), zeroXPos - 8, height - 5)
+      g2.drawLine(zeroXPos, height - MARGIN + TICK_LENGTH + 4, zeroXPos, height - MARGIN - 2) // zero tick
       g2.setFont(FONT)
-      drawingLabel = true
     }
     else if (model.numBars < maxNumLabels) { // then draw all labels
       g2.drawString(formatter.format(xValue), labelXPos, height - 5)
       drawingLabel = true
     }
-    else if (ct % labelSkip == 0) { // sparse labeling
+    else if (xIdx % labelSkip == 0) { // sparse labeling
       g2.drawString(formatter.format(xValue), labelXPos, height - 5)
       drawingLabel = true
     }
     val skipD2 = Math.max(1, labelSkip / 2)
     val skipD5 = Math.max(1, labelSkip / 5)
-    if (labelSkip % 2 == 0 && ct % skipD2 == 0)
+    if (labelSkip % 2 == 0 && xIdx % skipD2 == 0)
       g2.drawLine(x, height - MARGIN + TICK_LENGTH + 1, x, height - MARGIN)
-    else if (labelSkip % 5 == 0 && ct % skipD5 == 0)
+    else if (labelSkip % 5 == 0 && xIdx % skipD5 == 0)
       g2.drawLine(x, height - MARGIN + TICK_LENGTH - 2, x, height - MARGIN)
     if (drawingLabel)
-      g2.drawLine(x, height - MARGIN + TICK_LENGTH + 4, x, height - MARGIN - 2)
+      g2.drawLine(x, height - MARGIN + TICK_LENGTH + 5, x, height - MARGIN - 2)
   }
 
   private def clearBackground(g2: Graphics2D): Unit = {
