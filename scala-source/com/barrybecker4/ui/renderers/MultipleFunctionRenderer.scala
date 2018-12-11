@@ -13,47 +13,43 @@ object MultipleFunctionRenderer {
   /** default color for the line series shown in the chart */
   private val DEFAULT_SERIES_COLOR = new Color(0, 10, 200, 40)
 
-  /** Normalize the hieght based on the y extent of the right half of the chart by default */
+  /** Normalize the height based on the y extent of the right half of the chart by default */
   private val DEFAULT_RIGHT_NORMALIZE_PCT: Int = 50
 }
 
 /**
-  * This class draws a specified function.
+  * This class draws a specified set of functions.
   * @param functions the functions to plot. Functions that provide y values for every point on the x axis.
+  * @param lineColors line colors corresponding to functions
   * @author Barry Becker
   */
-class MultipleFunctionRenderer(var functions: Seq[Function]) extends AbstractFunctionRenderer {
-  private var lineColors: Seq[Color] = _
+class MultipleFunctionRenderer(var functions: Seq[Function],
+                               var lineColors: Option[Seq[Color]] = None) extends AbstractFunctionRenderer {
+
+  assert(lineColors.isEmpty || this.functions.size == this.lineColors.get.size,
+    "There must be as many line colors as functions")
   private var rightNormalizePct: Double = DEFAULT_RIGHT_NORMALIZE_PCT
   private var useAntialiasing: Boolean = true
   private var seriesColor: Color = MultipleFunctionRenderer.DEFAULT_SERIES_COLOR
 
-  /** Constructor that assumes no scaling and allows separate line colors.
-    * @param functions  the functions to plot.
-    * @param lineColors line colors corresponding to functions
-    */
-  def this(functions: Seq[Function], lineColors: Seq[Color]) {
-    this(functions)
-    this.lineColors = lineColors
-    assert(this.functions.size == this.lineColors.size, "There must be as many line colors as functions")
-  }
+  def this(functions: Seq[Function]) { this(functions, None) }
 
   /** Update the currently shown functions
-    * @param functions the functions to plot.
-    */
+    * param functions the functions to plot.
+    *
   def setFunctions(functions: Seq[Function]): Unit = {
     this.functions = functions
-    lineColors = null
-  }
+    lineColors = None
+  }*/
 
   /** Update the currently shown functions
-    * @param functions  the functions to plot.
-    * @param lineColors line colors corresponding to functions
-    */
+    * param functions  the functions to plot.
+    * param lineColors line colors corresponding to functions
+    *
   def setFunctions(functions: Seq[Function], lineColors: Seq[Color]): Unit = {
     this.functions = functions
-    this.lineColors = lineColors
-  }
+    this.lineColors = Some(lineColors)
+  }*/
 
   def setUseAntialiasing(use: Boolean): Unit = {
     useAntialiasing = use
@@ -88,7 +84,7 @@ class MultipleFunctionRenderer(var functions: Seq[Function]) extends AbstractFun
     g2.setColor(seriesColor)
     val numPoints = getNumXPoints
     for (f <- functions.indices) {
-      if (lineColors != null) g2.setColor(lineColors(f))
+      if (lineColors.isDefined) g2.setColor(lineColors.get(f))
       var lastY = 0.0
       for (i <- 0 to numPoints) {
         val x = i.toDouble / numPoints
@@ -98,6 +94,35 @@ class MultipleFunctionRenderer(var functions: Seq[Function]) extends AbstractFun
       }
     }
   }
+
+
+  /** Draw x axis labels. The x-axis doesn't really need labels because it is always [0 - 1]. */
+  override protected def drawXAxisLabels(g2: Graphics2D): Unit = {
+    // x labels
+    val xRange = functions.head.getDomain
+    val metrics = g2.getFontMetrics
+    val ext = xRange.getExtent
+    val (cutpoints, cutpointLabels) = getNiceCutpointsAndLabels(xRange, width / 80)
+
+    val chartWidth = width - xOffset - LEFT_MARGIN - MARGIN
+    for (i <- cutpoints.indices) {
+      val label = cutpointLabels(i)
+      val labelWidth = metrics.stringWidth(label)
+      val xPos = (xOffset + LEFT_MARGIN - 3 + (cutpoints(i) - xRange.min) / ext * chartWidth).toFloat
+      g2.drawString(label, xPos, height - MARGIN + 15)
+    }
+
+    val eps = xRange.getExtent * 0.05
+    // draw origin if 0 is in range
+    if (0 < (xRange.max - eps) && 0 > (xRange.min + eps)) {
+      val originX = (xOffset + LEFT_MARGIN + Math.abs(xRange.max) / ext * chartWidth).toFloat
+      //g2.drawString("0", xOffset + LEFT_MARGIN - 15, originY + 5);
+      g2.setColor(ORIGIN_LINE_COLOR)
+      g2.drawLine(xOffset + LEFT_MARGIN - 1, MARGIN,
+        xOffset + LEFT_MARGIN - 1, MARGIN + height)
+    }
+  }
+
 
   override protected def getRange: Range = {
     var range = new Range

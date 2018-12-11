@@ -16,18 +16,19 @@ import AbstractFunctionRenderer._
 object AbstractFunctionRenderer {
   private val BACKGROUND_COLOR = new Color(255, 255, 255)
   private val LABEL_COLOR = Color.BLACK
-  private val ORIGIN_LINE_COLOR = new Color(20, 0, 0, 120)
+  val ORIGIN_LINE_COLOR = new Color(20, 0, 0, 120)
   private[renderers] val LEFT_MARGIN = 75
   private[renderers] val MARGIN = 40
-  private val NUM_Y_LABELS = 10
 }
 
 abstract class AbstractFunctionRenderer {
-  private var width = 0
+  protected var width = 0
   protected var height = 0
-  private var xOffset = 0
-  private var yOffset = 0
+  protected var xOffset = 0
+  protected var yOffset = 0
   private var formatter: INumberFormatter = new DefaultNumberFormatter
+  private val cutPointGenerator = new CutPointGenerator
+  cutPointGenerator.setUseTightLabeling(true)
 
   def setSize(width: Int, height: Int): Unit = {
     this.width = width
@@ -56,7 +57,8 @@ abstract class AbstractFunctionRenderer {
     g2.setColor(LABEL_COLOR)
     g2.drawRect(xOffset, yOffset, width, height)
     drawAxes(g2)
-    drawAxisLabels(g2, yRange)
+    drawXAxisLabels(g2)
+    drawYAxisLabels(g2, yRange)
   }
 
   private def drawAxes(g2: Graphics2D): Unit = { // left y axis
@@ -67,17 +69,29 @@ abstract class AbstractFunctionRenderer {
                 xOffset + LEFT_MARGIN - 1 + width, yOffset + height - MARGIN - 1)
   }
 
-  /** Draw y axis labels. The x-axis doesn't really need labels because it is always [0 - 1]. */
-  private def drawAxisLabels(g2: Graphics2D, yRange: Range): Unit = {
+  /** Draw x axis labels. The x-axis doesn't really need labels because it is always [0 - 1]. */
+  protected def drawXAxisLabels(g2: Graphics2D): Unit = {
+    // do nothing by default
+  }
+
+  /** @return calculated nice numbers and labels. */
+  protected def getNiceCutpointsAndLabels(range: Range, numLabels: Int): (Array[Double], Array[String]) = {
+    val ext = range.getExtent
+    if (ext.isNaN || numLabels <= 1) {
+      (Array(), Array())
+    } else {
+      val cutpoints = cutPointGenerator.getCutPoints(range, numLabels)
+      val cutPointLabels = cutPointGenerator.getCutPointLabels(range, numLabels)
+      (cutpoints, cutPointLabels)
+    }
+  }
+
+  /** Draw y axis labels. */
+  protected def drawYAxisLabels(g2: Graphics2D, yRange: Range): Unit = {
     val metrics = g2.getFontMetrics
-    // draw nice number labels.
-    val cutPointGenerator = new CutPointGenerator
-    cutPointGenerator.setUseTightLabeling(true)
-    //println("range = " + yRange + " yOffset=" + yOffset);
     val ext = yRange.getExtent
-    if (ext.isNaN) return
-    val cutpoints = cutPointGenerator.getCutPoints(yRange, NUM_Y_LABELS)
-    val cutpointLabels = cutPointGenerator.getCutPointLabels(yRange, NUM_Y_LABELS)
+    val (cutpoints, cutpointLabels) = getNiceCutpointsAndLabels(yRange, height / 40)
+
     val chartHt = height - yOffset - MARGIN - MARGIN
     for (i <- cutpoints.indices) {
       //println("cp = " + cutpoints[i] +"  label = " + cutpointLabels[i]);
@@ -92,7 +106,7 @@ abstract class AbstractFunctionRenderer {
     // draw origin if 0 is in range
     if (0 < (yRange.max - eps) && 0 > (yRange.min + eps)) {
       val originY = (yOffset + MARGIN + Math.abs(yRange.max) / ext * chartHt).toFloat
-      //g2.drawString("0", xOffset + LEFT_MARGIN - 15, originY + 5);
+      //g2.drawString("0", xOffset + LEFT_MARGIN - 15, originY + 5)
       g2.setColor(ORIGIN_LINE_COLOR)
       g2.drawLine(xOffset + LEFT_MARGIN - 1, originY.toInt,
                   xOffset + LEFT_MARGIN - 1 + width, originY.toInt)

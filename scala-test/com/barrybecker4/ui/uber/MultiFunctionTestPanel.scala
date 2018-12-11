@@ -1,7 +1,7 @@
 /* Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT */
 package com.barrybecker4.ui.uber
 
-import java.awt.{Dimension, Graphics}
+import java.awt.{Color, Dimension, Graphics}
 
 import com.barrybecker4.common.math.function.Function
 import com.barrybecker4.common.math.function.HeightFunction
@@ -16,11 +16,9 @@ import javax.swing._
   */
 class MultiFunctionTestPanel() extends JPanel {
 
-  var functions: List[Function] = List[Function]()
-  for (i <- 0 until 7) {
-    functions +:= createRandomFunction
-  }
-  private var histogram  = new MultipleFunctionRenderer(functions)
+  var functions: Seq[Function] = for (i <- 0 until 7) yield createRandomFunction
+  val colors: Seq[Color] = for (i <- 0 until 7) yield new Color(i * 40, 20, 240 - i * 40)
+  private val histogram: MultipleFunctionRenderer = new MultipleFunctionRenderer(functions, Some(colors))
   this.setPreferredSize(new Dimension(800, 600))
 
   private def createRandomFunction = {
