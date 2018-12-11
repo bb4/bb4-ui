@@ -34,26 +34,7 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
 
   def this(functions: Seq[Function]) { this(functions, None) }
 
-  /** Update the currently shown functions
-    * param functions the functions to plot.
-    *
-  def setFunctions(functions: Seq[Function]): Unit = {
-    this.functions = functions
-    lineColors = None
-  }*/
-
-  /** Update the currently shown functions
-    * param functions  the functions to plot.
-    * param lineColors line colors corresponding to functions
-    *
-  def setFunctions(functions: Seq[Function], lineColors: Seq[Color]): Unit = {
-    this.functions = functions
-    this.lineColors = Some(lineColors)
-  }*/
-
-  def setUseAntialiasing(use: Boolean): Unit = {
-    useAntialiasing = use
-  }
+  def setUseAntialiasing(use: Boolean): Unit = { useAntialiasing = use }
 
   def setRightNormalizePercent(pct: Int): Unit = {
     assert(pct > 0 && pct <= 100)
@@ -99,6 +80,7 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
   /** Draw x axis labels. The x-axis doesn't really need labels because it is always [0 - 1]. */
   override protected def drawXAxisLabels(g2: Graphics2D): Unit = {
     // x labels
+    if (functions.isEmpty) return
     val xRange = functions.head.getDomain
     val metrics = g2.getFontMetrics
     val ext = xRange.getExtent
@@ -122,7 +104,6 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
         xOffset + LEFT_MARGIN - 1, MARGIN + height)
     }
   }
-
 
   override protected def getRange: Range = {
     var range = new Range
