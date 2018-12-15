@@ -51,7 +51,7 @@ abstract class AbstractFunctionRenderer {
   /** draw the cartesian function */
   def paint(g: Graphics): Unit
   protected def getRange: Range
-  private[renderers] def getNumXPoints = width - MARGIN
+  private[renderers] def getNumXPoints = width - MARGIN - LEFT_MARGIN
 
   private[renderers] def drawDecoration(g2: Graphics2D, yRange: Range): Unit = {
     g2.setColor(LABEL_COLOR)

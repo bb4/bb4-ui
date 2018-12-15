@@ -67,50 +67,50 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
     for (f <- functions.indices) {
       if (lineColors.isDefined) g2.setColor(lineColors.get(f))
       var lastY = 0.0
+      val function = functions(f)
+      val domain = function.getDomain
+      val ext = domain.getExtent
       for (i <- 0 to numPoints) {
-        val x = i.toDouble / numPoints
-        val y = functions(f).getValue(x) + zeroHeight
+        val x = domain.min + ext * (i.toDouble / numPoints)
+        val y = function.getValue(x) + zeroHeight
         drawConnectedLine(g2, scale, LEFT_MARGIN + i, y, LEFT_MARGIN + i - 1, lastY)
         lastY = y
       }
     }
   }
 
-
-  /** Draw x axis labels. The x-axis doesn't really need labels because it is always [0 - 1]. */
+  /** Draw x axis labels using the domain from the function being rendered. */
   override protected def drawXAxisLabels(g2: Graphics2D): Unit = {
-    // x labels
     if (functions.isEmpty) return
     val xRange = functions.head.getDomain
-    val metrics = g2.getFontMetrics
     val ext = xRange.getExtent
-    val (cutpoints, cutpointLabels) = getNiceCutpointsAndLabels(xRange, width / 80)
+    val (cutPoints, cutPointLabels) = getNiceCutpointsAndLabels(xRange, width / 80)
 
     val chartWidth = width - xOffset - LEFT_MARGIN - MARGIN
-    for (i <- cutpoints.indices) {
-      val label = cutpointLabels(i)
-      val labelWidth = metrics.stringWidth(label)
-      val xPos = (xOffset + LEFT_MARGIN - 3 + (cutpoints(i) - xRange.min) / ext * chartWidth).toFloat
-      g2.drawString(label, xPos, height - MARGIN + 15)
+    for (i <- cutPoints.indices) {
+      val label = cutPointLabels(i)
+      val xPos = (xOffset + LEFT_MARGIN - 3 + chartWidth * (cutPoints(i) - xRange.min) / ext).toFloat
+      g2.drawString(label, xPos - 2, height - MARGIN + 15)
     }
 
     val eps = xRange.getExtent * 0.05
     // draw origin if 0 is in range
     if (0 < (xRange.max - eps) && 0 > (xRange.min + eps)) {
-      val originX = (xOffset + LEFT_MARGIN + Math.abs(xRange.max) / ext * chartWidth).toFloat
-      //g2.drawString("0", xOffset + LEFT_MARGIN - 15, originY + 5);
+      val originX = (xOffset + LEFT_MARGIN + chartWidth * Math.abs(xRange.min) / ext).toInt
       g2.setColor(ORIGIN_LINE_COLOR)
-      g2.drawLine(xOffset + LEFT_MARGIN - 1, MARGIN,
-        xOffset + LEFT_MARGIN - 1, MARGIN + height)
+      g2.drawLine(originX, height - MARGIN, originX, MARGIN)
     }
   }
 
   override protected def getRange: Range = {
     var range = new Range
     val numPoints = getNumXPoints
-    val start: Int = Math.max(1, rightNormalizePct * numPoints / 100).toInt
+    val domain = functions.head.getDomain
+    val ext = domain.getExtent
+
+    val start: Int = Math.max(1, numPoints * rightNormalizePct / 100.0).toInt
     for (i <- start until numPoints) {
-      val x = i.toDouble / numPoints
+      val x = ext * i.toDouble / numPoints + domain.min
       for (func <- functions) {
         range = range.add(func.getValue(x))
       }
