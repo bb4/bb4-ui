@@ -103,18 +103,21 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
   }
 
   override protected def getRange: Range = {
-    var range = new Range
-    val numPoints = getNumXPoints
-    val domain = functions.head.getDomain
-    val ext = domain.getExtent
+    if (functions.isEmpty) Range(0, 1)
+    else {
+      var range = new Range
+      val numPoints = getNumXPoints
+      val domain = functions.head.getDomain
+      val ext = domain.getExtent
 
-    val start: Int = Math.max(1, numPoints * rightNormalizePct / 100.0).toInt
-    for (i <- start until numPoints) {
-      val x = ext * i.toDouble / numPoints + domain.min
-      for (func <- functions) {
-        range = range.add(func.getValue(x))
+      val start: Int = Math.max(1, numPoints * rightNormalizePct / 100.0).toInt
+      for (i <- start until numPoints) {
+        val x = ext * i.toDouble / numPoints + domain.min
+        for (func <- functions) {
+          range = range.add(func.getValue(x))
+        }
       }
+      range
     }
-    range
   }
 }
