@@ -20,7 +20,8 @@ object HistogramRenderer {
   private val BOLD_FONT = new Font("Sanserif", Font.BOLD, 12)
   private val DEFAULT_LABEL_WIDTH = 30
   private val MARGIN: Int = 24
-  private val TICK_LENGTH = 3
+  private val TICK_LENGTH = 2
+  private val NARROW_X_THRESH = 390
 }
 
 /**
@@ -98,9 +99,23 @@ class HistogramRenderer(val data: Array[Int], val xFunction: InvertibleFunction)
     // x axis
     g2.drawLine(MARGIN - 1, height - MARGIN - 1, MARGIN - 1 + width, height - MARGIN - 1)
     val numTrials = formatNumber(model.sum)
-    g2.drawString(AppContext.getLabel("HEIGHT") + " = " + formatNumber(maxHeight), MARGIN / 3, MARGIN - 2)
-    g2.drawString(AppContext.getLabel("NUM_TRIALS") + " = " + numTrials, this.width - 300, MARGIN - 2)
-    g2.drawString(AppContext.getLabel("MEAN") + " = " + formatNumber(model.mean), this.width - 130, MARGIN - 2)
+    val yOffset = 8
+
+    val trialsX = width - (if (width > NARROW_X_THRESH) 230 + 0.2 * width else 210).toInt
+    val meanX = width - (if (width > NARROW_X_THRESH) 170 + 0.1 * width else 80).toInt
+    g2.drawString(AppContext.getLabel("HEIGHT") + " = " + formatNumber(maxHeight), MARGIN / 3, MARGIN - yOffset)
+    if (width > 0.7 * NARROW_X_THRESH) {
+      g2.drawString(AppContext.getLabel("NUM_TRIALS") + " = " + numTrials, trialsX, MARGIN - yOffset)
+    }
+    g2.setFont(BOLD_FONT)
+    if (width > 0.4 * NARROW_X_THRESH) {
+      g2.drawString(AppContext.getLabel("MEAN") + " = " + formatNumber(model.mean), meanX, MARGIN - yOffset)
+    }
+    if (width > NARROW_X_THRESH) {
+      val median = model.calcMedian(model.calcMedianPos)
+      g2.drawString(AppContext.getLabel("MEDIAN") + " = " + formatNumber(median), width - 90, MARGIN - yOffset)
+    }
+    g2.setFont(FONT)
   }
 
   private def drawVerticalMarkers(g2: Graphics2D, width: Double): Unit = {
@@ -153,7 +168,7 @@ class HistogramRenderer(val data: Array[Int], val xFunction: InvertibleFunction)
   private def drawLabelIfNeeded(g2: Graphics2D, xpos: Float, xIdx: Int): Unit = {
     val xValue = xFunction.getInverseValue(xIdx)
     val x = (xpos + barWidth / 2).toInt
-    val labelXPos = x - 20
+    val metrics = g2.getFontMetrics
     var drawingLabel = false
     val labelSkip = (maxLabelWidth + 10) * model.numBars / width
     val closeToZero = Math.abs(xpos - zeroXPos) < maxLabelWidth / 2
@@ -163,14 +178,13 @@ class HistogramRenderer(val data: Array[Int], val xFunction: InvertibleFunction)
       g2.drawLine(zeroXPos, height - MARGIN + TICK_LENGTH + 4, zeroXPos, height - MARGIN - 2) // zero tick
       g2.setFont(FONT)
     }
-    else if (model.numBars < maxNumLabels) { // then draw all labels
-      g2.drawString(formatter.format(xValue), labelXPos, height - 5)
+    else if (model.numBars < maxNumLabels || xIdx % labelSkip == 0) {
       drawingLabel = true
+      val label = formatter.format(xValue)
+      val labelXPos = x - metrics.stringWidth(label) / 2
+      g2.drawString(label, labelXPos, height - 5)
     }
-    else if (xIdx % labelSkip == 0) { // sparse labeling
-      g2.drawString(formatter.format(xValue), labelXPos, height - 5)
-      drawingLabel = true
-    }
+
     val skipD2 = Math.max(1, labelSkip / 2)
     val skipD5 = Math.max(1, labelSkip / 5)
     if (labelSkip % 2 == 0 && xIdx % skipD2 == 0)
@@ -178,7 +192,7 @@ class HistogramRenderer(val data: Array[Int], val xFunction: InvertibleFunction)
     else if (labelSkip % 5 == 0 && xIdx % skipD5 == 0)
       g2.drawLine(x, height - MARGIN + TICK_LENGTH - 2, x, height - MARGIN)
     if (drawingLabel)
-      g2.drawLine(x, height - MARGIN + TICK_LENGTH + 5, x, height - MARGIN - 2)
+      g2.drawLine(x, height - MARGIN + TICK_LENGTH + 4, x, height - MARGIN - 2)
   }
 
   private def clearBackground(g2: Graphics2D): Unit = {

@@ -30,12 +30,7 @@ class UberApp() extends ApplicationFrame("UberApp Demo") {
     val image = GUIUtil.getIcon(UberApp.IMAGE_ROOT + "pool_pennies_small.jpg")
     new SplashScreen(image, this, 2000)
 
-    val mainPanel = new JTabbedPane
-
-    mainPanel.addTab("Input Elements", new MainTexturePanel)
-    mainPanel.addTab("Histogram", new HistogramTestPanel)
-    mainPanel.addTab("Multi-Function", new MultiFunctionTestPanel)
-    this.add(mainPanel)
+    this.add(new UberTabbedPanel())
     super.createUI()
   }
 }

@@ -22,12 +22,14 @@ class HistogramModel(val data: Array[Int], val xFunction: InvertibleFunction) {
   def getMaxHeight = Math.max(1, data.max)
 
   // Used only by unit test
-  def calcMedian: Double = {
-    val medianPos = calcMedianPos
+  def calcMedian(medianPos: Int): Double = {
     val rightVal = if (medianPos >= numBars) xFunction.getDomain.max else getValueForPosition(medianPos + 1)
     (getValueForPosition(medianPos) + rightVal) / 2.0
   }
 
+  /**
+    * @param xValue add some data to the histogram. This will change bar height representing count for specified value.
+    */
   def increment(xValue: Double): Unit = {
     val xPos = xFunction.getValue(xValue).toInt
     // it has to be in range to be shown in the histogram.

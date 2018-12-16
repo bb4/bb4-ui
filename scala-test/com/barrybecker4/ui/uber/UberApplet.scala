@@ -24,18 +24,12 @@ object UberApplet {
   * @author Barry Becker
   */
 class UberApplet() extends ApplicationApplet {
+
   override protected def createMainPanel: JPanel = {
     val mainPanel = new JPanel
-    val tabbedPanel = new JTabbedPane
-    //mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-    tabbedPanel.addTab("Input Elements", new MainTexturePanel)
-    tabbedPanel.addTab("Histogram", new HistogramTestPanel)
-    tabbedPanel.addTab("Multi-Function", new MultiFunctionTestPanel)
-    //this.add(mainPanel);
     mainPanel.setLayout(new BorderLayout)
-    mainPanel.add(tabbedPanel, BorderLayout.CENTER)
+    mainPanel.add(new UberTabbedPanel, BorderLayout.CENTER)
     mainPanel
-    //super.createUI();
   }
 
   override protected def getResourceList: util.List[String] = {
@@ -43,7 +37,6 @@ class UberApplet() extends ApplicationApplet {
     list.add("com.barrybecker4.ui.uber.message")
     list
   }
-
 
   protected def createUI(): Unit = {}
 }

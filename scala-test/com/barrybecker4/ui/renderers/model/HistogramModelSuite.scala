@@ -129,7 +129,7 @@ class HistogramModelSuite extends FunSuite {
                    expMean: Double, expSum: Double, expMedianPos: Int, expMedian: Double) = {
     val expResult = Result(expMean, expSum, expMedianPos, expMedian)
     val medianPos = model.calcMedianPos
-    val actResult = Result(model.mean, model.sum, medianPos, model.calcMedian)
+    val actResult = Result(model.mean, model.sum, medianPos, model.calcMedian(medianPos))
     assertResult(expResult) {actResult}
   }
 }
