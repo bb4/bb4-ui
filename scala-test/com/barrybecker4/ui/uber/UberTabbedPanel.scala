@@ -7,6 +7,8 @@ class UberTabbedPanel extends JTabbedPane {
 
   addTab("Input Elements", new MainTexturePanel)
   addTab("Simple Histogram", new SimpleHistogramTestPanel)
+  addTab("Integral Histogram", new IntegralHistogramTestPanel)
   addTab("ComplexHistogram", new ComplexHistogramTestPanel)
-  addTab("Multi-Function", new MultiFunctionTestPanel)
+  addTab("Multi-Function1", new MultiFunctionTestPanel)
+  addTab("Multi-Function2", new ComplexMultiFunctionTestPanel)
 }

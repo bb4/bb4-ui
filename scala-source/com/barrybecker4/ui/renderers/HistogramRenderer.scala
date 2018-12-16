@@ -27,14 +27,19 @@ object HistogramRenderer {
 /**
   * This class renders a histogram.
   * The histogram is defined as an array of integers.
-  * @param data the array to hold counts for each x axis position. y values for every point on the x axis.
-  * @param xFunction a way to scale the values on the x axis.
-  *             This function takes an x value in the domain space and maps it to a bin index location.
+  *
+  * @param data            the array to hold counts for each x axis position. y values for every point on the x axis.
+  * @param xFunction       a way to scale the values on the x axis.
+  *                        This function takes an x value in the domain space and maps it to a bin index location.
+  * @param integralXValues if true, then the x values will assumed to be only equal to the low bin cutPoint value.
+  *                        This implies that the the median only be one of those low bin cutPoint values.
   * @author Barry Becker
   */
-class HistogramRenderer(val data: Array[Int], val xFunction: InvertibleFunction) {
+class HistogramRenderer(val data: Array[Int],
+                        val xFunction: InvertibleFunction,
+                        val integralXValues: Boolean = false) {
 
-  private val model = new HistogramModel(data, xFunction)
+  private val model = new HistogramModel(data, xFunction, integralXValues)
   private var width = 0
   private var height = 0
   private var maxNumLabels = 0

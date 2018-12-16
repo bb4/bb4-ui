@@ -36,6 +36,9 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
 
   def setUseAntialiasing(use: Boolean): Unit = { useAntialiasing = use }
 
+  /**
+    * @param pct percent of rightmost points to include when determining the y-extent
+    */
   def setRightNormalizePercent(pct: Int): Unit = {
     assert(pct > 0 && pct <= 100)
     rightNormalizePct = pct
@@ -89,8 +92,11 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
     val chartWidth = width - xOffset - LEFT_MARGIN - MARGIN
     for (i <- cutPoints.indices) {
       val label = cutPointLabels(i)
-      val xPos = (xOffset + LEFT_MARGIN - 3 + chartWidth * (cutPoints(i) - xRange.min) / ext).toFloat
-      g2.drawString(label, xPos - 2, height - MARGIN + 15)
+      val xPos = (xOffset + LEFT_MARGIN + chartWidth * (cutPoints(i) - xRange.min) / ext).toInt
+      g2.drawString(label, xPos - 5, height - MARGIN + 17)
+
+      // draw tick
+      g2.drawLine(xPos, height - MARGIN + 4, xPos, height - MARGIN - 1)
     }
 
     val eps = xRange.getExtent * 0.05
@@ -110,7 +116,7 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
       val domain = functions.head.getDomain
       val ext = domain.getExtent
 
-      val start: Int = Math.max(1, numPoints * rightNormalizePct / 100.0).toInt
+      val start: Int = Math.max(1, numPoints * (1.0 - rightNormalizePct / 100.0)).toInt
       for (i <- start until numPoints) {
         val x = ext * i.toDouble / numPoints + domain.min
         for (func <- functions) {

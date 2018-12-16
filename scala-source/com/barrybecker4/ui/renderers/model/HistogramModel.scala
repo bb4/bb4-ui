@@ -2,18 +2,22 @@
 package com.barrybecker4.ui.renderers.model
 
 import com.barrybecker4.common.math.function.InvertibleFunction
-import com.barrybecker4.common.math.Range
+
 
 /**
-  * Mainages the statistics for a histogram.
+  * Manages the statistics for a histogram.
   * The histogram this represent can be incrementally modified.
   * @param data the initial histogram data
   * @param xFunction manner in which the x domain is mapped. For example it can be linear or log scale.
+  * @param integralXValues if true, then the x values will assumed to be only equal to the low bin cutPoint value.
+  *                       This implies that the the median only be one of those low bin cutPoint values.
   */
-class HistogramModel(val data: Array[Int], val xFunction: InvertibleFunction) {
+class HistogramModel(val data: Array[Int],
+                     val xFunction: InvertibleFunction,
+                     val integralXValues: Boolean = false) {
 
   assert(!data.exists(_ < 0), "Histograms can only have non-negative values")
-  var sum = data.sum
+  var sum: Double = data.sum
   var mean: Double = calcMean()
 
   def numBars: Int = this.data.length
@@ -23,8 +27,12 @@ class HistogramModel(val data: Array[Int], val xFunction: InvertibleFunction) {
 
   // Used only by unit test
   def calcMedian(medianPos: Int): Double = {
-    val rightVal = if (medianPos >= numBars) xFunction.getDomain.max else getValueForPosition(medianPos + 1)
-    (getValueForPosition(medianPos) + rightVal) / 2.0
+    val m = getValueForPosition(medianPos)
+    if (integralXValues) m
+    else {
+      val rightVal = if (medianPos >= numBars) xFunction.getDomain.max else getValueForPosition(medianPos + 1)
+      (m + rightVal) / 2.0
+    }
   }
 
   /**
@@ -42,8 +50,10 @@ class HistogramModel(val data: Array[Int], val xFunction: InvertibleFunction) {
     var sumXValues: Double = 0
     for (i <- data.indices) {
       // the bin holds all values between xInverse(i) and xInverse(i + 1)
-      val binAvgX = (xFunction.getInverseValue(i) + xFunction.getInverseValue(i + 1)) / 2.0
-        //xFunction.getInverseValue(i)
+      val lowInverse = xFunction.getInverseValue(i)
+      val binAvgX =
+        if (integralXValues) lowInverse
+        else (lowInverse + xFunction.getInverseValue(i + 1)) / 2.0
       sumXValues += data(i) * binAvgX
     }
     if (sum == 0) 0 else sumXValues / sum

@@ -123,6 +123,115 @@ class HistogramModelSuite extends FunSuite {
     verifyResult(model, 71.5,2.0,100,3.1805863849298888)
   }
 
+  // integral versions of above
+
+  test("model construction 2 bins (1, 2) low median (integral)" ) {
+    val data = Array(2, 1)
+    val model = new HistogramModel(data, new LinearFunction(Range(1, 2), data.length), true)
+    verifyResult(model, 1.1666666666666667,3.0,0,1.0)
+  }
+
+  test("model construction 2 bins (2, 3) low median (integral)" ) {
+    val data = Array(2, 1)
+    val model = new HistogramModel(data, new LinearFunction(Range(2, 3), data.length), true)
+    verifyResult(model, 2.1666666666666665,3.0,0,2.0)
+  }
+
+  test("model construction 2 bins (1, 3) low median (integral)" ) {
+    val data = Array(2, 1)
+    val model = new HistogramModel(data, new LinearFunction(Range(1, 3), data.length), true)
+    verifyResult(model, 1.3333333333333333,3.0,0,1.0)
+  }
+
+  test("model construction 2 bins (1, 2) high median (integral)" ) {
+    val data = Array(1, 2)
+    val model = new HistogramModel(data, new LinearFunction(Range(1, 2), data.length), true)
+    verifyResult(model, 1.3333333333333333,3.0,1,1.5)
+  }
+
+  test("model construction 2 bins (1, 3) high median (integral)" ) {
+    val data = Array(1, 2)
+    val model = new HistogramModel(data, new LinearFunction(Range(1, 3), data.length), true)
+    verifyResult(model, 1.6666666666666667, 3, 1, 2.0)
+  }
+
+  test("model construction 2 bins (1, 3) very high median (integral)" ) {
+    val data = Array(1, 3)
+    val model = new HistogramModel(data, new LinearFunction(Range(1, 3), data.length), true)
+    verifyResult(model, 1.75, 4, 1, 2.0)
+  }
+
+  test("model construction with 3 bins (integral)") {
+    val data = Array(2, 3, 5)
+    val model = new HistogramModel(data, new LinearFunction(Range(0, 12), data.length), true)
+    verifyResult(model, 5.2,10.0,1,4.0)
+  }
+
+  test("model construction 3 bins (1, 3)  (integral)" ) {
+    val data = Array(1, 4, 2)
+    val model = new HistogramModel(data, new LinearFunction(Range(1, 4), data.length), true)
+    verifyResult(model, 2.142857142857143,7.0,1,2.0)
+  }
+
+  test("model construction 4 bins (1, 4)  (integral)" ) {
+    val data = Array(2, 4, 2, 3)
+    val model = new HistogramModel(data, new LinearFunction(Range(1, 5), data.length), true)
+    verifyResult(model, 2.5454545454545454,11.0,1,2.0)
+  }
+
+  test("model construction 4 bins (0, 100)  (integral)" ) {
+    val data = Array(1, 2, 2, 3)  // 0, 25, 50, 75
+    val model = new HistogramModel(data, new LinearFunction(Range(0, 100), data.length), true)
+    verifyResult(model,46.875,8.0,2,50.0)
+  }
+
+  test("incrementing model when 2 bins (0, 100)  (integral)" ) {
+    val data = Array(0, 0)
+    val model = new HistogramModel(data, new LinearFunction(Range(0, 100), data.length), true)
+    model.increment(48)
+    model.increment(95)
+    verifyResult(model, 71.5,2.0,0,0.0) // expMedian wrong
+  }
+
+  test("incrementing model when 3 bins (0, 4)  (integral)" ) {
+    val data = Array(0, 0, 0)
+    val model = new HistogramModel(data, new LinearFunction(Range(0, 4), data.length), true)
+    model.increment(1)
+    model.increment(1)
+    model.increment(3)
+    verifyResult(model, 1.6666666666666667,3.0,0,0.0)
+  }
+
+  test("incrementing model with point outside domain when 3 bins (0, 4)  (integral)" ) {
+    val data = Array(0, 0, 0)
+    val model = new HistogramModel(data, new LinearFunction(Range(0, 4), data.length), true)
+    model.increment(1)
+    model.increment(1)
+    model.increment(100)
+    model.increment(101)
+    model.increment(3)
+    verifyResult(model, 41.2,5.0,2,2.6666666666666665)
+  }
+
+  test("incrementing model when 2 bins (0, 100) and log function on x (integral)" ) {
+    val data = Array(0, 0)
+    val xLogScale = 200
+    val model = new HistogramModel(data, new LogFunction(xLogScale, 10.0, false), true)
+    model.increment(48)
+    model.increment(95)
+    verifyResult(model, 71.5,2.0,1,1.0115794542598986)
+  }
+
+  test("incrementing model when 100 bins (0, 101) and log function on x (integral)" ) {
+    val data = Array.fill(101)(0)
+    val xLogScale = 200
+    val model = new HistogramModel(data, new LogFunction(xLogScale, 10.0, false), true)
+    model.increment(48)
+    model.increment(95)
+    verifyResult(model, 71.5,2.0,100,3.1622776601683795)
+  }
+
+
   private case class Result(expMean: Double, expSum: Double, expMedianPos: Int, expMedian: Double)
 
   private def verifyResult(model: HistogramModel,
