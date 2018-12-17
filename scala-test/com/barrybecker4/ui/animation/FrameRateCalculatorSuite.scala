@@ -76,7 +76,6 @@ class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
     calculator.setPaused(false)
     ThreadUtil.sleep(50)
     calculator.setPaused(true)
-    calculator.setPaused(true)
     ThreadUtil.sleep(200)
     calculator.setPaused(false)
     calculator.incrementFrameCount()
@@ -87,6 +86,31 @@ class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
     calculator.setPaused(false)
     calculator.incrementFrameCount()
     assertEquals("Unexpected frame rate.", 28.0, calculator.getFrameRate, 4.0)
+  }
+
+  test("FrameRateAWithTwoLongPausesAndManyIncrements") {
+    calculator.setPaused(false)
+    for (i <- 0 to 10)
+      calculator.incrementFrameCount()
+    ThreadUtil.sleep(50)
+    calculator.setPaused(true)
+    for (i <- 0 to 10)
+      calculator.incrementFrameCount()
+    ThreadUtil.sleep(200)
+    calculator.setPaused(false)
+    for (i <- 0 to 10)
+      calculator.incrementFrameCount()
+    ThreadUtil.sleep(50)
+    calculator.setPaused(false)
+    for (i <- 0 to 10)
+      calculator.incrementFrameCount()
+    calculator.setPaused(true)
+    ThreadUtil.sleep(200)
+    calculator.setPaused(false)
+    for (i <- 0 to 10)
+      calculator.incrementFrameCount()
+    ThreadUtil.sleep(40)
+    assertEquals("Unexpected frame rate.", 348.0, calculator.getFrameRate, 6.0)
   }
 
   test("FrameRateAfter3WithDelayOf50") {
@@ -110,7 +134,7 @@ class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
   }
 
   test("FrameRateAfterFilled") {
-    verifyFrameRateAfterN(100, 0, Double.PositiveInfinity)
+    verifyFrameRateAfterN(100, 0, 0)
   }
 
   test("FrameRateWithDelayAfterFilled100") {
@@ -120,10 +144,7 @@ class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
   test("FrameRateWithDelayAfterFilled200") {
     verifyFrameRateAfterN(200, 20, 47, 8.0)
   }
-  /*
-  test("FrameRateWithDelayAfterFilled200") {
-      verifyFrameRateAfterN(200, 10, 100.0);
-  } */
+
 
   private def verifyFrameRateAfterN(numFrames: Int, frameDelay: Int, expRate: Double): Unit = {
     verifyFrameRateAfterN(numFrames, frameDelay, expRate, 3.0)

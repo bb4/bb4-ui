@@ -9,7 +9,7 @@ import FrameRateCalculator.HISTORY_LENGTH
   * @author Barry Becker
   */
 object FrameRateCalculator {
-  /** keep times for this many recent frames */
+  /** keep times for this many recent frames so we can get a more accurate averate */
   private val HISTORY_LENGTH = 32
 }
 
@@ -32,11 +32,16 @@ class FrameRateCalculator() {
   private var totalPauseTime: Long = 0L
   private var isPaused = false
 
-  /** This must be called right before each frame is rendered. */
+  /**
+    * This must be called right before each frame is rendered.
+    * Calling it when paused does nothing.
+    */
   def incrementFrameCount(): Unit = {
-    frameCount += 1
-    previousTimes(getIndex) = System.currentTimeMillis
-    dirty = true
+    if (!isPaused) {
+      frameCount += 1
+      previousTimes(getIndex) = System.currentTimeMillis - totalPauseTime
+      dirty = true
+    }
   }
 
   /** @return the number of animation frames so far */
@@ -61,13 +66,14 @@ class FrameRateCalculator() {
   private def calculateFrameRate() = {
     var deltaTime = .0
     val index = getIndex
+    val now = System.currentTimeMillis - totalPauseTime
     if (frameCount < HISTORY_LENGTH) {
-      deltaTime = System.currentTimeMillis - previousTimes(0) - totalPauseTime
+      deltaTime = now - previousTimes(0)
       frameRate = if (deltaTime == 0) 0.0 else (1000.0 * index) / deltaTime
     }
     else {
-      deltaTime = System.currentTimeMillis - previousTimes((index + 1) % HISTORY_LENGTH) - totalPauseTime
-      frameRate = (1000.0 * HISTORY_LENGTH) / deltaTime
+      deltaTime = now - previousTimes((index + 1) % HISTORY_LENGTH)
+      frameRate = if (deltaTime == 0) 0 else (1000.0 * HISTORY_LENGTH) / deltaTime
     }
     if (frameRate < 0) {
       throw new IllegalStateException(
