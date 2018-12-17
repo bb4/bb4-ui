@@ -1,6 +1,8 @@
 // Copyright by Barry G. Becker, 2017 - 2018. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.animation
 
+import FrameRateCalculator.HISTORY_LENGTH
+
 /**
   * Calculates the frame rate given previous times in milliseconds
   * @see AnimationComponent
@@ -14,7 +16,7 @@ object FrameRateCalculator {
 class FrameRateCalculator() {
 
   /** previous times in milliseconds. */
-  private val previousTimes = new Array[Long](FrameRateCalculator.HISTORY_LENGTH)
+  private val previousTimes = new Array[Long](HISTORY_LENGTH)
 
   /** incremented for every frame that is shown */
   private var frameCount = 0L
@@ -57,23 +59,24 @@ class FrameRateCalculator() {
     * Use the more stable method of calculation if all history is available.
     */
   private def calculateFrameRate() = {
-    val now = System.currentTimeMillis
     var deltaTime = .0
     val index = getIndex
-    if (frameCount < FrameRateCalculator.HISTORY_LENGTH) {
-      deltaTime = now - previousTimes(0) - totalPauseTime
+    if (frameCount < HISTORY_LENGTH) {
+      deltaTime = System.currentTimeMillis - previousTimes(0) - totalPauseTime
       frameRate = if (deltaTime == 0) 0.0 else (1000.0 * index) / deltaTime
     }
     else {
-      deltaTime = now - previousTimes((index + 1) % FrameRateCalculator.HISTORY_LENGTH) - totalPauseTime
-      frameRate = (1000.0 * FrameRateCalculator.HISTORY_LENGTH) / deltaTime
+      deltaTime = System.currentTimeMillis - previousTimes((index + 1) % HISTORY_LENGTH) - totalPauseTime
+      frameRate = (1000.0 * HISTORY_LENGTH) / deltaTime
     }
     if (frameRate < 0) {
       throw new IllegalStateException(
-        s"The frame-rate unexpectedly fell below 0. index=$index deltaTime=$deltaTime fct=$frameCount fr=$frameRate")
+        s"The frame-rate unexpectedly fell below 0. " +
+          s"index=$index deltaTime=$deltaTime fct=$frameCount fr=$frameRate totalPause=$totalPauseTime " +
+          s"prev=${previousTimes((index + 1) % HISTORY_LENGTH)}")
     }
     dirty = false
   }
 
-  private def getIndex = (frameCount % FrameRateCalculator.HISTORY_LENGTH).toInt
+  private def getIndex = (frameCount % HISTORY_LENGTH).toInt
 }

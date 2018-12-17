@@ -114,9 +114,12 @@ class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
   }
 
   test("FrameRateWithDelayAfterFilled100") {
-    verifyFrameRateAfterN(100, 10, 95.0, 11.0)
+    verifyFrameRateAfterN(100, 10, 91, 8.0)
   }
 
+  test("FrameRateWithDelayAfterFilled200") {
+    verifyFrameRateAfterN(200, 20, 47, 8.0)
+  }
   /*
   test("FrameRateWithDelayAfterFilled200") {
       verifyFrameRateAfterN(200, 10, 100.0);
