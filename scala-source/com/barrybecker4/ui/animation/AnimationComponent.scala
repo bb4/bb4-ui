@@ -12,8 +12,8 @@ import java.awt.event.ItemListener
 
 /**
   * A ui component for showing animations.
-  * The calculation and animation rendering are done in a separate thread so the
-  * rest of the ui does not lock up.
+  * The calculation and animation rendering are done in a separate thread so the rest of the ui does not lock up.
+  * @author Barry Becker
   */
 abstract class AnimationComponent extends JComponent with Runnable {
   /** parameters controlling the animation */

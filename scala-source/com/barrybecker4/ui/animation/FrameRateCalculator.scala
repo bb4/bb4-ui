@@ -1,22 +1,24 @@
-// Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2017 - 2018. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.animation
 
 /**
-  * Calculates the framerate given previous times in milliseconds
-  *
+  * Calculates the frame rate given previous times in milliseconds
   * @see AnimationComponent
   * @author Barry Becker
   */
 object FrameRateCalculator {
-  /** keep times for the last 64 frames */
+  /** keep times for this many recent frames */
   private val HISTORY_LENGTH = 32
 }
 
 class FrameRateCalculator() {
+
   /** previous times in milliseconds. */
-  private var previousTimes = new Array[Long](FrameRateCalculator.HISTORY_LENGTH)
+  private val previousTimes = new Array[Long](FrameRateCalculator.HISTORY_LENGTH)
+
   /** incremented for every frame that is shown */
   private var frameCount = 0L
+
   previousTimes(0) = System.currentTimeMillis
 
   /** frames per second. */
@@ -46,13 +48,12 @@ class FrameRateCalculator() {
   def setPaused(paused: Boolean): Unit = {
     if (paused != isPaused) {
       if (paused) startPauseTime = System.currentTimeMillis
-      else totalPauseTime += (System.currentTimeMillis - startPauseTime)
+      else totalPauseTime += System.currentTimeMillis - startPauseTime
       isPaused = paused
     }
   }
 
-  /**
-    * Determine the number of frames per second as a moving average.
+  /** Determine the number of frames per second as a moving average.
     * Use the more stable method of calculation if all history is available.
     */
   private def calculateFrameRate() = {
@@ -61,14 +62,16 @@ class FrameRateCalculator() {
     val index = getIndex
     if (frameCount < FrameRateCalculator.HISTORY_LENGTH) {
       deltaTime = now - previousTimes(0) - totalPauseTime
-      frameRate = if (deltaTime == 0) 0.0
-      else (1000.0 * index) / deltaTime
+      frameRate = if (deltaTime == 0) 0.0 else (1000.0 * index) / deltaTime
     }
     else {
       deltaTime = now - previousTimes((index + 1) % FrameRateCalculator.HISTORY_LENGTH) - totalPauseTime
       frameRate = (1000.0 * FrameRateCalculator.HISTORY_LENGTH) / deltaTime
     }
-    //Sprintln("index=" + index + " deltaTime="  + deltaTime + " fct=" + frameCount + " fr="+ frameRate);
+    if (frameRate < 0) {
+      throw new IllegalStateException(
+        s"The frame-rate unexpectedly fell below 0. index=$index deltaTime=$deltaTime fct=$frameCount fr=$frameRate")
+    }
     dirty = false
   }
 

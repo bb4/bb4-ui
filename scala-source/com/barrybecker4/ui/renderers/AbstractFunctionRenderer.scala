@@ -15,7 +15,7 @@ import AbstractFunctionRenderer._
   */
 object AbstractFunctionRenderer {
   private val BACKGROUND_COLOR = new Color(255, 255, 255)
-  private val LABEL_COLOR = Color.BLACK
+  val LABEL_COLOR = Color.BLACK
   val ORIGIN_LINE_COLOR = new Color(20, 0, 0, 120)
   private[renderers] val LEFT_MARGIN = 75
   private[renderers] val MARGIN = 40
@@ -110,6 +110,7 @@ abstract class AbstractFunctionRenderer {
       g2.setColor(ORIGIN_LINE_COLOR)
       g2.drawLine(xOffset + LEFT_MARGIN - 1, originY.toInt,
                   xOffset + LEFT_MARGIN - 1 + width, originY.toInt)
+      g2.setColor(LABEL_COLOR)
     }
   }
 

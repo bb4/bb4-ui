@@ -93,10 +93,10 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
     for (i <- cutPoints.indices) {
       val label = cutPointLabels(i)
       val xPos = (xOffset + LEFT_MARGIN + chartWidth * (cutPoints(i) - xRange.min) / ext).toInt
-      g2.drawString(label, xPos - 5, height - MARGIN + 17)
+      val y = yOffset + height - MARGIN
+      g2.drawString(label, xPos - 5, y + 17)
 
-      // draw tick
-      g2.drawLine(xPos, height - MARGIN + 4, xPos, height - MARGIN - 1)
+      g2.drawLine(xPos, y + 4, xPos, y - 1)  // axis tick
     }
 
     val eps = xRange.getExtent * 0.05
@@ -105,6 +105,7 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
       val originX = (xOffset + LEFT_MARGIN + chartWidth * Math.abs(xRange.min) / ext).toInt
       g2.setColor(ORIGIN_LINE_COLOR)
       g2.drawLine(originX, height - MARGIN, originX, MARGIN)
+      g2.setColor(LABEL_COLOR)
     }
   }
 
