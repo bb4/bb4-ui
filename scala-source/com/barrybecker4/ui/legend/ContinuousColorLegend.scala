@@ -48,8 +48,7 @@ class ContinuousColorLegend(var title: String, var colormap: ColorMap, val edita
     add(labelsPanel, BorderLayout.SOUTH)
     setMaximumSize(new Dimension(2000, height))
     this.addComponentListener(new ComponentAdapter() {
-      override def componentResized(ce: ComponentEvent): Unit = {
-      }
+      override def componentResized(ce: ComponentEvent): Unit = {}
     })
   }
 

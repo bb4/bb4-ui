@@ -32,6 +32,7 @@ class LegendEditBar private[legend](var cmap: ColorMap, var owner: Component)
   private var dragPosition = 0
   addMouseListener(this)
   addMouseMotionListener(this)
+  setToolTipText("Create marker with double-click, remove with right-click, and drag to move them")
 
   override def paintComponent(g: Graphics): Unit = {
     super.paintComponents(g)
@@ -89,7 +90,8 @@ class LegendEditBar private[legend](var cmap: ColorMap, var owner: Component)
     }
     else if (e.getClickCount > 1) {
       val oldColor = cmap.getColorForValue(getValueForPosition(xpos))
-      val newControlColor = JColorChooser.showDialog(this, AppContext.getLabel("NEW_POINT_PATH"), oldColor)
+      val newControlColor = JColorChooser.showDialog(this,
+        AppContext.getLabel("NEW_POINT_PATH"), oldColor)
       if (newControlColor != null) {
         if (index == -1) { // add a new control point and marker here if no point is double clicked on.
           cmap.insertControlPoint(getLeftControlIndex(xpos) + 1, getValueForPosition(xpos), newControlColor)
