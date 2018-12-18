@@ -6,6 +6,7 @@ import javax.swing.JTabbedPane
 class UberTabbedPanel extends JTabbedPane {
 
   addTab("Input Elements", new MainTexturePanel)
+  addTab("Players", new TablePanel())
   addTab("Simple Histogram", new SimpleHistogramTestPanel)
   addTab("Integral Histogram", new IntegralHistogramTestPanel)
   addTab("ComplexHistogram", new ComplexHistogramTestPanel)

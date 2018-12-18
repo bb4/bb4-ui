@@ -16,7 +16,7 @@ class ColorCellRenderer() extends DefaultTableCellRenderer {
 
   override def getTableCellRendererComponent(table: JTable, value: Any, isSelected: Boolean, hasFocus: Boolean,
                                              row: Int, col: Int): Component = {
-    val color = value.asInstanceOf[Color]
+    val color = if (value == null) Color.GRAY else value.asInstanceOf[Color]
     setBackground(color)
     setToolTipText(color.toString)
     this

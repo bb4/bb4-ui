@@ -31,9 +31,7 @@ abstract class TableBase() {
     initializeTable(rows)
   }
 
-  /**
-    * Constructor
-    * @param rows to initialize the rows in the table with.
+  /** @param rows to initialize the rows in the table with.
     */
   def this(rows: Seq[_], columnMeta: Array[TableColumnMeta]) {
     this()
@@ -43,6 +41,10 @@ abstract class TableBase() {
 
   def this(rows: java.util.ArrayList[AnyRef], columnMeta: Array[TableColumnMeta]) {
     this(conv(rows), columnMeta)
+  }
+
+  def this(rows: java.util.ArrayList[AnyRef], columnNames: Array[String]) {
+    this(conv(rows), columnNames)
   }
 
   protected def initColumnMeta(columnNames: Array[String]): Unit = {

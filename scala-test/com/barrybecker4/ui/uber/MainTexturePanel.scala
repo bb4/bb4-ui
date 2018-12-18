@@ -7,23 +7,21 @@ import com.barrybecker4.ui.components.ComplexNumberInput
 import com.barrybecker4.ui.components.NumberInput
 import com.barrybecker4.ui.components.TexturedPanel
 import com.barrybecker4.ui.util.{ColorMap, GUIUtil}
-import javax.swing.ImageIcon
 import javax.swing.JButton
 import javax.swing.JPanel
 import java.awt.{BorderLayout, Color, Dimension}
 import java.awt.event.{ActionEvent, ActionListener, KeyEvent, KeyListener}
-
 import com.barrybecker4.ui.legend.ContinuousColorLegend
 
+
+object MainTexturePanel {
+  val BACKGROUND_IMG = GUIUtil.getIcon(UberApp.IMAGE_ROOT + "ocean_trans_20.png")
+}
 
 /**
   * Use this class to test out the various UI components in this library.
   * @author Barry Becker
   */
-object MainTexturePanel {
-  private val BACKGROUND_IMG = GUIUtil.getIcon(UberApp.IMAGE_ROOT + "ocean_trans_20.png")
-}
-
 class MainTexturePanel() extends TexturedPanel(MainTexturePanel.BACKGROUND_IMG) with ActionListener with KeyListener {
   private var sampleInput1: NumberInput = _
   private var sampleInput2: NumberInput = _
