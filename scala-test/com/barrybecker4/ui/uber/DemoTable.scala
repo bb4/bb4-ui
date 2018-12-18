@@ -24,13 +24,13 @@ class DemoTable()
     colorMeta.setCellRenderer(new ColorCellRenderer)
     colorMeta.setCellEditor(new ColorCellEditor("Select player color"))
     colorMeta.setPreferredWidth(25)
-    colorMeta.setMinWidth(10)
-    colorMeta.setMaxWidth(305)
+    //colorMeta.setMinWidth(10)
+    //colorMeta.setMaxWidth(305)
 
     val nameMeta = columnMeta(NAME_INDEX)
     nameMeta.setPreferredWidth(100)
-    nameMeta.setMinWidth(50)
-    nameMeta.setMaxWidth(400)
+    //nameMeta.setMinWidth(50)
+    //nameMeta.setMaxWidth(400)
   }
 
   /**

@@ -42,9 +42,9 @@ class TableColumnMeta(var name: String, var tooltip: String) {
       c.setToolTipText(getTooltip)
       column.setHeaderRenderer(r)
     }
-    if (getMinWidth != null) column.setMinWidth(getMinWidth)
-    if (getPreferredWidth != null) column.setPreferredWidth(getPreferredWidth)
-    if (getMaxWidth != null) column.setMaxWidth(getMaxWidth)
+    if (getMinWidth != 0) column.setMinWidth(getMinWidth)
+    if (getPreferredWidth != 0) column.setPreferredWidth(getPreferredWidth)
+    if (getMaxWidth != 0) column.setMaxWidth(getMaxWidth)
     if (getCellRenderer != null) column.setCellRenderer(getCellRenderer)
     if (getCellEditor != null) column.setCellEditor(getCellEditor)
   }
