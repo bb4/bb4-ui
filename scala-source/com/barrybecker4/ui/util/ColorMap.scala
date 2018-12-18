@@ -6,7 +6,7 @@ import java.awt.Color
 
 /**
   * This class maps numbers to colors.
-  * The colors can include opacities and will get interpolated
+  * The colors can include opacities and will get interpolated.
   * The colormap can be dynamically changed by adding and removing control points.
   *
   * Give a list of (increasing) values and colors to map to.
@@ -34,8 +34,7 @@ class ColorMap(initialValues: Array[Double], initialColors: Array[Color]) {
 
   def getColorForValue(value: Int): Color = getColorForValue(value.toDouble)
 
-  /**
-    * @param value numeric value to get a color for from the continuous map.
+  /** @param value numeric value to get a color for from the continuous map.
     * @return color that corresponds to specified value.
     */
   def getColorForValue(value: Double): Color = {
@@ -43,40 +42,37 @@ class ColorMap(initialValues: Array[Double], initialColors: Array[Color]) {
     if (value <= values(0)) return colors(0)
     if (value >= values(len - 1)) return colors(len - 1)
     var i = 1
-    while ( {
-      i < len && value > values(i)
-    }) i += 1
+    while (i < len && value > values(i)) i += 1
     if (i == len) return colors(len - 1)
     val x = i.toDouble - 1.0 + (value - values(i - 1)) / (values(i) - values(i - 1))
     interpolate(x)
   }
 
-  /**
-    * Set the opacity for all the colors in the map.
-    * If they were set independently before, than that information will be lost.
+  /** Set the opacity for all the colors in the map.
+    * If they were set independently before, then that information will be lost.
     * @param alpha the new opacity value (0 is totally transparent, 255 is totally opaque).
     */
   def setGlobalAlpha(alpha: Int): Unit = {
     colors = colors.map(c => new Color(c.getRed, c.getGreen, c.getBlue, alpha))
   }
 
-  /**
-    * I don't think we should get a race condition because the static rgb variables are only used in this
-    * class and this method is synchronized. I want to avoid creating the rgb arrays each time the method is called.
-    * @param x value to return color for.
+  /** @param x value to return color for.
     * @return interpolated color
     */
   private def interpolate(x: Double) = {
     val i = x.toInt
     val delta = x - i.toDouble
-    val rgba: Array[Float] = new Array[Float](4)
-    val rgba1: Array[Float] = new Array[Float](4)
-    colors(i).getComponents(rgba)
-    colors(i + 1).getComponents(rgba1)
-    new Color((rgba(0) + delta * (rgba1(0) - rgba(0))).toFloat,
-              (rgba(1) + delta * (rgba1(1) - rgba(1))).toFloat,
-              (rgba(2) + delta * (rgba1(2) - rgba(2))).toFloat,
-              (rgba(3) + delta * (rgba1(3) - rgba(3))).toFloat)
+    if (i == colors.length - 1) colors(i)
+    else {
+      val rgba: Array[Float] = new Array[Float](4)
+      colors(i).getComponents(rgba)
+      val rgba1: Array[Float] = new Array[Float](4)
+      colors(i + 1).getComponents(rgba1)
+      new Color((rgba(0) + delta * (rgba1(0) - rgba(0))).toFloat,
+        (rgba(1) + delta * (rgba1(1) - rgba(1))).toFloat,
+        (rgba(2) + delta * (rgba1(2) - rgba(2))).toFloat,
+        (rgba(3) + delta * (rgba1(3) - rgba(3))).toFloat)
+    }
   }
 
   def getMinValue: Double = values(0)

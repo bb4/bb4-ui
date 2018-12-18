@@ -6,12 +6,14 @@ import com.barrybecker4.common.math.ComplexNumber
 import com.barrybecker4.ui.components.ComplexNumberInput
 import com.barrybecker4.ui.components.NumberInput
 import com.barrybecker4.ui.components.TexturedPanel
-import com.barrybecker4.ui.util.GUIUtil
+import com.barrybecker4.ui.util.{ColorMap, GUIUtil}
 import javax.swing.ImageIcon
 import javax.swing.JButton
 import javax.swing.JPanel
-import java.awt.BorderLayout
+import java.awt.{BorderLayout, Color, Dimension}
 import java.awt.event.{ActionEvent, ActionListener, KeyEvent, KeyListener}
+
+import com.barrybecker4.ui.legend.ContinuousColorLegend
 
 
 /**
@@ -41,15 +43,18 @@ class MainTexturePanel() extends TexturedPanel(MainTexturePanel.BACKGROUND_IMG) 
     sampleInput1 = new NumberInput(AppContext.getLabel("TEST_MESSAGE"))
     sampleInput2 = new NumberInput("label with initial value", 2)
     sampleInput2.setMaxAllowed(300)
-    integerInput = new NumberInput("some integer", 3, "some tooltip", 2, 99, true)
-    floatInput = new NumberInput("some float", 3, "some tooltip", 2, 99, false)
-    complexNumberInput = new ComplexNumberInput("My Complex Number blah blah bnk : ", new ComplexNumber(1.2, 2.3))
+    integerInput = new NumberInput("some integer", 3,
+      "some tooltip", 2, 99, true)
+    floatInput = new NumberInput("some float", 3,
+      "some tooltip", 2, 99, false)
+    complexNumberInput = new ComplexNumberInput("My Complex Number blah blah bnk : ",
+      new ComplexNumber(1.2, 2.3))
+
 
     sampleInput1.addKeyListener(this)
     sampleInput2.addKeyListener(this)
     integerInput.addKeyListener(this)
     floatInput.addKeyListener(this)
-
 
     val submitButton = new JButton("Submit")
     submitButton.addActionListener(this)
@@ -58,8 +63,19 @@ class MainTexturePanel() extends TexturedPanel(MainTexturePanel.BACKGROUND_IMG) 
     panel.add(integerInput)
     panel.add(floatInput)
     panel.add(complexNumberInput)
+    panel.add(createColorLegend())
     panel.add(submitButton)
     panel
+  }
+
+  private def createColorLegend(): ContinuousColorLegend = {
+    val colormap = new ColorMap(
+      Array(1.5, 2.5, 3.5, 4.5),
+      Array(Color.BLUE, Color.GREEN, Color.YELLOW, Color.RED)
+    )
+    val colorLegend = new ContinuousColorLegend("a colormap", colormap, true)
+    colorLegend.setPreferredSize(new Dimension(450, 50))
+    colorLegend
   }
 
   override def keyTyped(e: KeyEvent): Unit = {}
