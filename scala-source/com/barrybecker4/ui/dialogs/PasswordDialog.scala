@@ -28,15 +28,13 @@ class PasswordDialog(expectedPassword: String) extends AbstractDialog with Actio
   /** click this when ; the password has been entered. */
   private var okButton: GradientButton = _
 
+  showContent()
 
   def this() {
     this(DEFAULT_PASSWORD)
-    showContent()
   }
 
-  /**
-    * initialize the dialogs ui
-    */
+  /** initialize the dialogs ui */
   override def createDialogContent: JPanel = {
     enableEvents(AWTEvent.WINDOW_EVENT_MASK)
     this.setResizable(false)
@@ -55,8 +53,7 @@ class PasswordDialog(expectedPassword: String) extends AbstractDialog with Actio
     mainPanel
   }
 
-  /**
-    * Create the buttons that go at the bottom ( eg OK, Cancel, ...)
+  /** Create the buttons that go at the bottom ( eg OK, Cancel, ...)
     * @return panel with ok cancel buttons.
     */
   protected def createButtonsPanel: JPanel = {
@@ -82,8 +79,7 @@ class PasswordDialog(expectedPassword: String) extends AbstractDialog with Actio
       AppContext.getLabel("ERROR"), JOptionPane.ERROR_MESSAGE)
   }
 
-  /**
-    * Implements KeyListener interface.
+  /** Implements KeyListener interface.
     * Hitting enter is like clicking "ok"
     * @param key key that was typed.
     */

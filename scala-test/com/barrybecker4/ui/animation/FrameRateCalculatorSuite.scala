@@ -68,7 +68,7 @@ class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
     ThreadUtil.sleep(200)
     calculator.setPaused(false)
     calculator.incrementFrameCount()
-    assertEquals("Unexpected frame rate.", 30.0, calculator.getFrameRate, 1.9)
+    assertEquals("Unexpected frame rate.", 28.0, calculator.getFrameRate, 4.0)
   }
 
   test("FrameRateAWithTwoPauses") {
@@ -85,7 +85,7 @@ class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
     ThreadUtil.sleep(200)
     calculator.setPaused(false)
     calculator.incrementFrameCount()
-    assertEquals("Unexpected frame rate.", 28.0, calculator.getFrameRate, 4.0)
+    assertEquals("Unexpected frame rate.", 28.0, calculator.getFrameRate, 8.0)
   }
 
   test("FrameRateAWithTwoLongPausesAndManyIncrements") {
@@ -110,7 +110,7 @@ class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
     for (i <- 0 to 10)
       calculator.incrementFrameCount()
     ThreadUtil.sleep(40)
-    assertEquals("Unexpected frame rate.", 348.0, calculator.getFrameRate, 6.0)
+    assertEquals("Unexpected frame rate.", 346.0, calculator.getFrameRate, 12.0)
   }
 
   test("FrameRateAfter3WithDelayOf50") {
@@ -138,7 +138,7 @@ class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
   }
 
   test("FrameRateWithDelayAfterFilled100") {
-    verifyFrameRateAfterN(100, 10, 91, 8.0)
+    verifyFrameRateAfterN(100, 10, 92, 9.0)
   }
 
   test("FrameRateWithDelayAfterFilled200") {
