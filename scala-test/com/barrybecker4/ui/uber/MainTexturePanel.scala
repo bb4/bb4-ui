@@ -3,17 +3,20 @@ package com.barrybecker4.ui.uber
 
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.common.math.ComplexNumber
-import com.barrybecker4.ui.components.ComplexNumberInput
-import com.barrybecker4.ui.components.NumberInput
-import com.barrybecker4.ui.components.TexturedPanel
+import com.barrybecker4.ui.components.{ComplexNumberInput, GradientButton, NumberInput, TexturedPanel}
 import com.barrybecker4.ui.util.{ColorMap, GUIUtil}
 import javax.swing.JButton
 import javax.swing.JPanel
 import java.awt.{BorderLayout, Color, Dimension}
 import java.awt.event.{ActionEvent, ActionListener, KeyEvent, KeyListener}
 import com.barrybecker4.ui.legend.ContinuousColorLegend
+import com.barrybecker4.ui.dialogs.PasswordDialog
 
 
+/**
+  * Use this class to test out the various UI components in this library.
+  * @author Barry Becker
+  */
 object MainTexturePanel {
   val BACKGROUND_IMG = GUIUtil.getIcon(UberApp.IMAGE_ROOT + "ocean_trans_20.png")
 }
@@ -28,13 +31,13 @@ class MainTexturePanel() extends TexturedPanel(MainTexturePanel.BACKGROUND_IMG) 
   private var integerInput: NumberInput = _
   private var floatInput: NumberInput = _
   private var complexNumberInput: ComplexNumberInput = _
+  private var pwButton: GradientButton = _
 
   setLayout(new BorderLayout)
   val toolbar = new UberToolbar(this)
   add(toolbar, BorderLayout.NORTH)
   val numberInput: JPanel = createNumberInputPanel
   add(numberInput, BorderLayout.CENTER)
-
 
   private def createNumberInputPanel = {
     val panel = new TexturedPanel(MainTexturePanel.BACKGROUND_IMG)
@@ -56,12 +59,16 @@ class MainTexturePanel() extends TexturedPanel(MainTexturePanel.BACKGROUND_IMG) 
 
     val submitButton = new JButton("Submit")
     submitButton.addActionListener(this)
+    pwButton = new GradientButton("Login")
+    pwButton.addActionListener(this)
+
     panel.add(sampleInput1)
     panel.add(sampleInput2)
     panel.add(integerInput)
     panel.add(floatInput)
     panel.add(complexNumberInput)
     panel.add(createColorLegend())
+    panel.add(pwButton)
     panel.add(submitButton)
     panel
   }
@@ -85,5 +92,10 @@ class MainTexturePanel() extends TexturedPanel(MainTexturePanel.BACKGROUND_IMG) 
 
   override def actionPerformed(e: ActionEvent): Unit = {
     System.out.println("Action happened.The Complex Number is = " + complexNumberInput.getValue)
+    if (e.getSource eq pwButton) {
+      val pwDialog = new PasswordDialog("foo")
+      val canceled = pwDialog.showDialog
+      if (canceled) println("Canceled") else println("authorized")
+    }
   }
 }
