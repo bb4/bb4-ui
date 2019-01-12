@@ -91,7 +91,7 @@ class MainTexturePanel() extends TexturedPanel(MainTexturePanel.BACKGROUND_IMG) 
   }
 
   override def actionPerformed(e: ActionEvent): Unit = {
-    System.out.println("Action happened.The Complex Number is = " + complexNumberInput.getValue)
+    println("Action happened.The Complex Number is = " + complexNumberInput.getValue)
     if (e.getSource eq pwButton) {
       val pwDialog = new PasswordDialog("foo")
       val canceled = pwDialog.showDialog

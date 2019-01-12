@@ -34,8 +34,8 @@ object ComplexNumberInput {
 class ComplexNumberInput(val labelText: String, var initialValue: ComplexNumber,
                          val toolTip: String, val allowedRange: ComplexNumberRange) extends JPanel {
   setAllowedRange(allowedRange)
-  private var realNumberField = createNumberField(initialValue.real, toolTip)
-  private var imaginaryNumberField = createNumberField(initialValue.imaginary, toolTip)
+  private val realNumberField = createNumberField(initialValue.real, toolTip)
+  private val imaginaryNumberField = createNumberField(initialValue.imaginary, toolTip)
   private var range: ComplexNumberRange = _
 
   setLayout(new BorderLayout)
@@ -82,6 +82,7 @@ class ComplexNumberInput(val labelText: String, var initialValue: ComplexNumber,
     val max = range.point2.real
     getValue(realNumberField, min, max)
   }
+
   private def getImaginaryValue: Double = {
     val min = range.point1.imaginary
     val max = range.point2.imaginary
@@ -91,15 +92,16 @@ class ComplexNumberInput(val labelText: String, var initialValue: ComplexNumber,
   private def getValue(input: JTextField, min: Double, max: Double): Double = {
     val text = input.getText
     if (text.length == 0) return 0
-    var v = text.toDouble
+    val v = text.toDouble
     if (v < min) {
       input.setText(min.toString)
       min
     }
-    else {
+    else if (v > max) {
       input.setText(max.toString)
       max
     }
+    else v
   }
 
   override def setEnabled(enabled: Boolean): Unit = {
