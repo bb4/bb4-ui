@@ -38,11 +38,11 @@ class SingleFunctionRenderer(var function: Function) extends AbstractFunctionRen
   }
 
   override protected def getRange: Range = {
-    val range = new Range
+    var range = new Range
     val numPoints = getNumXPoints
     for (i <- 0 until numPoints) {
       val x = i.toDouble / numPoints
-      range.add(function.getValue(x))
+      range = range.add(function.getValue(x))
     }
     range
   }

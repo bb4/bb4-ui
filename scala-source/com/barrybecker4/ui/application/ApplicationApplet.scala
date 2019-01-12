@@ -9,7 +9,6 @@ import javax.swing.JApplet
 import javax.swing.JPanel
 import java.util
 
-import scala.collection.JavaConversions
 
 /**
   * Base class for programs that you want to be
