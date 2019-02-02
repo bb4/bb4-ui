@@ -1,12 +1,10 @@
-/* Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT */
+/* Copyright by Barry G. Becker, 2017 - 2019. Licensed under MIT License: http://www.opensource.org/licenses/MIT */
 package com.barrybecker4.ui.util
 
 import com.barrybecker4.common.app.ClassLoaderSingleton
 import com.barrybecker4.ui.components.SplashScreen
 import com.barrybecker4.ui.file.FileChooserUtil
 import com.barrybecker4.ui.themes.BarryTheme
-import javax.jnlp.BasicService
-import javax.jnlp.ServiceManager
 import javax.swing._
 import javax.swing.plaf.metal.MetalLookAndFeel
 import java.awt._
@@ -19,7 +17,7 @@ import java.io.File
 /**
   * This class implements a number of static utility functions that are useful when creating UIs.
   * I used to support running as applet or webstart separately from running as an application, but
-  * now I just run the applet as an application and it seems to work.
+  * now I just run the applet as an application.
   * @author Barry Becker
   */
 object GUIUtil {
@@ -29,9 +27,6 @@ object GUIUtil {
     * Only Serif and SansSerif seem to support everything.
     */
   val DEFAULT_FONT_FAMILY = "SansSerif" // NON-NLS
-
-  /** webstart services  */
-  private var basicService: BasicService = _
 
   /** Set the ui look and feel to my very own. */
   def setCustomLookAndFeel(): Unit = {
@@ -57,8 +52,7 @@ object GUIUtil {
       UIManager.put("AuditoryCues.playList", UIManager.get("AuditoryCues.allAuditoryCues"))
       theme.setUIManagerProperties()
     } catch {
-      case e: Exception =>
-        e.printStackTrace()
+      case e: Exception => e.printStackTrace()
     }
   }
 
@@ -185,23 +179,5 @@ object GUIUtil {
     val i = s.lastIndexOf('.')
     if (i > 0 && i < s.length - 1) suffix = s.substring(i + 1).toLowerCase
     suffix
-  }
-
-  /** @return true if running through webstart */
-  def hasBasicService: Boolean = getBasicService != null
-
-  /** @return the basic jnlp service or null if it is not available.*/
-  def getBasicService: BasicService = {
-    if (basicService == null) try
-      basicService = ServiceManager.lookup("javax.jnlp.BasicService").asInstanceOf[BasicService]
-    catch {
-      case e: Exception =>
-        println("Not running through webstart: " + e.getMessage)
-        return null
-      case ncde: NoClassDefFoundError =>
-        println("jnlp BasicService not available: " + ncde.getMessage)
-        return null
-    }
-    basicService
   }
 }

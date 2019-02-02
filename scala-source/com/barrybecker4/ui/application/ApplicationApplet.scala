@@ -52,7 +52,6 @@ abstract class ApplicationApplet(val args: Array[String]) extends JApplet {
     AppContext.initialize(localeName, getResourceList.toArray.toList.asInstanceOf[List[String]], new Log)
   }
 
-
   /** Override if you want to load from other message bundles than the common UI messages
     * and the messages for the specific application.
     * @return list of bundles to load

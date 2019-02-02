@@ -4,18 +4,14 @@ plugins {
 }
 description = 'Common bb4 swing user interface java code. Library project.'
 group = 'com.barrybecker4'
-version = '1.5-SNAPSHOT'
-apply from: 'https://raw.github.com/barrybecker4/bb4-common/master/bb4.gradle'
+version = '1.6-SNAPSHOT'
+apply from: 'https://raw.githubusercontent.com/bb4/bb4-common/develop/bb4.gradle'
 project.archivesBaseName = 'bb4-ui'
 mainClassName = "com.barrybecker4.ui.application.ApplicationFrame"
 
 dependencies {
-    compile 'com.barrybecker4:bb4-common:1.5-SNAPSHOT'
+    compile 'com.barrybecker4:bb4-common:1.5'
     compile 'org.scala-lang.modules:scala-swing_2.12:2.0.0'
-
-    def javaHome = System.properties.'java.home'
-    compile fileTree(dir: "${javaHome}/../sample/jnlp/servlet", include: 'jnlp.jar') // 1.6
-    compile fileTree(dir: "${javaHome}/../jre/lib", include: 'javaws.jar')       // for 1.7 and 1.8
 }
 
 jar {
@@ -28,4 +24,4 @@ jar {
     }
 }
 
-apply from: 'https://raw.github.com/barrybecker4/bb4-common/master/bb4-publish.gradle'
+apply from: 'https://raw.github.com/barrybecker4/bb4-common/develop/bb4-publish.gradle'
