@@ -10,13 +10,12 @@ import java.awt.event.MouseListener
 import java.awt.event.MouseMotionListener
 import java.awt.image.BufferedImage
 import java.util
-import java.util.{Timer, TimerTask}
 import collection.JavaConverters._
 import ImageListPanel._
 
 
 object ImageListPanel {
-  private val TIME_TO_ENLARGE = 900
+
   private val BACKGROUND_COLOR = Color.WHITE
 }
 
@@ -28,12 +27,11 @@ object ImageListPanel {
   * @author Barry Becker
   */
 final class ImageListPanel() extends JPanel with MouseMotionListener with MouseListener {
+
   private var imageSelectionListeners = List[ImageSelectionListener]()
   private var images: Seq[BufferedImage] = _
-  private var highlightedImage: BufferedImage = _
   private var selectedImages: Seq[BufferedImage] = _
   private var maxNumSelections = Int.MaxValue
-  private var enlargeHighlightedImage: Boolean = false
   private var renderer: ImageListRenderer = _
 
   this.setMinimumSize(new Dimension(100, 100))
@@ -55,7 +53,6 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
     renderer = new ImageListRenderer(images)
 
     selectedImages = Vector[BufferedImage]()
-    highlightedImage = null
     this.repaint()
   }
 
@@ -78,8 +75,7 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
     setImageList(imageList)
   }
 
-  /**
-    * This is how the client can register itself to receive these events.
+  /** This is how the client can register itself to receive these events.
     *
     * @param isl the listener to add
     */
@@ -87,8 +83,8 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
     imageSelectionListeners +:= isl
   }
 
-  /**
-    * This is how the client can unregister itself to receive these events.
+  /** This is how the client can unregister itself to receive these events.
+    *
     * @param isl the listener  to remove
     */
   def removeImageSelectionListener(isl: ImageSelectionListener): Unit = {
@@ -114,28 +110,16 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
     g.clearRect(0, 0, getWidth, getHeight)
     g.setColor(BACKGROUND_COLOR)
     g.fillRect(0, 0, getWidth, getHeight)
-    renderer.drawImages(g.asInstanceOf[Graphics2D], getWidth, getHeight,
-      highlightedImage, selectedImages)
+    renderer.drawImages(g.asInstanceOf[Graphics2D], getWidth, getHeight, selectedImages)
   }
 
 
   override def mouseMoved(e: MouseEvent): Unit = {
     val image = renderer.findImageOver(e.getX, e.getY)
-    val changed = image != highlightedImage
+    val changed = image != renderer.getHighlightedImage
     if (changed) {
-      if (image != null) highlightedImage = image
-      else highlightedImage = null
+      renderer.setHighlightedImage(image, this)
       this.repaint()
-      // start a time that is canceled if the mouse moves
-      val enlargementTimer = new Timer
-      enlargeHighlightedImage = false
-      enlargementTimer.schedule(new TimerTask() {
-        override def run(): Unit = {
-          enlargeHighlightedImage = true
-          enlargementTimer.cancel()
-          repaint()
-        }
-      }, TIME_TO_ENLARGE)
     }
   }
 

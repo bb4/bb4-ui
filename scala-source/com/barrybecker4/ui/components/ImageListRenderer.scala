@@ -3,7 +3,10 @@ package com.barrybecker4.ui.components
 
 import java.awt.image.BufferedImage
 import java.awt.{BasicStroke, Color, Graphics2D}
+import java.util.{Timer, TimerTask}
+
 import com.barrybecker4.ui.components.ImageListRenderer._
+import javax.swing.JPanel
 
 
 object ImageListRenderer {
@@ -13,6 +16,7 @@ object ImageListRenderer {
   private val HIGHLIGHT_COLOR = Color.ORANGE
   private val SELECTION_COLOR = Color.BLUE
   private val BORDER_STROKE = new BasicStroke(2.0f)
+  private val TIME_TO_ENLARGE = 900
 
   private def calculateImageRatio(images: Seq[BufferedImage]): Double = {
     if (images == null || images.isEmpty) return 1.0
@@ -38,6 +42,7 @@ object ImageListRenderer {
 final class ImageListRenderer(val images: Seq[BufferedImage]) {
   private var imageRatio = calculateImageRatio(images)
   private var baseImageWidth = images.head.getWidth + TOTAL_MARGIN
+  private var highlightedImage: BufferedImage = _
   private var numColumns = 0
   private var imageDisplayHeight = 0
   private var imageDisplayWidth = 0
@@ -47,8 +52,8 @@ final class ImageListRenderer(val images: Seq[BufferedImage]) {
 
 
   def drawImages(g2: Graphics2D, width: Int, height: Int,
-                 highlightedImage: BufferedImage,
                  selectedImages: Seq[BufferedImage]): Unit = {
+
     val panelRatio = width.toDouble / height.toDouble
     // find the number of rows that will give the closest match on the aspect ratios
     val numImages = images.size
@@ -92,8 +97,26 @@ final class ImageListRenderer(val images: Seq[BufferedImage]) {
       }
     }
     if (enlargedImageIndex >= 0) {
-      drawEnlargedImage(g2, highlightedImage, width, height);
+      drawEnlargedImage(g2, highlightedImage, width, height)
     }
+  }
+
+  def getHighlightedImage: BufferedImage = highlightedImage
+
+  def setHighlightedImage(image: BufferedImage, repaintable: JPanel): Unit = {
+    if (image != null) highlightedImage = image
+    else highlightedImage = null
+
+    // start a timer that is canceled if the mouse moves
+    val enlargementTimer = new Timer
+    enlargeHighlightedImage = false
+    enlargementTimer.schedule(new TimerTask() {
+      override def run(): Unit = {
+        enlargeHighlightedImage = true
+        enlargementTimer.cancel()
+        repaintable.repaint()
+      }
+    }, TIME_TO_ENLARGE)
   }
 
   /** @return the image that the mouse is currently over (at x, y coordinates) */
