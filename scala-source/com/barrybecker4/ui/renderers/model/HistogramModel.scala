@@ -23,7 +23,8 @@ class HistogramModel(val data: Array[Int],
   def numBars: Int = this.data.length
   def getValueForPosition(pos: Int): Double = xFunction.getInverseValue(pos)
   def getPositionForValue(value: Double): Int = xFunction.getValue(value).toInt
-  def getMaxHeight = Math.max(1, data.max)
+
+  def getMaxHeight: Int = Math.max(1, data.max)
 
   // Used only by unit test
   def calcMedian(medianPos: Int): Double = {
