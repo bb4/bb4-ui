@@ -78,9 +78,11 @@ object GUIUtil {
     */
   def getBufferedImage(path: String, imageObserver: ImageObserver): BufferedImage = {
     val img: ImageIcon = GUIUtil.getIcon(path, failIfNotFound = false)
-    var image: BufferedImage = null
-    if (img != null && img.getIconWidth > 0) image = ImageUtil.makeBufferedImage(img.getImage, imageObserver)
-    image
+    if (img == null)
+      throw new IllegalStateException("No image found for " + path)
+    if (img.getIconWidth == 0)
+      throw new IllegalStateException("image has 0 width")
+    ImageUtil.makeBufferedImage(img.getImage, imageObserver)
   }
 
   /** Load a buffered image from a file or resource. Non-blocking.

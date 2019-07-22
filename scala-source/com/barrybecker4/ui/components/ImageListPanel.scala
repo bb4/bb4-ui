@@ -16,7 +16,7 @@ import ImageListPanel._
 
 object ImageListPanel {
 
-  private val BACKGROUND_COLOR = Color.WHITE
+  val BACKGROUND_COLOR = Color.WHITE
 }
 
 /**
@@ -76,7 +76,6 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
   }
 
   /** This is how the client can register itself to receive these events.
-    *
     * @param isl the listener to add
     */
   def addImageSelectionListener(isl: ImageSelectionListener): Unit = {
@@ -84,7 +83,6 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
   }
 
   /** This is how the client can unregister itself to receive these events.
-    *
     * @param isl the listener  to remove
     */
   def removeImageSelectionListener(isl: ImageSelectionListener): Unit = {
@@ -112,7 +110,6 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
     g.fillRect(0, 0, getWidth, getHeight)
     renderer.drawImages(g.asInstanceOf[Graphics2D], getWidth, getHeight, selectedImages)
   }
-
 
   override def mouseMoved(e: MouseEvent): Unit = {
     val image = renderer.findImageOver(e.getX, e.getY)

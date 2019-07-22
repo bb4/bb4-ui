@@ -4,7 +4,6 @@ package com.barrybecker4.ui.components
 import java.awt.image.BufferedImage
 import java.awt.{BasicStroke, Color, Graphics2D}
 import java.util.{Timer, TimerTask}
-
 import com.barrybecker4.ui.components.ImageListRenderer._
 import javax.swing.JPanel
 
@@ -40,8 +39,8 @@ object ImageListRenderer {
   * Determines the layout and renders the list of images.
   */
 final class ImageListRenderer(val images: Seq[BufferedImage]) {
-  private var imageRatio = calculateImageRatio(images)
-  private var baseImageWidth = images.head.getWidth + TOTAL_MARGIN
+  private val imageRatio = calculateImageRatio(images)
+  private val baseImageWidth = images.head.getWidth + TOTAL_MARGIN
   private var highlightedImage: BufferedImage = _
   private var numColumns = 0
   private var imageDisplayHeight = 0
