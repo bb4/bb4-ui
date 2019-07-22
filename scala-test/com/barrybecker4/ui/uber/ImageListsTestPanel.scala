@@ -3,7 +3,7 @@ package com.barrybecker4.ui.uber
 
 import java.awt.BorderLayout
 
-import com.barrybecker4.ui.components.{ImageListPanel, ImageListsPanel, TexturedPanel}
+import com.barrybecker4.ui.components.{ImageListsScrollPanel, TexturedPanel}
 import com.barrybecker4.ui.util.GUIUtil
 
 
@@ -19,13 +19,12 @@ class ImageListsTestPanel() extends TexturedPanel(MainTexturePanel.BACKGROUND_IM
     Seq(
       GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "ocean_trans_20.png"),
       GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "pool_pennies_small.jpg"),
-      GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "sample_thumbnail.jpg")
+      GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "sample_thumbnail.jpg"),
+      GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "pool_pennies_small.jpg"),
     )
   )
 
-  val imageListsPanel: ImageListsPanel = new ImageListsPanel(100)
-  imageListsPanel.setImageList(imageLists)
-
+  val imageListsPanel = new ImageListsScrollPanel(200)
+  imageListsPanel.setImageLists(imageLists)
   add(imageListsPanel, BorderLayout.CENTER)
-
 }

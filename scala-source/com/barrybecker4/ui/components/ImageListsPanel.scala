@@ -29,11 +29,11 @@ final class ImageListsPanel(imgHeight: Int) extends JPanel {
     }
   })
 
-  def setImageList(imageLists: Seq[Seq[BufferedImage]]): Unit = {
+  def setImageLists(imageLists: Seq[Seq[BufferedImage]]): Unit = {
     assert(imageLists != null)
     this.imageLists = imageLists
     renderer = new ImageListsRenderer(imageLists, imgHeight)
-    this.setSize(renderer.getDimensions)
+    this.setPreferredSize(renderer.getDimensions)
     this.repaint()
   }
 
