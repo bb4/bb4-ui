@@ -22,12 +22,10 @@ final class ImageListsScrollPanel(imgHeight: Int) extends JPanel {
   private val imageListsPanel: ImageListsPanel = new ImageListsPanel(imgHeight)
 
   this.setMinimumSize(new Dimension(100, 100))
-  //this.setViewport(imageListsPanel)
 
   val scrollPane = new JScrollPane(imageListsPanel)
   this.setLayout(new BorderLayout())
   this.add(scrollPane, BorderLayout.CENTER)
-  //scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS)
 
 
   def setImageLists(imageLists: Seq[Seq[BufferedImage]]): Unit = {
