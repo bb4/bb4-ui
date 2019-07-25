@@ -16,7 +16,9 @@ object ImageListsRenderer {
   * Determines the layout and renders the lists of images in rows.
   * Each list goes in its own row. The heights of the images are all the same, but widths may vary.
   */
-final class ImageListsRenderer(val imageLists: Seq[Seq[BufferedImage]], imgHeight: Int) {
+final class ImageListsRenderer(val imageLists: Seq[Seq[(BufferedImage, String)]],
+                               imgHeight: Int) {
+
   private var totalHeight = imageLists.size * (IMG_MARGIN + imgHeight)
   private var totalWidth = calculateMaxRowWidth()
 
@@ -31,11 +33,26 @@ final class ImageListsRenderer(val imageLists: Seq[Seq[BufferedImage]], imgHeigh
     })
   }
 
-  private def renderRow(g2: Graphics2D, imgList: Seq[BufferedImage], yOffset: Int): Unit = {
+  def findTooltipText(x: Int, y: Int): String = {
+    val rowIdx = y / imgHeight
+    if (rowIdx >= imageLists.length)
+      return ""
+
+    val rowImages = imageLists(rowIdx)
+    var colIdx: Int = 0
+    var xpos = 0
+    while (x > xpos && colIdx < rowImages.length) {
+      xpos += calculateScaledWidth(rowImages(colIdx))
+      colIdx += 1
+    }
+    if (x >= xpos) "" else rowImages(colIdx - 1)._2
+  }
+
+  private def renderRow(g2: Graphics2D, imgList: Seq[(BufferedImage, String)], yOffset: Int): Unit = {
     var xOffset = IMG_MARGIN
     for (img <- imgList) {
       val imgWidth = calculateScaledWidth(img)
-      g2.drawImage(img, xOffset, yOffset, imgWidth, imgHeight, null)
+      g2.drawImage(img._1, xOffset, yOffset, imgWidth, imgHeight, null)
       xOffset += imgWidth + IMG_MARGIN
     }
   }
@@ -43,10 +60,10 @@ final class ImageListsRenderer(val imageLists: Seq[Seq[BufferedImage]], imgHeigh
   private def calculateMaxRowWidth(): Int =
     imageLists.map(calculateRowWidth).max
 
-  private def calculateRowWidth(images: Seq[BufferedImage]): Int =
+  private def calculateRowWidth(images: Seq[(BufferedImage, String)]): Int =
     images.map(calculateScaledWidth).sum
 
-  private def calculateScaledWidth(img: BufferedImage): Int = {
-    img.getWidth * imgHeight / img.getHeight()
+  private def calculateScaledWidth(img: (BufferedImage, String)): Int = {
+    img._1.getWidth * imgHeight / img._1.getHeight()
   }
 }

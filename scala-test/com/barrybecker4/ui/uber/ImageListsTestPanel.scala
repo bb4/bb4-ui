@@ -2,10 +2,16 @@
 package com.barrybecker4.ui.uber
 
 import java.awt.BorderLayout
-
 import com.barrybecker4.ui.components.{ImageListsScrollPanel, TexturedPanel}
 import com.barrybecker4.ui.util.GUIUtil
+import ImageListsTestPanel.imgAndTip
 
+
+object ImageListsTestPanel {
+  private def imgAndTip(fname: String, tip: String) = {
+    (GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + fname), tip)
+  }
+}
 
 class ImageListsTestPanel() extends TexturedPanel(MainTexturePanel.BACKGROUND_IMG) {
 
@@ -13,18 +19,18 @@ class ImageListsTestPanel() extends TexturedPanel(MainTexturePanel.BACKGROUND_IM
 
   private val imageLists = Seq(
     Seq(
-      GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "funnel_cloud.jpg"),
-      GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "Barry-2019.jpg")
+      imgAndTip("funnel_cloud.jpg", "funnel cloud"),
+      imgAndTip("Barry-2019.jpg", "Barry's portrait")
     ),
     Seq(
-      GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "ocean_trans_20.png"),
-      GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "pool_pennies_small.jpg"),
-      GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "sample_thumbnail.jpg"),
-      GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "pool_pennies_small.jpg"),
+      imgAndTip("ocean_trans_20.png", "transparent ocean"),
+      imgAndTip("pool_pennies_small.jpg", "pennies at the bottom of a pool"),
+      imgAndTip("sample_thumbnail.jpg", "sample thumbnail image"),
+      imgAndTip("pool_pennies_small.jpg", "pennies in a pool"),
     )
   )
 
   val imageListsPanel = new ImageListsScrollPanel(200)
-  imageListsPanel.setImageLists(imageLists)
+  imageListsPanel.setImageListsWithTips(imageLists)
   add(imageListsPanel, BorderLayout.CENTER)
 }

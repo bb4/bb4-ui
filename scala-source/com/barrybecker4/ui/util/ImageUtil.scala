@@ -48,14 +48,14 @@ object ImageUtil {
     configuration.createCompatibleImage(width, height)
   }
 
-  /** @param img  the image to convert
-    * @param imageTypee the type of image to create ("jpg" or "png")
+  /** @param img       the image to convert
+    * @param imageType the type of image to create ("jpg" or "png")
     * @return a byte array given an image
     */
-  def getImageAsByteArray(img: Image, imageTypee: ImageType): Array[Byte] = {
+  def getImageAsByteArray(img: Image, imageType: ImageType): Array[Byte] = {
     val bos = new ByteArrayOutputStream
     val os = new BufferedOutputStream(bos)
-    writeImage(img, os, imageTypee)
+    writeImage(img, os, imageType)
     bos.toByteArray
   }
 

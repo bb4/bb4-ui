@@ -33,4 +33,8 @@ final class ImageListsScrollPanel(imgHeight: Int) extends JPanel {
     this.repaint()
   }
 
+  def setImageListsWithTips(imageLists: Seq[Seq[(BufferedImage, String)]]): Unit = {
+    imageListsPanel.setImageListsWithTips(imageLists)
+    this.repaint()
+  }
 }

@@ -110,7 +110,7 @@ class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
     for (i <- 0 to 10)
       calculator.incrementFrameCount()
     ThreadUtil.sleep(40)
-    assertEquals("Unexpected frame rate.", 346.0, calculator.getFrameRate, 24.0)
+    assertEquals("Unexpected frame rate.", 345.0, calculator.getFrameRate, 25.0)
   }
 
   test("FrameRateAfter3WithDelayOf50") {

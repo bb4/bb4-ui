@@ -14,6 +14,7 @@ import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import java.awt.image.{BufferedImage, ImageObserver}
 import java.io.File
+import java.net.URL
 
 
 /**
@@ -66,10 +67,15 @@ object GUIUtil {
   def getIcon(sPath: String): ImageIcon = getIcon(sPath, failIfNotFound = true)
 
   def getIcon(sPath: String, failIfNotFound: Boolean): ImageIcon = {
-    var icon: ImageIcon = null
-    val url = ClassLoaderSingleton.getClassLoader.getResource(sPath)
-    if (url != null) icon = new ImageIcon(url)
-    else if (failIfNotFound) throw new IllegalArgumentException("Invalid file or url path:" + sPath)
+    val url: URL = ClassLoaderSingleton.getClassLoader.getResource(sPath)
+    // if we can't load it using the class loader, try as a file
+
+    val icon: ImageIcon =
+      if (url != null) new ImageIcon(url)
+      else if (new File(sPath).exists) new ImageIcon(sPath)
+      else null
+    if (icon == null && failIfNotFound)
+      throw new IllegalArgumentException("Invalid file or url path:" + sPath)
     icon
   }
 
