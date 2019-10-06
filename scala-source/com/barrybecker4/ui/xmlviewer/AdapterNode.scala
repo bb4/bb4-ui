@@ -58,7 +58,7 @@ object AdapterNode {
       var t = content.trim
       val x = t.indexOf("\n")
       if (x >= 0) t = t.substring(0, x)
-      s += ' ' + t
+      s += s" $t"
       return s
     }
     if (domNode.getNodeValue != null) {

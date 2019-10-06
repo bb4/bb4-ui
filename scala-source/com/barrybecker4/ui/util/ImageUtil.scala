@@ -59,9 +59,7 @@ object ImageUtil {
     bos.toByteArray
   }
 
-  /**
-    * write an image to the given output stream
-    *
+  /** write an image to the given output stream
     * @param img  image to write.
     * @param out  output stream to write to
     * @param imageType the type of image to create ("jpg" or "png")
@@ -78,7 +76,7 @@ object ImageUtil {
         encoder.write(null, new IIOImage(img.asInstanceOf[RenderedImage], null, null), param)
       catch {
         case fne: IOException =>
-          throw new IllegalStateException("IOException error:" + fne.getMessage, fne)
+          throw new IllegalStateException(s"IOException error: ${fne.getMessage}", fne)
       }
     }
     else { // PNG is the default
@@ -112,7 +110,7 @@ object ImageUtil {
   def saveAsImage(fileName: String, img: Image, imageType: ImageType): Unit = {
     var os: OutputStream = null
     try {
-      val extension = '.' + imageType.toString.toLowerCase
+      val extension = s".${imageType.toString.toLowerCase}"
       var fn = fileName
       if (!fn.endsWith(extension)) { // if it does not already have the appropriate extension add it.
         fn += extension
@@ -138,8 +136,7 @@ object ImageUtil {
     image
   }
 
-  /**
-    * Interpolate among 4 colors (corresponding to the 4 points on a square)
+  /** Interpolate among 4 colors (corresponding to the 4 points on a square)
     * @return The interpolated color.
     */
   def interpolate(x: Double, y: Double,

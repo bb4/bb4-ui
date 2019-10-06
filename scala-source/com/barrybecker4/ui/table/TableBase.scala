@@ -4,13 +4,13 @@ package com.barrybecker4.ui.table
 import javax.swing._
 import javax.swing.event.ListSelectionListener
 import javax.swing.table.TableModel
-import scala.collection.JavaConverters
 import TableBase.conv
 
 
 object TableBase {
   private def conv(items: java.util.ArrayList[AnyRef]): Seq[_] = {
-    JavaConverters.asScalaIteratorConverter(items.iterator).asScala.toSeq
+    import scala.jdk.javaapi.CollectionConverters
+    CollectionConverters.asScala(items).toSeq
   }
 }
 

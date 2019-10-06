@@ -1,5 +1,7 @@
 package com.barrybecker4.ui.application
 
+import java.awt.Dimension
+
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.common.app.CommandLineOptions
 import com.barrybecker4.ui.components.ResizableAppletPanel
@@ -14,6 +16,7 @@ import java.util
   * Base class for programs that you want to be
   * run as applications or resizable applets.
   * @author Barry Becker
+  * @deprecated use ApplicationFrame instead. Applets are going away in Java.
   */
 abstract class ApplicationApplet(val args: Array[String]) extends JApplet {
 
@@ -69,7 +72,7 @@ abstract class ApplicationApplet(val args: Array[String]) extends JApplet {
   /** This method allow javascript to resize the applet from the browser. */
   override def setSize(width: Int, height: Int): Unit = {
     getContentPane.setSize(width, height)
-    if (resizablePanel != null) resizablePanel.setSize(width, height)
+    if (resizablePanel != null) resizablePanel.setSize(new Dimension(width, height))
   }
 
   override def getName: String = AppContext.getLabel("APP_TITLE")

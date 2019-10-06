@@ -27,7 +27,7 @@ object ColorUtil {
       //("0x" + sColor).toLong //sColor.Long.decode("0x" + sColor)
     catch {
       case e: NumberFormatException =>
-        throw new IllegalArgumentException("bad color format: " + sColor, e)
+        throw new IllegalArgumentException(s"bad color format: $sColor", e)
     }
     val blue = (intColor % 256).toInt
     val green = ((intColor >> 8) % 256).toInt
@@ -55,7 +55,7 @@ object ColorUtil {
     //val f: RichInt = intval & 0x00FFFFFF
     //val c: String = f.toHexString.toUpperCase
     //val strColor = "00000".substring(0, 6 - c.length) + c
-    '#' + hex
+    s"#$hex"
   }
 
   def invertColor(cColor: Color): Color = invertColor(cColor, 255)

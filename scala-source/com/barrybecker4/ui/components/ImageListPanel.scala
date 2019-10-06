@@ -11,7 +11,7 @@ import java.awt.event.MouseMotionListener
 import java.awt.image.BufferedImage
 import java.util
 import java.util.{Timer, TimerTask}
-import collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import ImageListPanel._
 
 
@@ -89,7 +89,7 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
   }
   def setImageList(images: util.List[BufferedImage]): Unit = {
     assert(images != null)
-    this.setImageList(images.asScala)
+    this.setImageList(images.asScala.toSeq)
   }
 
   def getImageList: Seq[BufferedImage] = images

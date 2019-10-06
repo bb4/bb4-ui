@@ -22,9 +22,10 @@ class BasicTableModel(columnNames: Array[AnyRef], rowCount: Int, isEditable: Boo
   }
 
   override def getColumnClass(col: Int): Class[_] = {
-    dataVector.elementAt(0) match { // // .asInstanceOf[List[_]]
-      case list: List[_] => list(col).getClass
+    dataVector.elementAt(0) match {
+      //case list: List[_] => list(col).getClass
       case vec: java.util.Vector[_] => vec.get(col).getClass
+      case _ => throw new IllegalArgumentException("Unexpected type: " + dataVector.elementAt(0))
     }
   }
 

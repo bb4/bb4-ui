@@ -14,7 +14,7 @@ object ExtensionFileFilter {
     */
   def addExtIfNeeded(fPath: String, ext: String): String = {
     var newPath = fPath
-    if (!newPath.endsWith('.' + ext)) newPath += '.' + ext
+    if (!newPath.endsWith(".$ext")) newPath += s".$ext"
     newPath
   }
 }
@@ -25,8 +25,8 @@ object ExtensionFileFilter {
   * @author Barry Becker
   */
 class ExtensionFileFilter(var extension: String) extends FileFilter {
-  /**
-    * @param file the file to check for acceptance.
+
+  /** @param file the file to check for acceptance.
     * @return true if f matches the desired extension.
     */
   override def accept(file: File): Boolean = {
@@ -38,5 +38,5 @@ class ExtensionFileFilter(var extension: String) extends FileFilter {
     accept
   }
 
-  override def getDescription: String = "*." + extension
+  override def getDescription: String = "*.$extension"
 }

@@ -38,8 +38,6 @@ object GUIUtil {
     try { //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());  // for windows
       //java look and feel is customizable with themes
       UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel")
-      // a cool experimental look and feel. see http://www.oyoaha.com/
-      //OyoahaLookAndFeel lnf = new OyoahaLookAndFeel();
       //UIManager.setLookAndFeel(lnf);
       //GTK look and feel for Linux.
       //UIManager.setLookAndFeel( "com.sun.java.swing.plaf.gtk.GTKLookAndFeel" );
@@ -104,6 +102,7 @@ object GUIUtil {
     * For thread safety, this method should be invoked from the event-dispatching thread.
     * @param applet the applet to show
     * @return frame containing the applet.
+    * @deprecated Applet is going away in future versions of Java
     */
   def showApplet(applet: JApplet): JFrame = {
     val baseFrame = new JFrame
