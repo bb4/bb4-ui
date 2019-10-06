@@ -12,6 +12,7 @@ import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import java.awt.image.{BufferedImage, ImageObserver}
 import java.io.File
+import java.net.URL
 
 
 /**
@@ -58,10 +59,15 @@ object GUIUtil {
   def getIcon(sPath: String): ImageIcon = getIcon(sPath, failIfNotFound = true)
 
   def getIcon(sPath: String, failIfNotFound: Boolean): ImageIcon = {
-    var icon: ImageIcon = null
-    val url = ClassLoaderSingleton.getClassLoader.getResource(sPath)
-    if (url != null) icon = new ImageIcon(url)
-    else if (failIfNotFound) throw new IllegalArgumentException("Invalid file or url path:" + sPath)
+    val url: URL = ClassLoaderSingleton.getClassLoader.getResource(sPath)
+    // if we can't load it using the class loader, try as a file
+
+    val icon: ImageIcon =
+      if (url != null) new ImageIcon(url)
+      else if (new File(sPath).exists) new ImageIcon(sPath)
+      else null
+    if (icon == null && failIfNotFound)
+      throw new IllegalArgumentException("Invalid file or url path:" + sPath)
     icon
   }
 
@@ -70,9 +76,11 @@ object GUIUtil {
     */
   def getBufferedImage(path: String, imageObserver: ImageObserver): BufferedImage = {
     val img: ImageIcon = GUIUtil.getIcon(path, failIfNotFound = false)
-    var image: BufferedImage = null
-    if (img != null && img.getIconWidth > 0) image = ImageUtil.makeBufferedImage(img.getImage, imageObserver)
-    image
+    if (img == null)
+      throw new IllegalStateException("No image found for " + path)
+    if (img.getIconWidth == 0)
+      throw new IllegalStateException("image has 0 width")
+    ImageUtil.makeBufferedImage(img.getImage, imageObserver)
   }
 
   /** Load a buffered image from a file or resource. Non-blocking.

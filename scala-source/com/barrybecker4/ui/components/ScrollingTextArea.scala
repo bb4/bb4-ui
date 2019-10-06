@@ -6,6 +6,8 @@ import java.awt._
 
 
 /**
+  * Scrolling text area.
+  *
   * @author Barry Becker
   */
 class ScrollingTextArea() extends JScrollPane with Appendable {
