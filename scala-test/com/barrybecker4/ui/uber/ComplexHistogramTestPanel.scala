@@ -3,8 +3,8 @@ package com.barrybecker4.ui.uber
 
 import java.awt.{Dimension, Graphics}
 import com.barrybecker4.common.format.CurrencyFormatter
-import com.barrybecker4.common.math.Range
-import com.barrybecker4.common.math.function.LinearFunction
+import com.barrybecker4.math.Range
+import com.barrybecker4.math.function.LinearFunction
 import com.barrybecker4.ui.renderers.HistogramRenderer
 import javax.swing._
 import scala.util.Random

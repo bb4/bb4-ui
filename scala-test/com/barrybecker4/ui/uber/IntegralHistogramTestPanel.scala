@@ -4,8 +4,8 @@ package com.barrybecker4.ui.uber
 import java.awt.{Dimension, Graphics}
 
 import com.barrybecker4.common.format.IntegerFormatter
-import com.barrybecker4.common.math.Range
-import com.barrybecker4.common.math.function.LinearFunction
+import com.barrybecker4.math.Range
+import com.barrybecker4.math.function.LinearFunction
 import com.barrybecker4.ui.renderers.HistogramRenderer
 import com.barrybecker4.ui.uber.IntegralHistogramTestPanel.NUM_X_POINTS
 import javax.swing._

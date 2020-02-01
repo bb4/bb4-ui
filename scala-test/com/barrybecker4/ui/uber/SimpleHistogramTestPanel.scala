@@ -1,8 +1,8 @@
 /* Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT */
 package com.barrybecker4.ui.uber
 
-import com.barrybecker4.common.math.Range
-import com.barrybecker4.common.math.function.LinearFunction
+import com.barrybecker4.math.Range
+import com.barrybecker4.math.function.LinearFunction
 import com.barrybecker4.ui.renderers.HistogramRenderer
 import javax.swing._
 import java.awt.Dimension

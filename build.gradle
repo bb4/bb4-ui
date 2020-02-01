@@ -11,6 +11,7 @@ mainClassName = "com.barrybecker4.ui.application.ApplicationFrame"
 
 dependencies {
     compile 'com.barrybecker4:bb4-common:1.6-SNAPSHOT'
+    compile 'com.barrybecker4:bb4-math:1.6-SNAPSHOT'
     //compile 'org.scala-lang.modules:scala-swing_2.12:2.0.0'
 }
 

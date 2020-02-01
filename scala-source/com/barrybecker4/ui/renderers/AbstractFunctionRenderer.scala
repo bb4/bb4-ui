@@ -3,8 +3,8 @@ package com.barrybecker4.ui.renderers
 
 import com.barrybecker4.common.format.DefaultNumberFormatter
 import com.barrybecker4.common.format.INumberFormatter
-import com.barrybecker4.common.math.Range
-import com.barrybecker4.common.math.cutpoints.CutPointGenerator
+import com.barrybecker4.math.Range
+import com.barrybecker4.math.cutpoints.CutPointGenerator
 import java.awt._
 import AbstractFunctionRenderer._
 

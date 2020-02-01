@@ -1,8 +1,8 @@
 /* Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT */
 package com.barrybecker4.ui.renderers
 
-import com.barrybecker4.common.math.Range
-import com.barrybecker4.common.math.function.Function
+import com.barrybecker4.math.Range
+import com.barrybecker4.math.function.Function
 import java.awt._
 import AbstractFunctionRenderer._
 import RenderingHints._

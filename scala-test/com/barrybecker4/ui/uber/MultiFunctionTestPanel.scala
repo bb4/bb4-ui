@@ -3,10 +3,10 @@ package com.barrybecker4.ui.uber
 
 import java.awt.{Color, Dimension, Graphics}
 
-import com.barrybecker4.common.math.function.Function
-import com.barrybecker4.common.math.function.HeightFunction
+import com.barrybecker4.math.function.Function
+import com.barrybecker4.math.function.HeightFunction
 import com.barrybecker4.ui.renderers.MultipleFunctionRenderer
-import com.barrybecker4.common.math.Range
+import com.barrybecker4.math.Range
 import javax.swing._
 
 

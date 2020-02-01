@@ -5,8 +5,8 @@ import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.common.format.DefaultNumberFormatter
 import com.barrybecker4.common.format.FormatUtil._
 import com.barrybecker4.common.format.INumberFormatter
-import com.barrybecker4.common.math.function.InvertibleFunction
-import com.barrybecker4.common.math.function.LinearFunction
+import com.barrybecker4.math.function.InvertibleFunction
+import com.barrybecker4.math.function.LinearFunction
 import HistogramRenderer._
 import java.awt._
 import com.barrybecker4.ui.renderers.model.HistogramModel

@@ -1,8 +1,8 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.components
 
-import com.barrybecker4.common.math.ComplexNumber
-import com.barrybecker4.common.math.ComplexNumberRange
+import com.barrybecker4.math.ComplexNumber
+import com.barrybecker4.math.ComplexNumberRange
 import javax.swing.BorderFactory
 import javax.swing.JLabel
 import javax.swing.JOptionPane

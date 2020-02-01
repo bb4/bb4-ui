@@ -1,8 +1,8 @@
 // Copyright by Barry G. Becker, 2018. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.renderers.model
 
-import com.barrybecker4.common.math.Range
-import com.barrybecker4.common.math.function.{LinearFunction, LogFunction}
+import com.barrybecker4.math.Range
+import com.barrybecker4.math.function.{LinearFunction, LogFunction}
 import org.scalatest.FunSuite
 
 

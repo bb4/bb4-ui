@@ -3,8 +3,8 @@ package com.barrybecker4.ui.legend
 
 import com.barrybecker4.ui.util.ColorMap
 import com.barrybecker4.common.format.FormatUtil
-import com.barrybecker4.common.math.cutpoints.CutPointGenerator
-import com.barrybecker4.common.math.Range
+import com.barrybecker4.math.cutpoints.CutPointGenerator
+import com.barrybecker4.math.Range
 import javax.swing._
 import java.awt._
 
