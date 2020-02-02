@@ -2,7 +2,7 @@
 package com.barrybecker4.ui.uber
 
 import com.barrybecker4.common.app.AppContext
-import com.barrybecker4.math.ComplexNumber
+import com.barrybecker4.math.complex.ComplexNumber
 import com.barrybecker4.ui.components.{ComplexNumberInput, GradientButton, NumberInput, TexturedPanel}
 import com.barrybecker4.ui.util.{ColorMap, GUIUtil}
 import javax.swing.JButton
