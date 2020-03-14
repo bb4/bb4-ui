@@ -6,28 +6,26 @@ import com.barrybecker4.ui.application.ApplicationFrame
 import com.barrybecker4.ui.components.SplashScreen
 import com.barrybecker4.ui.util.GUIUtil
 import com.barrybecker4.ui.util.Log
-import javax.swing.JTabbedPane
-import java.util.Collections
+import UberAppConstants.IMAGE_ROOT
 
+object UberAppConstants {
+  val IMAGE_ROOT = "com/barrybecker4/ui/uber/images/" // NON-NLS
+}
 
 /**
   * An app that tries to demonstrate the use of most of the UI components in this package.
   * @author Barry Becker
   */
-object UberApp {
-  val IMAGE_ROOT = "com/barrybecker4/ui/uber/images/" // NON-NLS
-
-  @throws[Exception]
-  def main(args: Array[String]): Unit = {
-    new UberApp
-  }
+object UberApp extends App {
+  new UberApp
 }
 
 class UberApp() extends ApplicationFrame("UberApp Demo") {
+
   override protected def createUI(): Unit = {
     val loc = getClass.getPackage.getName
     AppContext.initialize("ENGLISH", List(loc + ".message"), new Log)
-    val image = GUIUtil.getIcon(UberApp.IMAGE_ROOT + "pool_pennies_small.jpg")
+    val image = GUIUtil.getIcon(IMAGE_ROOT + "pool_pennies_small.jpg")
     new SplashScreen(image, this, 2000)
 
     this.add(new UberTabbedPanel())

@@ -5,19 +5,20 @@ import java.awt.BorderLayout
 
 import com.barrybecker4.ui.components.{ImageListPanel, TexturedPanel}
 import com.barrybecker4.ui.util.GUIUtil
-import javax.swing.{BorderFactory, JPanel, JScrollPane}
+import UberAppConstants.IMAGE_ROOT
+import MainTexturePanel.BACKGROUND_IMG
 
 
-class ImageListTestPanel() extends TexturedPanel(MainTexturePanel.BACKGROUND_IMG) {
+class ImageListTestPanel() extends TexturedPanel(BACKGROUND_IMG) {
 
   setLayout(new BorderLayout)
 
   private val images = Seq(
-    GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "funnel_cloud.jpg"),
-    GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "funnel_cloud.jpg"),
-    GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "funnel_cloud.jpg"),
-    GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "funnel_cloud.jpg"),
-    GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + "funnel_cloud.jpg")
+    GUIUtil.getBufferedImage(IMAGE_ROOT + "funnel_cloud.jpg"),
+    GUIUtil.getBufferedImage(IMAGE_ROOT + "funnel_cloud.jpg"),
+    GUIUtil.getBufferedImage(IMAGE_ROOT + "funnel_cloud.jpg"),
+    GUIUtil.getBufferedImage(IMAGE_ROOT + "funnel_cloud.jpg"),
+    GUIUtil.getBufferedImage(IMAGE_ROOT + "funnel_cloud.jpg")
   )
 
   val imageListPanel: ImageListPanel = new ImageListPanel()

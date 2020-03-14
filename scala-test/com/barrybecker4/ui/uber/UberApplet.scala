@@ -8,14 +8,9 @@ import java.awt.BorderLayout
 import java.util
 
 
-object UberApplet {
-  val IMAGE_ROOT = "com/barrybecker4/ui/uber/images/" // NON-NLS
-
-  @throws[Exception]
-  def main(args: Array[String]): Unit = {
-    val applet = new UberApplet
-    GUIUtil.showApplet(applet)
-  }
+object UberApplet extends App {
+  val applet = new UberApplet
+  GUIUtil.showApplet(applet)
 }
 
 /**

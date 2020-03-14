@@ -5,15 +5,17 @@ import java.awt.BorderLayout
 import com.barrybecker4.ui.components.{ImageListsScrollPanel, TexturedPanel}
 import com.barrybecker4.ui.util.GUIUtil
 import ImageListsTestPanel.imgAndTip
+import UberAppConstants.IMAGE_ROOT
+import MainTexturePanel.BACKGROUND_IMG
 
 
 object ImageListsTestPanel {
   private def imgAndTip(fname: String, tip: String) = {
-    (GUIUtil.getBufferedImage(UberApp.IMAGE_ROOT + fname), tip)
+    (GUIUtil.getBufferedImage(IMAGE_ROOT + fname), tip)
   }
 }
 
-class ImageListsTestPanel() extends TexturedPanel(MainTexturePanel.BACKGROUND_IMG) {
+class ImageListsTestPanel() extends TexturedPanel(BACKGROUND_IMG) {
 
   setLayout(new BorderLayout)
 

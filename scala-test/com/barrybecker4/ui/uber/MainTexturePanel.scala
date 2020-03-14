@@ -18,7 +18,7 @@ import com.barrybecker4.ui.dialogs.PasswordDialog
   * @author Barry Becker
   */
 object MainTexturePanel {
-  val BACKGROUND_IMG = GUIUtil.getIcon(UberApp.IMAGE_ROOT + "ocean_trans_20.png")
+  val BACKGROUND_IMG = GUIUtil.getIcon(UberAppConstants.IMAGE_ROOT + "ocean_trans_20.png")
 }
 
 /**

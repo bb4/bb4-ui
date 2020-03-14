@@ -7,6 +7,7 @@ import com.barrybecker4.ui.util.GUIUtil
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.event.ActionListener
+import UberAppConstants.IMAGE_ROOT
 
 
 /**
@@ -14,12 +15,12 @@ import java.awt.event.ActionListener
   * @author Barry Becker
   */
 class UberToolbar(listener: ActionListener)
-  extends TexturedToolBar(GUIUtil.getIcon(UberApp.IMAGE_ROOT + "ocean_trans_20.png"), listener) {
+  extends TexturedToolBar(GUIUtil.getIcon(IMAGE_ROOT + "ocean_trans_20.png"), listener) {
 
   init()
 
   private def init(): Unit = {
-    val sampleImage = GUIUtil.getIcon(UberApp.IMAGE_ROOT + "sample_thumbnail.jpg")
+    val sampleImage = GUIUtil.getIcon(IMAGE_ROOT + "sample_thumbnail.jpg")
     val sampleButton1 = createToolBarButton("Sample Button1", "Some tooltip text1", sampleImage)
     val sampleButton2 = new GradientButton("Sample Button2")
     sampleButton2.setStartColor(Color.BLUE)

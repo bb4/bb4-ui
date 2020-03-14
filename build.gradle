@@ -5,25 +5,16 @@ plugins {
 description = 'Common bb4 swing user interface java code. Library project.'
 group = 'com.barrybecker4'
 version = '1.6-SNAPSHOT'
+ext {
+    archivesBaseName = 'bb4-ui'
+    mainClass = "com.barrybecker4.ui.application.ApplicationFrame"
+}
+
 apply from: 'https://raw.githubusercontent.com/bb4/bb4-common/master/bb4.gradle'
-project.archivesBaseName = 'bb4-ui'
-mainClassName = "com.barrybecker4.ui.application.ApplicationFrame"
 
 dependencies {
     compile 'com.barrybecker4:bb4-common:1.6-SNAPSHOT'
     compile 'com.barrybecker4:bb4-math:1.6-SNAPSHOT'
-    //compile 'org.scala-lang.modules:scala-swing_2.12:2.0.0'
-}
-
-jar {
-    archiveFileName = "${project.archivesBaseName}-${project.version}.jar"
-
-    manifest {
-        attributes 'Implementation-Title': 'Common UI code',
-            'Implementation-Version': project.version,
-            provider: 'gradle',
-            'Main-Class': mainClassName
-    }
 }
 
 apply from: 'https://raw.githubusercontent.com/bb4/bb4-common/master/bb4-publish.gradle'
