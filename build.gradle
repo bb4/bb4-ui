@@ -16,10 +16,11 @@ dependencies {
 }
 
 jar {
-    archiveName = "${archivesBaseName}-${version}.jar"
+    archiveFileName = "${project.archivesBaseName}-${project.version}.jar"
+
     manifest {
         attributes 'Implementation-Title': 'Common UI code',
-            'Implementation-Version': version,
+            'Implementation-Version': project.version,
             provider: 'gradle',
             'Main-Class': mainClassName
     }
