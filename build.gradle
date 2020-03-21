@@ -1,6 +1,6 @@
 // Copyright by Barry G. Becker, 2013-2019. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 plugins {
-    id "com.github.maiflai.scalatest" version "0.25" // needed to run scala tests
+    id "com.github.maiflai.scalatest" version "0.26" // needed to run scala tests
 }
 description = 'Common bb4 swing user interface java code. Library project.'
 group = 'com.barrybecker4'
