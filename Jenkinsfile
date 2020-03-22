@@ -1,4 +1,4 @@
 commonJenkinsPipeline(
     language: 'scala',
-    upstreamProjects: ""
+    upstreamProjects: "bb4-common-pipeline,bb4-math-pipeline"
 )
