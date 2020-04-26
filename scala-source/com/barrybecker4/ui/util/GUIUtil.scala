@@ -127,7 +127,7 @@ object GUIUtil {
     baseFrame.setLocation((d.width - width) >> 2, (d.height - height) >> 2)
     val dim = applet.getContentPane.getSize
     if (dim.width == 0) baseFrame.setSize(width, height)
-    else baseFrame.setSize(applet.getSize)
+    else baseFrame.setSize(dim)
     applet.init()
     baseFrame.setTitle(applet.getName)
     baseFrame.repaint()
