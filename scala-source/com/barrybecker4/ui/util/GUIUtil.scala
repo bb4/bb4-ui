@@ -114,7 +114,7 @@ object GUIUtil {
     */
   def showApplet(applet: JApplet): JFrame = {
     val baseFrame = new JFrame
-    /* not needed since java 1.6? */ baseFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE)
+
     baseFrame.addWindowListener(new WindowAdapter() {
       override def windowClosed(e: WindowEvent): Unit = {
         System.exit(0)
@@ -125,7 +125,7 @@ object GUIUtil {
     val height = (2.0 * d.getHeight / 3.0).toInt
     val width = Math.min(height * 1.5, 2.0 * d.getWidth / 3).toInt
     baseFrame.setLocation((d.width - width) >> 2, (d.height - height) >> 2)
-    val dim = applet.getSize
+    val dim = applet.getContentPane.getSize
     if (dim.width == 0) baseFrame.setSize(width, height)
     else baseFrame.setSize(applet.getSize)
     applet.init()
