@@ -47,18 +47,19 @@ abstract class AnimationComponent extends JComponent with Runnable {
     */
   override def run(): Unit = {
     render()
-    while (params.animating)
+    while (params.animating) {
       if (isPaused) ThreadUtil.sleep(500)
-    else {
-      frameRateCalc.incrementFrameCount()
-      render()
-      if (params.recordAnimation) recorder.saveFrame(frameRateCalc.getFrameCount)
-      var i = 0
-      while (i < params.getNumStepsPerFrame) {
-        timeStep
-        i += 1
+      else {
+        frameRateCalc.incrementFrameCount()
+        render()
+        if (params.recordAnimation) recorder.saveFrame(frameRateCalc.getFrameCount)
+        var i = 0
+        while (i < params.getNumStepsPerFrame) {
+          timeStep
+          i += 1
+        }
+        animationChangeListener.statusChanged(getStatusMessage)
       }
-      animationChangeListener.statusChanged(getStatusMessage)
     }
   }
 

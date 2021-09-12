@@ -28,7 +28,7 @@ class NumberInput(val labelText: String, var initialValue: Double, val toolTip: 
                   val integerOnly: Boolean) extends JPanel {
 
   val initialVal: String = if (integerOnly) initialValue.toInt.toString else initialValue.toString
-  private var numberField = new JTextField(initialVal)
+  private val numberField = new JTextField(initialVal)
 
   setLayout(new BorderLayout)
   setAlignmentX(Component.CENTER_ALIGNMENT)
