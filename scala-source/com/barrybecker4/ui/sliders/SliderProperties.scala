@@ -15,7 +15,7 @@ package com.barrybecker4.ui.sliders
 class SliderProperties(var name: String, var minValue: Double, var maxValue: Double,
                        var initialValue: Double, var scale: Double = 1.0) {
 
-  def this(name: String, minValue: Int, maxValue: Int, initialValue: Int) {
+  def this(name: String, minValue: Int, maxValue: Int, initialValue: Int) = {
     this(name, minValue, maxValue, initialValue, 1.0)
   }
 

@@ -63,10 +63,10 @@ class FrameRateCalculator() {
   /** Determine the number of frames per second as a moving average.
     * Use the more stable method of calculation if all history is available.
     */
-  private def calculateFrameRate() = {
-    var deltaTime = .0
+  private def calculateFrameRate(): Unit = {
+    var deltaTime = 0.0
     val index = getIndex
-    val now = System.currentTimeMillis - totalPauseTime
+    val now = System.currentTimeMillis - totalPauseTime.toDouble
     if (frameCount < HISTORY_LENGTH) {
       deltaTime = now - previousTimes(0)
       frameRate = if (deltaTime == 0) 0.0 else (1000.0 * index) / deltaTime

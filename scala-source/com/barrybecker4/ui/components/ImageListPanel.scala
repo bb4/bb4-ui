@@ -43,7 +43,7 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
   this.addMouseListener(this)
 
   /** @param images array of identically sized images to show in an array.*/
-  def this(images: util.List[BufferedImage]) {
+  def this(images: util.List[BufferedImage]) = {
     this()
     setImageList(images)
   }

@@ -37,7 +37,7 @@ class SliderGroup(sliderProps: Array[SliderProperties]) extends JPanel with Chan
   commonInit(sliderProps)
 
   /** @param sliderNames used for both identification and labels */
-  def this(sliderNames: Array[String]) {
+  def this(sliderNames: Array[String]) = {
     this(sliderPropsFromNames(sliderNames))
   }
 

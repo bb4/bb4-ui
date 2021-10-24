@@ -23,7 +23,7 @@ final class AnimationFrame(val component: AnimationComponent, title: String)
     * Constructor
     * @param component the animation component to show and animate.
     */
-  def this(component: AnimationComponent) {
+  def this(component: AnimationComponent) = {
     this(component, null)
   }
 

@@ -4,9 +4,10 @@ package com.barrybecker4.ui.animation
 
 import com.barrybecker4.common.concurrency.ThreadUtil
 import org.junit.Assert.assertEquals
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.BeforeAndAfter
 
-class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
+class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
 
   /** instance under test. */
   private var calculator: FrameRateCalculator = _
@@ -15,7 +16,6 @@ class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
   before {
     calculator = new FrameRateCalculator
   }
-
 
   /** The frame rate given on the first frame is 0 because no frame rendered yet. */
   test("DefaultFrameRate") {
@@ -68,7 +68,7 @@ class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
     ThreadUtil.sleep(200)
     calculator.setPaused(false)
     calculator.incrementFrameCount()
-    assertEquals("Unexpected frame rate.", 28.0, calculator.getFrameRate, 4.0)
+    assertEquals("Unexpected frame rate.", 24.0, calculator.getFrameRate, 5.0)
   }
 
   test("FrameRateAWithTwoPauses") {
@@ -110,7 +110,7 @@ class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
     for (i <- 0 to 10)
       calculator.incrementFrameCount()
     ThreadUtil.sleep(40)
-    assertEquals("Unexpected frame rate.", 320.0, calculator.getFrameRate, 30.0)
+    assertEquals("Unexpected frame rate.", 300.0, calculator.getFrameRate, 40.0)
   }
 
   test("FrameRateAfter3WithDelayOf50") {
@@ -138,11 +138,11 @@ class FrameRateCalculatorSuite extends FunSuite with BeforeAndAfter {
   }
 
   test("FrameRateWithDelayAfterFilled100") {
-    verifyFrameRateAfterN(100, 10, 92, 9.0)
+    verifyFrameRateAfterN(100, 10, 64, 9.0)
   }
 
   test("FrameRateWithDelayAfterFilled200") {
-    verifyFrameRateAfterN(200, 20, 47, 8.0)
+    verifyFrameRateAfterN(200, 20, 33, 8.0)
   }
 
 

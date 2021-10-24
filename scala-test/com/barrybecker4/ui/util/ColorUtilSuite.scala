@@ -2,10 +2,9 @@
 package com.barrybecker4.ui.util
 
 import java.awt.Color
+import org.scalatest.funsuite.AnyFunSuite
 
-import org.scalatest.FunSuite
-
-class ColorUtilSuite extends FunSuite {
+class ColorUtilSuite extends AnyFunSuite {
 
   test("Get green color from string") {
     assertResult(Color.GREEN) { ColorUtil.getColorFromHTMLColor("00ff00") }

@@ -27,13 +27,13 @@ class GradientButton() extends JButton with MouseListener {
   commonDefaultInit()
 
   /** Constructor. default to colors from the UIManager */
-  def this(text: String) {
+  def this(text: String) = {
     this()
     commonDefaultInit()
     this.setText(text)
   }
 
-  def this(text: String, icon: Icon) {
+  def this(text: String, icon: Icon) = {
     this()
     commonDefaultInit()
     this.setText(text)
@@ -44,7 +44,7 @@ class GradientButton() extends JButton with MouseListener {
     * @param startColor the color at the top of the button
     * @param endColor   the color at the bottom of the button
     */
-  def this(startColor: Color, endColor: Color) {
+  def this(startColor: Color, endColor: Color) = {
     this()
     gradientStartColor = startColor
     gradientEndColor = endColor

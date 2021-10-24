@@ -25,7 +25,7 @@ abstract class TableBase() {
   /** information about each column and its header. */
   protected var columnMeta: Array[TableColumnMeta] = _
 
-  def this(rows: Seq[_], columnNames: Array[String]) {
+  def this(rows: Seq[_], columnNames: Array[String]) = {
     this()
     initColumnMeta(columnNames)
     initializeTable(rows)
@@ -33,17 +33,17 @@ abstract class TableBase() {
 
   /** @param rows to initialize the rows in the table with.
     */
-  def this(rows: Seq[_], columnMeta: Array[TableColumnMeta]) {
+  def this(rows: Seq[_], columnMeta: Array[TableColumnMeta]) = {
     this()
     this.columnMeta = columnMeta
     initializeTable(rows)
   }
 
-  def this(rows: java.util.ArrayList[AnyRef], columnMeta: Array[TableColumnMeta]) {
+  def this(rows: java.util.ArrayList[AnyRef], columnMeta: Array[TableColumnMeta]) = {
     this(conv(rows), columnMeta)
   }
 
-  def this(rows: java.util.ArrayList[AnyRef], columnNames: Array[String]) {
+  def this(rows: java.util.ArrayList[AnyRef], columnNames: Array[String]) = {
     this(conv(rows), columnNames)
   }
 

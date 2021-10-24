@@ -30,7 +30,7 @@ abstract class AbstractDialog() extends JDialog with ActionListener {
     * Constructor.
     * @param parent parent component to place ourselves relative to.
     */
-  def this(parent: Component) {
+  def this(parent: Component) = {
     this()
     this.myParent = parent
   }

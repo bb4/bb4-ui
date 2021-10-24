@@ -16,7 +16,7 @@ class BasicTableModel(columnNames: Array[AnyRef], rowCount: Int, isEditable: Boo
 
   @deprecated("Use main constructor that takes (columnNames: Array, rowCount: Int, isEditable: Boolean) instead",
     "bb4-ui 1.6")
-  def this(data: Array[Array[AnyRef]], columnNames: Array[AnyRef], isEditable: Boolean) {
+  def this(data: Array[Array[AnyRef]], columnNames: Array[AnyRef], isEditable: Boolean) = {
     this(columnNames, 0, false)
     throw new UnsupportedOperationException("This constructor is not supported")
   }

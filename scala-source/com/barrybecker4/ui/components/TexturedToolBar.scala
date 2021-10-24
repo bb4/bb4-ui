@@ -25,7 +25,7 @@ class TexturedToolBar(theTexture: ImageIcon, theListener: ActionListener) extend
   protected var listener: ActionListener = theListener
 
 
-  def this(texture: ImageIcon) {
+  def this(texture: ImageIcon) = {
     this(texture, null)
   }
 

@@ -32,7 +32,7 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
   private var useAntialiasing: Boolean = true
   private var seriesColor: Color = MultipleFunctionRenderer.DEFAULT_SERIES_COLOR
 
-  def this(functions: Seq[Function]) { this(functions, None) }
+  def this(functions: Seq[Function]) = { this(functions, None) }
 
   def setUseAntialiasing(use: Boolean): Unit = { useAntialiasing = use }
 
@@ -76,7 +76,7 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
       for (i <- 0 to numPoints) {
         val x = domain.min + ext * (i.toDouble / numPoints)
         val y = function.getValue(x) + zeroHeight
-        drawConnectedLine(g2, scale, LEFT_MARGIN + i, y, LEFT_MARGIN + i - 1, lastY)
+        drawConnectedLine(g2, scale, LEFT_MARGIN.toFloat + i, y, LEFT_MARGIN.toFloat + i - 1, lastY)
         lastY = y
       }
     }

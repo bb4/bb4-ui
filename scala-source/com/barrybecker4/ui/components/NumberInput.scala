@@ -50,18 +50,18 @@ class NumberInput(val labelText: String, var initialValue: Double, val toolTip: 
     * This uses a default of 0 until the real default can be set with setInitialValue.
     * @param labelText label for the number input element
     */
-  def this(labelText: String) {
+  def this(labelText: String) = {
     this(labelText, 0, null, Integer.MIN_VALUE, Integer.MAX_VALUE, true)
   }
 
   /** @param labelText    label for the number input element
     * @param initialValue the value to use if nothing else if entered. shows in the ui.
     */
-  def this(labelText: String, initialValue: Int) {
+  def this(labelText: String, initialValue: Int) = {
     this(labelText, initialValue, null, Integer.MIN_VALUE, Integer.MAX_VALUE, true)
   }
 
-  def this(labelText: String, initialValue: Double) {
+  def this(labelText: String, initialValue: Double) = {
     this(labelText, initialValue, null, -Double.MaxValue, Double.MaxValue, false)
   }
 

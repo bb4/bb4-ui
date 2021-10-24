@@ -31,7 +31,7 @@ class TextInput(val labelText: String, val initialValue: String) extends JPanel 
     * This uses a default of 0 until the real default can be set with setInitialValue.
     * @param labelText label for the number input element
     */
-  def this(labelText: String) {
+  def this(labelText: String) = {
     this(labelText, "")
   }
 
@@ -40,7 +40,7 @@ class TextInput(val labelText: String, val initialValue: String) extends JPanel 
     * @param initialValue the value to use if nothing else if entered. shows in the ui.
     * @param numColumns   width of text field.
     */
-  def this(labelText: String, initialValue: String, numColumns: Int) {
+  def this(labelText: String, initialValue: String, numColumns: Int) = {
     this(labelText, initialValue)
     this.setColumns(numColumns)
   }

@@ -21,7 +21,7 @@ class TableColumnMeta(var name: String, var tooltip: String) {
   private var cellRenderer: TableCellRenderer = _
   private var cellEditor: TableCellEditor = _
 
-  def this(name: String, tooltip: String, minWidth: Int, preferredWidth: Int, maxWidth: Int) {
+  def this(name: String, tooltip: String, minWidth: Int, preferredWidth: Int, maxWidth: Int) = {
     this(name, tooltip)
     this.minWidth = minWidth
     this.preferredWidth = preferredWidth

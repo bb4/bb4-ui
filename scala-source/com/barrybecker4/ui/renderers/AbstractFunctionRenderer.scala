@@ -99,7 +99,7 @@ abstract class AbstractFunctionRenderer {
       //FormatUtil.formatNumber(cutpoints[i]);
       val labelWidth = metrics.stringWidth(label)
       val yPos = (yOffset + MARGIN + Math.abs(yRange.max - cutpoints(i)) / ext * chartHt).toFloat
-      g2.drawString(label, xOffset + LEFT_MARGIN - labelWidth - 3, yPos + 5)
+      g2.drawString(label, xOffset.toFloat + LEFT_MARGIN - labelWidth - 3, yPos.toFloat + 5)
     }
 
     val eps = yRange.getExtent * 0.05

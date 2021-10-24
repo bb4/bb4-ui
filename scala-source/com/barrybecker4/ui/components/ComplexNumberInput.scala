@@ -54,14 +54,14 @@ class ComplexNumberInput(val labelText: String, var initialValue: ComplexNumber,
     * This uses a default of 0 until the real default can be set with setInitialValue.
     * @param labelText label for the number input element
     */
-  def this(labelText: String) {
+  def this(labelText: String) = {
     this(labelText, new ComplexNumber(0, 0), null, ComplexNumberInput.DEFAULT_RANGE)
   }
 
   /** @param labelText label for the number input element
     * @param initialValue the value to use if nothing else if entered. shows in the ui.
     */
-  def this(labelText: String, initialValue: ComplexNumber) {
+  def this(labelText: String, initialValue: ComplexNumber) = {
     this(labelText, initialValue, null, ComplexNumberInput.DEFAULT_RANGE)
   }
 

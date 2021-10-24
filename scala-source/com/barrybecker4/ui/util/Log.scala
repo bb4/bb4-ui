@@ -33,7 +33,7 @@ class Log(logWindow: OutputWindow) extends ILog {
   private var logBuffer: StringBuilder = _
 
 
-  def this() {this(null)}
+  def this() = { this(null) }
 
   /** @return the current loggin destination*/
   override def getDestination: Int = logDestination

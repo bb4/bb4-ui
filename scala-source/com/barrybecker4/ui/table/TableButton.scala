@@ -33,7 +33,7 @@ class TableButton(text: String, theId: String) extends GradientButton(text) with
     * @param columnIndex the column that has the label to show in the button.
     * @param id          used to identify the button clicked in the tableButton handler.
     */
-  def this(columnIndex: Int, id: String) {
+  def this(columnIndex: Int, id: String) = {
     this("---", id)
     this.columnIndex = columnIndex
   }

@@ -19,7 +19,7 @@ abstract class OptionsDialog(parent: Component) extends AbstractDialog(parent) {
   commonInit()
 
   /** Constructor  (use this constructor if possible) */
-  def this() {
+  def this() = {
     this(null)
     commonInit()
   }

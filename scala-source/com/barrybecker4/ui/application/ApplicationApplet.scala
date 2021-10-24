@@ -35,7 +35,7 @@ abstract class ApplicationApplet(val args: Array[String]) extends JApplet {
   initializeContext(localeName)
   protected var resizablePanel: ResizableAppletPanel = _
 
-  def this() { this(Array[String]()) }
+  def this() = { this(Array[String]()) }
 
   /** Initialize. Called by the browser. */
   override def init(): Unit = {

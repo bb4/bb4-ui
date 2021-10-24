@@ -21,7 +21,7 @@ class ContinuousColorLegend(var title: String, var colormap: ColorMap, val edita
   var isEditable: Boolean = editable
   initUI()
 
-  def this(title: String, colormap: ColorMap) {
+  def this(title: String, colormap: ColorMap) = {
     this(title, colormap, false)
   }
 

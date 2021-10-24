@@ -30,7 +30,7 @@ class PasswordDialog(expectedPassword: String) extends AbstractDialog with Actio
 
   showContent()
 
-  def this() {
+  def this() = {
     this(DEFAULT_PASSWORD)
   }
 

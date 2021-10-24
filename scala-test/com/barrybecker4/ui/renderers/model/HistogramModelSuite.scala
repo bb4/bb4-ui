@@ -3,10 +3,10 @@ package com.barrybecker4.ui.renderers.model
 
 import com.barrybecker4.math.Range
 import com.barrybecker4.math.function.{LinearFunction, LogFunction}
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 
-class HistogramModelSuite extends FunSuite {
+class HistogramModelSuite extends AnyFunSuite {
 
   test("model construction 2 bins (1, 2) low median" ) {
     val data = Array(2, 1)

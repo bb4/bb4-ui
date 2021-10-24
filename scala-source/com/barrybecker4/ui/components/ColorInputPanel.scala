@@ -32,7 +32,7 @@ class ColorInputPanel(val label: String, val toolTip: String, val colorButton: J
   this.add(colorButton)
 
   /** Alternative constructor which gives hook for calling back to client when color has actually been selected */
-  def this(label: String, toolTip: String, colorButton: JButton, actionListener: ActionListener) {
+  def this(label: String, toolTip: String, colorButton: JButton, actionListener: ActionListener) = {
     this(label, toolTip, colorButton)
     this.actionListener = Some(actionListener)
   }

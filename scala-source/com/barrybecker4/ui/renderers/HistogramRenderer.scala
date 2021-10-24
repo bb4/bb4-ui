@@ -51,7 +51,7 @@ class HistogramRenderer(val data: Array[Int],
   /** Constructor that starts at x=0 and assumes no scaling ont he x axis.
     * @param data the array to hold counts for each x axis position.
     */
-  def this(data: Array[Int]) {
+  def this(data: Array[Int]) = {
     this(data, new LinearFunction(1.0))
   }
 
@@ -83,7 +83,7 @@ class HistogramRenderer(val data: Array[Int],
     val maxHeight = model.getMaxHeight
     val scale = (height - 2.0 * MARGIN) / maxHeight
     clearBackground(g2)
-    var xpos: Float = MARGIN
+    var xpos: Float = MARGIN.toFloat
     var xIdx = 0
     for (value <- data) {
       drawBar(g2, scale, xpos, xIdx, value)

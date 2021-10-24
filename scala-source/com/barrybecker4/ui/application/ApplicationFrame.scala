@@ -25,7 +25,7 @@ class ApplicationFrame(title: String)
   extends JFrame(if (title == null) ApplicationFrame.DEFAULT_TITLE else title) {
   createUI()
 
-  def this() {
+  def this() = {
     this(ApplicationFrame.DEFAULT_TITLE)
   }
 

@@ -14,7 +14,7 @@ class ScrollingTextArea() extends JScrollPane with Appendable {
   private var textArea  = createTextArea(0, 0)
   this.setViewportView(textArea)
 
-  def this(rows: Int, cols: Int) {
+  def this(rows: Int, cols: Int) = {
     this()
     textArea = createTextArea(rows, cols)
     this.setViewportView(textArea)

@@ -2,9 +2,9 @@
 package com.barrybecker4.ui.util
 
 import java.awt.Color
-
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
 import ColorMapSuite._
+import org.scalatest.funsuite.AnyFunSuite
 
 
 /**
@@ -15,7 +15,7 @@ object ColorMapSuite {
   private val COLORS = Array(new Color(255, 0, 0, 200), new Color(0, 255, 0, 200), new Color(0, 0, 255, 255))
 }
 
-class ColorMapSuite extends FunSuite with BeforeAndAfter {
+class ColorMapSuite extends AnyFunSuite with BeforeAndAfter {
 
   private var colormap: ColorMap = _
 
