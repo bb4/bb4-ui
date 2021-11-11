@@ -43,7 +43,7 @@ class MainTexturePanel() extends TexturedPanel(MainTexturePanel.BACKGROUND_IMG) 
     val panel = new TexturedPanel(MainTexturePanel.BACKGROUND_IMG)
     sampleInput1 = new NumberInput(AppContext.getLabel("TEST_MESSAGE"))
     sampleInput2 = new NumberInput("label with initial value", 2)
-    sampleInput2.setMaxAllowed(300)
+    sampleInput2.maxAllowed = 300.0
     integerInput = new NumberInput("some integer", 3,
       "some tooltip", 2, 99, true)
     floatInput = new NumberInput("some float", 3,
@@ -86,8 +86,8 @@ class MainTexturePanel() extends TexturedPanel(MainTexturePanel.BACKGROUND_IMG) 
   override def keyTyped(e: KeyEvent): Unit = {}
   override def keyPressed(e: KeyEvent): Unit = {}
   override def keyReleased(e: KeyEvent): Unit = {
-    println("in1= " + sampleInput1.getValue + " in2 = " + sampleInput2.getValue +
-      " int= " + integerInput.getIntValue, " float=" + floatInput.getValue)
+    println(s"in1= ${sampleInput1.getValue}  in2 = ${sampleInput2.getValue}" +
+      s" int= ${integerInput.getIntValue},  float=${floatInput.getValue}")
   }
 
   override def actionPerformed(e: ActionEvent): Unit = {
