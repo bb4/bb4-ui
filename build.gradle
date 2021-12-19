@@ -1,13 +1,13 @@
-// Copyright by Barry G. Becker, 2013-2019. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+// Copyright by Barry G. Becker, 2013-2021. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 
 buildscript {
     repositories {
-        // retrieve the shared gradle build scripts from here
+
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/"}
-        maven { url "https://oss.sonatype.org/content/repositories/releases" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
     dependencies {
-        classpath 'com.barrybecker4:bb4-gradle:1.7-SNAPSHOT'
+        classpath 'com.barrybecker4:bb4-gradle:1.7'
     }
 }
 
@@ -16,7 +16,7 @@ plugins {
 }
 description = 'Common bb4 swing user interface java code. Library project.'
 group = 'com.barrybecker4'
-version = '1.7-SNAPSHOT'
+version = '1.7'
 ext {
     archivesBaseName = 'bb4-ui'
     mainClass = "com.barrybecker4.ui.application.ApplicationFrame"
@@ -25,8 +25,8 @@ ext {
 apply from: project.buildscript.classLoader.getResource('bb4.gradle').toURI()
 
 dependencies {
-    implementation 'com.barrybecker4:bb4-common:1.7-SNAPSHOT'
-    implementation 'com.barrybecker4:bb4-math:1.7-SNAPSHOT'
+    implementation 'com.barrybecker4:bb4-common:1.7'
+    implementation 'com.barrybecker4:bb4-math:1.7'
 }
 
 apply from: project.buildscript.classLoader.getResource('bb4-publish.gradle').toURI()
