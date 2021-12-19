@@ -16,7 +16,7 @@ plugins {
 }
 description = 'Common bb4 swing user interface java code. Library project.'
 group = 'com.barrybecker4'
-version = '1.7'
+version = '1.8-SNAPSHOT'
 ext {
     archivesBaseName = 'bb4-ui'
     mainClass = "com.barrybecker4.ui.application.ApplicationFrame"

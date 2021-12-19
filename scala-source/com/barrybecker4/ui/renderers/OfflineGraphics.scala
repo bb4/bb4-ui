@@ -42,7 +42,7 @@ class OfflineGraphics(val dim: Dimension, var bgColor: Color) {
     if (offlineGraphics.isDefined) offlineGraphics.get.fillOval(x1 - rad, y1 - rad, rad * 2, rad * 2)
 
   def drawRect(x1: Int, y1: Int, width: Int, height: Int): Unit =
-    if (offlineGraphics.isDefined) offlineGraphics.get.drawRect(x1, y1, x1, y1)
+    if (offlineGraphics.isDefined) offlineGraphics.get.drawRect(x1, y1, width, height)
 
   def drawImage(img: Image, x: Int, y: Int, observer: ImageObserver): Unit =
     if (offlineGraphics.isDefined) offlineGraphics.get.drawImage(img, x, y, observer)
