@@ -1,8 +1,10 @@
 /* Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT */
 package com.barrybecker4.ui.renderers
 
+import com.barrybecker4.common.geometry.Box
 import com.barrybecker4.ui.util.ImageUtil
-import java.awt._
+
+import java.awt.*
 import java.awt.image.BufferedImage
 import java.awt.image.ImageObserver
 
@@ -35,6 +37,13 @@ class OfflineGraphics(val dim: Dimension, var bgColor: Color) {
   def fillRect(x: Int, y: Int, width: Int, height: Int): Unit =
     if (offlineGraphics.isDefined) offlineGraphics.get.fillRect(x, y, width, height)
 
+  def fillBox(box: Box): Unit = {
+    if (offlineGraphics.isDefined) {
+      val pt = box.getTopLeftCorner
+      offlineGraphics.get.fillRect(pt.getX, pt.getY, box.getWidth, box.getHeight)
+    }
+  }
+
   def drawPoint(x1: Int, y1: Int): Unit =
     if (offlineGraphics.isDefined) offlineGraphics.get.drawLine(x1, y1, x1, y1)
 
@@ -43,6 +52,13 @@ class OfflineGraphics(val dim: Dimension, var bgColor: Color) {
 
   def drawRect(x1: Int, y1: Int, width: Int, height: Int): Unit =
     if (offlineGraphics.isDefined) offlineGraphics.get.drawRect(x1, y1, width, height)
+
+  def drawBox(box: Box): Unit = {
+    if (offlineGraphics.isDefined) {
+      val pt = box.getTopLeftCorner
+      offlineGraphics.get.drawRect(pt.getX, pt.getY, box.getWidth, box.getHeight)
+    }
+  }
 
   def drawImage(img: Image, x: Int, y: Int, observer: ImageObserver): Unit =
     if (offlineGraphics.isDefined) offlineGraphics.get.drawImage(img, x, y, observer)

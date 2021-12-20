@@ -25,7 +25,7 @@ ext {
 apply from: project.buildscript.classLoader.getResource('bb4.gradle').toURI()
 
 dependencies {
-    implementation 'com.barrybecker4:bb4-common:1.7'
+    implementation 'com.barrybecker4:bb4-common:1.8-SNAPSHOT'
     implementation 'com.barrybecker4:bb4-math:1.7'
 }
 
