@@ -31,7 +31,7 @@ object SliderGroup {
   * @author Barry Becker
   */
 class SliderGroup(sliderProps: Array[SliderProperties]) extends JPanel with ChangeListener {
-  private var sliderListener: SliderGroupChangeListener = _
+  private var sliderListener: Option[SliderGroupChangeListener] = None
   private var labels: Array[JLabel] = _
   private var sliders: Array[JSlider] = _
   commonInit(sliderProps)
@@ -98,8 +98,16 @@ class SliderGroup(sliderProps: Array[SliderProperties]) extends JPanel with Chan
     sliders(sliderIndex).setMinimum(mn.toInt)
   }
 
-  def addSliderChangeListener(listener: SliderGroupChangeListener): Unit = {
-    sliderListener = listener
+  def setSliderListener(listener: SliderGroupChangeListener): Unit = {
+    sliderListener = Some(listener)
+  }
+
+  def getSliderListener(): Option[SliderGroupChangeListener] = {
+    sliderListener
+  }
+
+  def removeSliderListener(): Unit = {
+    sliderListener = None
   }
 
   private def getSliderTitle(index: Int, value: Int) = {
@@ -125,10 +133,6 @@ class SliderGroup(sliderProps: Array[SliderProperties]) extends JPanel with Chan
     p
   }
 
-  def setSliderListener(listener: SliderGroupChangeListener): Unit = {
-    sliderListener = listener
-  }
-
   /** @param name of the slider to enable or disable.*/
   def setEnabled(name: String, enable: Boolean): Unit = {
     var slider: JSlider = null
@@ -152,9 +156,9 @@ class SliderGroup(sliderProps: Array[SliderProperties]) extends JPanel with Chan
       if (src eq slider) {
         val value = slider.getValue
         labels(i).setText(getSliderTitle(i, value))
-        if (sliderListener != null) {
+        if (sliderListener.isDefined) {
           val v = value.toDouble / sliderProps(i).getScale
-          sliderListener.sliderChanged(i, sliderProps(i).getName, v)
+          sliderListener.get.sliderChanged(i, sliderProps(i).getName, v)
         }
       }
     }
