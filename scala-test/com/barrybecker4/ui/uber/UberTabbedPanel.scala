@@ -3,9 +3,11 @@ package com.barrybecker4.ui.uber
 
 import javax.swing.JTabbedPane
 
+
 class UberTabbedPanel extends JTabbedPane {
 
   addTab("Input Elements", new MainTexturePanel)
+  addTab("Slider Group", new SliderGroupPanel)
   addTab("ImageListPanel", new ImageListTestPanel)
   addTab("ImageListsPanel", new ImageListsTestPanel)
   addTab("Players", new TablePanel())
