@@ -20,7 +20,7 @@ object RangeSliderDemo {
 
   def main(args: Array[String]): Unit = {
     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
-    RangeSliderDemo(VERTICAL).display()
+    RangeSliderDemo(HORIZONTAL).display()
   }
 }
 

@@ -114,19 +114,15 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
       val lowerX = thumbRect.x + (thumbRect.width / 2)
       val upperX = upperThumbRect.x + (upperThumbRect.width / 2)
       val cy = (trackBounds.height / 2) - 2
-      g.translate(trackBounds.x, trackBounds.y + cy)
       g.setColor(RANGE_COLOR)
-      g.fillRect(lowerX - trackBounds.x, 0, upperX - lowerX, 4)
-      g.translate(-trackBounds.x, -(trackBounds.y + cy))
+      g.fillRect(lowerX, trackBounds.y + cy, upperX - lowerX, 4)
     }
     else {
       val lowerY = thumbRect.y + (thumbRect.height / 2)
       val upperY = upperThumbRect.y + (upperThumbRect.height / 2)
       val cx = (trackBounds.width / 2) - 2
-      g.translate(trackBounds.x + cx, trackBounds.y)
       g.setColor(RANGE_COLOR)
-      g.fillRect(0, lowerY - trackBounds.y, 4, upperY - lowerY)
-      g.translate(-(trackBounds.x + cx), -trackBounds.y)
+      g.fillRect(trackBounds.x + cx - 1, lowerY, 4, upperY - lowerY)
     }
   }
 
