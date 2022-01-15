@@ -1,16 +1,19 @@
-/* Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT */
-package com.barrybecker4.ui.uber
+// Copyright by Barry G. Becker, 2022. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+package com.barrybecker4.ui.uber.tabs
 
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.math.complex.ComplexNumber
 import com.barrybecker4.ui.components.{ComplexNumberInput, GradientButton, NumberInput, TexturedPanel}
-import com.barrybecker4.ui.util.{ColorMap, GUIUtil}
-import javax.swing.JButton
-import javax.swing.JPanel
-import java.awt.{BorderLayout, Color, Dimension}
-import java.awt.event.{ActionEvent, ActionListener, KeyEvent, KeyListener}
-import com.barrybecker4.ui.legend.ContinuousColorLegend
 import com.barrybecker4.ui.dialogs.PasswordDialog
+import com.barrybecker4.ui.legend.ContinuousColorLegend
+import com.barrybecker4.ui.uber.UberAppConstants
+import com.barrybecker4.ui.uber.components.UberToolbar
+import com.barrybecker4.ui.uber.tabs.MainTexturePanel
+import com.barrybecker4.ui.util.{ColorMap, GUIUtil}
+
+import java.awt.event.{ActionEvent, ActionListener, KeyEvent, KeyListener}
+import java.awt.{BorderLayout, Color, Dimension}
+import javax.swing.{JButton, JPanel}
 
 
 /**

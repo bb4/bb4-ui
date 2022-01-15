@@ -1,13 +1,14 @@
-/* Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT */
-package com.barrybecker4.ui.uber
+/*
+ * Copyright by Barry G. Becker, 2022. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+ */
+package com.barrybecker4.ui.uber.components
 
-import com.barrybecker4.ui.components.GradientButton
-import com.barrybecker4.ui.components.TexturedToolBar
+import com.barrybecker4.ui.components.{GradientButton, TexturedToolBar}
+import com.barrybecker4.ui.uber.UberAppConstants.IMAGE_ROOT
 import com.barrybecker4.ui.util.GUIUtil
-import java.awt.Color
-import java.awt.Dimension
+
+import java.awt.{Color, Dimension}
 import java.awt.event.ActionListener
-import UberAppConstants.IMAGE_ROOT
 
 
 /**

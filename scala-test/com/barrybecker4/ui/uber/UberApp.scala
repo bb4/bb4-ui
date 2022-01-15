@@ -7,10 +7,8 @@ import com.barrybecker4.ui.components.SplashScreen
 import com.barrybecker4.ui.util.GUIUtil
 import com.barrybecker4.ui.util.Log
 import UberAppConstants.IMAGE_ROOT
+import com.barrybecker4.ui.uber.components.UberTabbedPanel
 
-object UberAppConstants {
-  val IMAGE_ROOT = "com/barrybecker4/ui/uber/images/" // NON-NLS
-}
 
 /**
   * An app that tries to demonstrate the use of most of the UI components in this package.

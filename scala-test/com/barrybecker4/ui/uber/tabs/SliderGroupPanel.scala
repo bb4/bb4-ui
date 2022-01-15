@@ -1,5 +1,5 @@
-/* Copyright by Barry G. Becker, 2022. Licensed under MIT License: http://www.opensource.org/licenses/MIT */
-package com.barrybecker4.ui.uber
+// Copyright by Barry G. Becker, 2022. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+package com.barrybecker4.ui.uber.tabs
 
 import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.math.complex.ComplexNumber
@@ -7,12 +7,13 @@ import com.barrybecker4.ui.components.{ComplexNumberInput, GradientButton, Numbe
 import com.barrybecker4.ui.dialogs.PasswordDialog
 import com.barrybecker4.ui.legend.ContinuousColorLegend
 import com.barrybecker4.ui.sliders.{SliderGroupChangeListener, SliderProperties}
+import com.barrybecker4.ui.uber.components.ParameterSliders
+import com.barrybecker4.ui.uber.tabs.MainTexturePanel
 import com.barrybecker4.ui.util.{ColorMap, GUIUtil}
 
 import java.awt.event.{ActionEvent, ActionListener, KeyEvent, KeyListener}
 import java.awt.{BorderLayout, Color, Dimension}
 import javax.swing.{JButton, JPanel}
-
 
 
 /**

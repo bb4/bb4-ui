@@ -1,12 +1,15 @@
-// Copyright by Barry G. Becker, 2019. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.ui.uber
+/*
+ * Copyright by Barry G. Becker, 2022. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+ */
+package com.barrybecker4.ui.uber.tabs
+
+import com.barrybecker4.ui.components.{ImageListsScrollPanel, TexturedPanel}
+import com.barrybecker4.ui.uber.UberAppConstants.IMAGE_ROOT
+import com.barrybecker4.ui.uber.tabs.ImageListsTestPanel.imgAndTip
+import com.barrybecker4.ui.uber.tabs.MainTexturePanel.BACKGROUND_IMG
+import com.barrybecker4.ui.util.GUIUtil
 
 import java.awt.BorderLayout
-import com.barrybecker4.ui.components.{ImageListsScrollPanel, TexturedPanel}
-import com.barrybecker4.ui.util.GUIUtil
-import ImageListsTestPanel.imgAndTip
-import UberAppConstants.IMAGE_ROOT
-import MainTexturePanel.BACKGROUND_IMG
 
 
 object ImageListsTestPanel {

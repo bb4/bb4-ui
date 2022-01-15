@@ -1,8 +1,10 @@
-/* Copyright by Barry G. Becker, 2022. Licensed under MIT License: http://www.opensource.org/licenses/MIT  */
-package com.barrybecker4.ui.uber
+/*
+ * Copyright by Barry G. Becker, 2022. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+ */
+package com.barrybecker4.ui.uber.components
 
 import com.barrybecker4.ui.sliders.{SliderGroup, SliderProperties}
-import com.barrybecker4.ui.uber.ParameterSliders.*
+import com.barrybecker4.ui.uber.components.ParameterSliders.*
 
 object ParameterSliders {
   private val MAX_ROOM_WIDTH_SLIDER = "Max Width"

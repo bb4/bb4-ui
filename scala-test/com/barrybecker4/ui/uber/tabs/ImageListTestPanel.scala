@@ -1,12 +1,14 @@
-// Copyright by Barry G. Becker, 2019. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.ui.uber
-
-import java.awt.BorderLayout
+/*
+ * Copyright by Barry G. Becker, 2022. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+ */
+package com.barrybecker4.ui.uber.tabs
 
 import com.barrybecker4.ui.components.{ImageListPanel, TexturedPanel}
+import com.barrybecker4.ui.uber.UberAppConstants.IMAGE_ROOT
+import com.barrybecker4.ui.uber.tabs.MainTexturePanel.BACKGROUND_IMG
 import com.barrybecker4.ui.util.GUIUtil
-import UberAppConstants.IMAGE_ROOT
-import MainTexturePanel.BACKGROUND_IMG
+
+import java.awt.BorderLayout
 
 
 class ImageListTestPanel() extends TexturedPanel(BACKGROUND_IMG) {

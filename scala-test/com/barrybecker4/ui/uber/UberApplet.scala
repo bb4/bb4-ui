@@ -2,7 +2,9 @@
 package com.barrybecker4.ui.uber
 
 import com.barrybecker4.ui.application.ApplicationApplet
+import com.barrybecker4.ui.uber.components.UberTabbedPanel
 import com.barrybecker4.ui.util.GUIUtil
+
 import javax.swing.JPanel
 import java.awt.BorderLayout
 import java.util

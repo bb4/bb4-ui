@@ -1,9 +1,11 @@
-// Copyright by Barry G. Becker, 2018. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.ui.uber
+// Copyright by Barry G. Becker, 2022. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+package com.barrybecker4.ui.uber.components
 
+import com.barrybecker4.ui.table.*
+import com.barrybecker4.ui.uber.components.DemoTable.*
+import com.barrybecker4.ui.uber.components.Player
 import java.awt.Color
-import com.barrybecker4.ui.table._
-import DemoTable._
+
 
 /**
   * Shows a list of players
@@ -51,4 +53,3 @@ class DemoTable()
   protected def getPlayerModel: BasicTableModel = table.getModel.asInstanceOf[BasicTableModel]
 }
 
-case class Player(name: String, color: Color)

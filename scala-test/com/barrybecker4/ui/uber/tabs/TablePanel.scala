@@ -1,8 +1,11 @@
-//Copyright by Barry G. Becker, 2018. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.ui.uber
+// Copyright by Barry G. Becker, 2022. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+package com.barrybecker4.ui.uber.tabs
+
+import com.barrybecker4.ui.components.TexturedPanel
+import com.barrybecker4.ui.uber.components.DemoTable
+import com.barrybecker4.ui.uber.tabs.MainTexturePanel
 
 import java.awt.BorderLayout
-import com.barrybecker4.ui.components.{TexturedPanel}
 import javax.swing.{BorderFactory, JButton, JPanel, JScrollPane}
 
 

@@ -1,14 +1,17 @@
-// Copyright by Barry G. Becker, 2018. Licensed under MIT License: http://www.opensource.org/licenses/MIT
-package com.barrybecker4.ui.uber
+/*
+ * Copyright by Barry G. Becker, 2022. Licensed under MIT License: http://www.opensource.org/licenses/MIT
+ */
+package com.barrybecker4.ui.uber.tabs
 
-import java.awt.{Dimension, Graphics}
 import com.barrybecker4.common.format.CurrencyFormatter
 import com.barrybecker4.math.Range
 import com.barrybecker4.math.function.LinearFunction
 import com.barrybecker4.ui.renderers.HistogramRenderer
-import javax.swing._
+import com.barrybecker4.ui.uber.tabs.ComplexHistogramTestPanel.NUM_X_POINTS
+
+import java.awt.{Dimension, Graphics}
+import javax.swing.*
 import scala.util.Random
-import com.barrybecker4.ui.uber.ComplexHistogramTestPanel.NUM_X_POINTS
 
 
 object ComplexHistogramTestPanel {
