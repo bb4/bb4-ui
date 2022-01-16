@@ -20,49 +20,41 @@ object RangeSliderDemo {
 
   def main(args: Array[String]): Unit = {
     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName)
-    RangeSliderDemo(HORIZONTAL).display()
+    RangeSliderDemo().display()
   }
 }
 
-class RangeSliderDemo(orientation: Int) extends JPanel {
+class RangeSliderDemo() extends JPanel {
   setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6))
   setLayout(new GridBagLayout)
 
-  private val rangeSliderLabel1 = new JLabel
-  private val rangeSliderValue1 = new JLabel
-  private val rangeSliderLabel2 = new JLabel
-  private val rangeSliderValue2 = new JLabel
-  private val rangeSlider: RangeSlider = RangeSlider(0, 20)
-  rangeSlider.setOrientation(orientation)
+  private val rangeSliderLabel = new JLabel
+  private val rangeSlider1: RangeSlider = RangeSlider(0, 20)
+  rangeSlider1.setOrientation(HORIZONTAL)
 
-  rangeSliderLabel1.setText("Lower value:")
-  rangeSliderLabel2.setText("Upper value:")
-  rangeSliderValue1.setHorizontalAlignment(SwingConstants.LEFT)
-  rangeSliderValue2.setHorizontalAlignment(SwingConstants.LEFT)
-  rangeSlider.setPreferredSize(new Dimension(340, rangeSlider.getPreferredSize.height))
+  rangeSliderLabel.setText("Lower value:  Upper value: ")
+  rangeSliderLabel.setHorizontalAlignment(SwingConstants.LEFT)
+  rangeSlider1.setPreferredSize(new Dimension(340, rangeSlider1.getPreferredSize.height))
 
   // Add listener to update display.
-  rangeSlider.addChangeListener(new ChangeListener() {
+  rangeSlider1.addChangeListener(new ChangeListener() {
     override def stateChanged(e: ChangeEvent): Unit = {
       val slider = e.getSource.asInstanceOf[RangeSlider]
-      rangeSliderValue1.setText(String.valueOf(slider.getValue))
-      rangeSliderValue2.setText(String.valueOf(slider.getUpperValue))
+      updatelabel(slider)
     }
   })
 
-  add(rangeSliderLabel1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 3, 3), 0, 0))
-  add(rangeSliderValue1, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 3, 0), 0, 0))
-  add(rangeSliderLabel2, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 3, 3), 0, 0))
-  add(rangeSliderValue2, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 6, 0), 0, 0))
-  add(rangeSlider, new GridBagConstraints(0, 2, 2, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0))
+  add(rangeSliderLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+        GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 3, 3), 0, 0))
+  add(rangeSlider1, new GridBagConstraints(0, 2, 2, 1, 0.0, 0.0,
+        GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0))
 
 
   def display(): Unit = { // Initialize values.
-    rangeSlider.setValue(3)
-    rangeSlider.setUpperValue(16)
+    rangeSlider1.setValue(3)
+    rangeSlider1.setUpperValue(15)
     // Initialize value display.
-    rangeSliderValue1.setText(String.valueOf(rangeSlider.getValue))
-    rangeSliderValue2.setText(String.valueOf(rangeSlider.getUpperValue))
+    updatelabel(rangeSlider1)
     // Create window frame.
     val frame = new JFrame
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
@@ -75,5 +67,9 @@ class RangeSliderDemo(orientation: Int) extends JPanel {
     // Set window location and display.
     frame.setLocationRelativeTo(null)
     frame.setVisible(true)
+  }
+
+  private def updatelabel(slider: RangeSlider): Unit = {
+    rangeSliderLabel.setText(s"Lower value: ${slider.getValue} Upper value: ${slider.getUpperValue}")
   }
 }
