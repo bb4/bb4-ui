@@ -20,4 +20,5 @@ class UberTabbedPanel extends JTabbedPane {
   addTab("ComplexHistogram", new ComplexHistogramTestPanel)
   addTab("Multi-Function1", new MultiFunctionTestPanel)
   addTab("Multi-Function2", new ComplexMultiFunctionTestPanel)
+  addTab("Sliders", new SliderGroupPanel)
 }
