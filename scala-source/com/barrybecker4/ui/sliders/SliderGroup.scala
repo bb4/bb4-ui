@@ -2,12 +2,15 @@
 package com.barrybecker4.ui.sliders
 
 import com.barrybecker4.common.format.FormatUtil
-import javax.swing._
+
+import javax.swing.*
 import javax.swing.border.EtchedBorder
 import javax.swing.event.ChangeEvent
 import javax.swing.event.ChangeListener
-import java.awt._
-import SliderGroup._
+import java.awt.*
+import SliderGroup.*
+import com.barrybecker4.ui.sliders.properties.{Properties, RangeSliderProperties, SliderProperties}
+import com.barrybecker4.ui.sliders.rangeslider.RangeSlider
 
 
 object SliderGroup {
@@ -15,9 +18,9 @@ object SliderGroup {
   private val DEFAULT_MAX = 100
   private val DEFAULT_INITIAL = 50
 
-  def sliderPropsFromNames(sliderNames: Array[String]): Array[SliderProperties] = {
+  def sliderPropsFromNames(sliderNames: Array[String]): Array[Properties] = {
     val numSliders = sliderNames.length
-    val sliderProps = new Array[SliderProperties](numSliders)
+    val sliderProps = new Array[Properties](numSliders)
 
     for (i <- 0 until numSliders) {
       sliderProps(i) = new SliderProperties(sliderNames(i), DEFAULT_MIN, DEFAULT_MAX, DEFAULT_INITIAL)
@@ -30,7 +33,7 @@ object SliderGroup {
   * A group of horizontal sliders arranged vertically.
   * @author Barry Becker
   */
-class SliderGroup(sliderProps: Array[SliderProperties]) extends JPanel with ChangeListener {
+class SliderGroup(sliderProps: Array[Properties]) extends JPanel with ChangeListener {
   private var sliderListener: Option[SliderGroupChangeListener] = None
   private var labels: Array[JLabel] = _
   private var sliders: Array[JSlider] = _
@@ -41,22 +44,39 @@ class SliderGroup(sliderProps: Array[SliderProperties]) extends JPanel with Chan
     this(sliderPropsFromNames(sliderNames))
   }
 
-  protected def getSliderProperties: Array[SliderProperties] = sliderProps
+  protected def getSliderProperties: Array[Properties] = sliderProps
 
   /** Initialize sliders with floating point values. */
-  protected def commonInit(sliderProps: Array[SliderProperties]): Unit = {
+  protected def commonInit(sliderProps: Array[Properties]): Unit = {
     val numSliders = this.sliderProps.length
     labels = new Array[JLabel](numSliders)
     sliders = new Array[JSlider](numSliders)
 
     for (i <- 0 until numSliders) {
-      val scale = this.sliderProps(i).getScale
-      val intInitial = (this.sliderProps(i).getInitialValue * scale).toInt
-      val intMin = (this.sliderProps(i).getMinValue * scale).toInt
-      val intMax = (this.sliderProps(i).getMaxValue * scale).toInt
-      labels(i) = new JLabel(getSliderTitle(i, intInitial))
-      sliders(i) = new JSlider(SwingConstants.HORIZONTAL, intMin, intMax, intInitial)
-      sliders(i).addChangeListener(this)
+      val sliderProps = this.sliderProps(i)
+      val scale = sliderProps.getScale
+      val intMin = (sliderProps.getMinValue * scale).toInt
+      val intMax = (sliderProps.getMaxValue * scale).toInt
+      
+      sliderProps match {
+        case sliderProperties: SliderProperties => {
+          val intInitial = (sliderProperties.getInitialValue * scale).toInt
+          labels(i) = new JLabel(getSliderTitle(i, intInitial))
+          sliders(i) = new JSlider(SwingConstants.HORIZONTAL, intMin, intMax, intInitial)
+          sliders(i).addChangeListener(this)
+        }
+        case rangeSliderProperties: RangeSliderProperties => {
+          val lowerInitial = (rangeSliderProperties.getLowerValue * scale).toInt
+          val upperInitial = (rangeSliderProperties.getUpperValue * scale).toInt
+          labels(i) = new JLabel(getSliderTitle(i, lowerInitial, upperInitial))
+          val rangeSlider = RangeSlider(intMin, intMax)
+          rangeSlider.setValue(lowerInitial)
+          rangeSlider.setUpperValue(upperInitial)
+          sliders(i) = rangeSlider
+          sliders(i).addChangeListener(this)
+        }
+      }
+      
     }
     buildUI()
   }
@@ -64,8 +84,20 @@ class SliderGroup(sliderProps: Array[SliderProperties]) extends JPanel with Chan
   /** return all the sliders to their initial value. */
   def reset(): Unit = {
     for (i <- sliderProps.indices) {
-      val initial = (sliderProps(i).getInitialValue * sliderProps(i).getScale).toInt
-      sliders(i).setValue(initial)
+
+      sliderProps(i) match {
+        case sliderProperties: SliderProperties => {
+          val initial = (sliderProperties.getInitialValue * sliderProperties.getScale).toInt
+          sliders(i).setValue(initial)
+        }
+        case rangeSliderProperties: RangeSliderProperties => {
+          val initialLower = (rangeSliderProperties.getLowerValue * rangeSliderProperties.getScale).toInt
+          val initialUpper = (rangeSliderProperties.getUpperValue * rangeSliderProperties.getScale).toInt
+          val rangeSlider = sliders(i).asInstanceOf[RangeSlider]
+          rangeSlider.setValue(initialLower)
+          rangeSlider.setUpperValue(initialUpper)
+        }
+      }
     }
   }
 
@@ -110,10 +142,15 @@ class SliderGroup(sliderProps: Array[SliderProperties]) extends JPanel with Chan
     sliderListener = None
   }
 
-  private def getSliderTitle(index: Int, value: Int) = {
-    val title = sliderProps(index).getName + " : "
-    if (sliderProps(index).getScale == 1.0) title + FormatUtil.formatNumber(value)
-    else title + FormatUtil.formatNumber(value.toDouble / sliderProps(index).getScale)
+  private def getSliderTitle(index: Int, value: Int): String = 
+    sliderProps(index).getName + " : " + getActualValue(index, value)
+
+  private def getSliderTitle(index: Int, lowerValue: Int, upperValue: Int): String = 
+    sliderProps(index).getName + " : [" + getActualValue(index, lowerValue) + " , " + getActualValue(index, upperValue) + "]"
+  
+  private def getActualValue(index: Int, value: Int): String = {
+    if (sliderProps(index).getScale == 1.0) FormatUtil.formatNumber(value)
+    else FormatUtil.formatNumber(value.toDouble / sliderProps(index).getScale)
   }
 
   private def buildUI(): Unit = {

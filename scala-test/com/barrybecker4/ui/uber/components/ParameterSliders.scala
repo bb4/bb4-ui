@@ -3,7 +3,8 @@
  */
 package com.barrybecker4.ui.uber.components
 
-import com.barrybecker4.ui.sliders.{SliderGroup, SliderProperties}
+import com.barrybecker4.ui.sliders.SliderGroup
+import com.barrybecker4.ui.sliders.properties.{Properties, SliderProperties}
 import com.barrybecker4.ui.uber.components.ParameterSliders.*
 
 object ParameterSliders {
@@ -13,7 +14,7 @@ object ParameterSliders {
   private val CONNECTIVITY_SLIDER = "Room connectivity"
   private val MAX_ASPECT_RATIO_SLIDER = "Max aspect ratio"
 
-  private val GENERAL_SLIDER_PROPS = Array(
+  private val GENERAL_SLIDER_PROPS: Array[Properties] = Array(
     new SliderProperties(MAX_ROOM_WIDTH_SLIDER, 5, 60, 40, 1),
     new SliderProperties(PERCENT_FILLED_SLIDER, 10, 100, 100, 1),
     new SliderProperties(CONNECTIVITY_SLIDER, 0.1, 1.0, 0.5, 100),

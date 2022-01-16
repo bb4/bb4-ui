@@ -18,13 +18,15 @@ object LabeledSlider {
   private val MAX_WIDTH = 1000
 }
 
-class LabeledSlider(var labelText: String, var lastValue: Double, var min: Double, var max: Double) extends JPanel with ChangeListener {
+class LabeledSlider(var labelText: String, var lastValue: Double, var min: Double, var max: Double) 
+  extends JPanel with ChangeListener {
+  
   assert(lastValue <= max && lastValue >= min)
   setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
   setMaximumSize(new Dimension(LabeledSlider.MAX_WIDTH, 42))
-  private var resolution = LabeledSlider.DEFAULT_SLIDER_RESOLUTION
+  protected var resolution = LabeledSlider.DEFAULT_SLIDER_RESOLUTION
 
-  private var ratio = (this.max - this.min) / resolution
+  protected var ratio = (this.max - this.min) / resolution
   private var showAsInteger = false
   val pos: Int = getPositionFromValue(lastValue)
   private val slider = new JSlider(SwingConstants.HORIZONTAL, 0, resolution, pos)
@@ -49,12 +51,12 @@ class LabeledSlider(var labelText: String, var lastValue: Double, var min: Doubl
   def setResolution(resolution: Int): Unit = {
     val v = this.getValue
     this.resolution = resolution
-    slider.setMaximum(this.resolution)
+    getSlider.setMaximum(this.resolution)
     ratio = (max - min) / this.resolution
-    slider.setValue(getPositionFromValue(v))
-    slider.setMajorTickSpacing(resolution / 10)
-    if (this.resolution > 30 && this.resolution < 90) slider.setMinorTickSpacing(2)
-    else if (this.resolution >= 90 && this.resolution < 900) slider.setMinorTickSpacing(5)
+    getSlider.setValue(getPositionFromValue(v))
+    getSlider.setMajorTickSpacing(resolution / 10)
+    if (this.resolution > 30 && this.resolution < 90) getSlider.setMinorTickSpacing(2)
+    else if (this.resolution >= 90 && this.resolution < 900) getSlider.setMinorTickSpacing(5)
     //slider.setPaintLabels(true);
   }
 
@@ -62,19 +64,19 @@ class LabeledSlider(var labelText: String, var lastValue: Double, var min: Doubl
     listeners :+= lsnr
   }
 
-  def getValue: Double = getValueFromPosition(slider.getValue)
+  def getValue: Double = getValueFromPosition(getSlider.getValue)
 
   def setValue(v: Double): Unit = {
-    slider.setValue(getPositionFromValue(v))
+    getSlider.setValue(getPositionFromValue(v))
   }
 
   override def setEnabled(enable: Boolean): Unit = {
-    slider.setEnabled(enable)
+    getSlider.setEnabled(enable)
   }
 
   override def getName: String = labelText
-  private def getValueFromPosition(pos: Int) = pos.toDouble * ratio + min
-  private def getPositionFromValue(value: Double) = ((value - min) / ratio).toInt
+  protected def getValueFromPosition(pos: Int) = pos.toDouble * ratio + min
+  protected def getPositionFromValue(value: Double) = ((value - min) / ratio).toInt
 
   private def createLabel = {
     val label = new JLabel
