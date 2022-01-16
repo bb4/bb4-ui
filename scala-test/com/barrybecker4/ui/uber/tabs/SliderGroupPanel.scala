@@ -6,7 +6,7 @@ import com.barrybecker4.math.complex.ComplexNumber
 import com.barrybecker4.ui.components.{ComplexNumberInput, GradientButton, NumberInput, TexturedPanel}
 import com.barrybecker4.ui.dialogs.PasswordDialog
 import com.barrybecker4.ui.legend.ContinuousColorLegend
-import com.barrybecker4.ui.sliders.SliderGroupChangeListener
+import com.barrybecker4.ui.sliders.{SliderGroupChangeListener, SliderProperties}
 import com.barrybecker4.ui.uber.components.ParameterSliders
 import com.barrybecker4.ui.uber.tabs.MainTexturePanel
 import com.barrybecker4.ui.util.{ColorMap, GUIUtil}
