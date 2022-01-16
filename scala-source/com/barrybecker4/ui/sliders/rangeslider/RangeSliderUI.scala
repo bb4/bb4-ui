@@ -2,7 +2,7 @@
 package com.barrybecker4.ui.sliders.rangeslider
 
 import com.barrybecker4.ui.sliders.rangeslider.RangeSlider
-import com.barrybecker4.ui.sliders.rangeslider.RangeSliderUI.{RANGE_COLOR, THUMB_COLOR, THUMB_LINE_COLOR}
+import com.barrybecker4.ui.sliders.rangeslider.RangeSliderUI.{RANGE_COLOR, RANGE_THICKNESS, THUMB_COLOR, THUMB_LINE_COLOR}
 
 import java.awt.Color
 import java.awt.Dimension
@@ -19,10 +19,12 @@ import javax.swing.event.ChangeListener
 import javax.swing.plaf.basic.BasicSliderUI
 import javax.swing.SwingConstants.*
 
+
 object RangeSliderUI {
   private val RANGE_COLOR = new Color(120, 110, 200)
   private val THUMB_LINE_COLOR = new Color(50, 10, 100)
   private val THUMB_COLOR = new Color(200, 180, 255)
+  private val RANGE_THICKNESS = 3
 }
 
 /** UI delegate for the RangeSlider component.  RangeSliderUI paints two thumbs,
@@ -33,14 +35,17 @@ object RangeSliderUI {
 class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
 
   private var upperThumbRect: Rectangle = _
+  private var rangeRect: Rectangle = _
   private var upperThumbSelected = false
   private var lowerDragging = false
   private var upperDragging = false
+  private var rangeDragging = false
 
   /** Installs this UI delegate on the specified component.
     */
   override def installUI(c: JComponent): Unit = {
     upperThumbRect = Rectangle()
+    rangeRect = Rectangle()
     super.installUI(c)
   }
 
@@ -52,7 +57,7 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
     upperThumbRect.setSize(thumbRect.width, thumbRect.height)
   }
 
-  /** Updates the locations for both thumbs.
+  /** Updates the locations for both thumbs and the range.
     */
   override protected def calculateThumbLocation(): Unit = {
     super.calculateThumbLocation() // Call superclass method for lower thumb location.
@@ -75,6 +80,7 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
       }
     }
     calculateUpperThumbLocation()
+    calculateRangeLocation()
   }
 
   private def calculateUpperThumbLocation(): Unit = {
@@ -87,6 +93,25 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
       val upperPosition = yPositionForValue(slider.getValue + slider.getExtent)
       upperThumbRect.x = trackRect.x
       upperThumbRect.y = upperPosition - (upperThumbRect.height / 2)
+    }
+  }
+
+  private def calculateRangeLocation(): Unit = {
+    if (slider.getOrientation == HORIZONTAL) {
+      val lowerPosition = xPositionForValue(slider.getValue)
+      val upperPosition = xPositionForValue(slider.getValue + slider.getExtent)
+      rangeRect.x = lowerPosition + thumbRect.width
+      rangeRect.width = (upperPosition - upperThumbRect.width) - rangeRect.x
+      rangeRect.y = trackRect.y
+      rangeRect.height = trackRect.height
+    }
+    else {
+      val lowerPosition = yPositionForValue(slider.getValue)
+      val upperPosition = yPositionForValue(slider.getValue + slider.getExtent)
+      rangeRect.x = trackRect.x
+      rangeRect.width = trackRect.width
+      rangeRect.y = lowerPosition + thumbRect.height
+      rangeRect.height = (upperPosition - upperThumbRect.height) - rangeRect.y
     }
   }
 
@@ -115,14 +140,14 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
       val upperX = upperThumbRect.x + (upperThumbRect.width / 2)
       val cy = (trackBounds.height / 2) - 2
       g.setColor(RANGE_COLOR)
-      g.fillRect(lowerX, trackBounds.y + cy, upperX - lowerX, 4)
+      g.fillRect(lowerX, trackBounds.y + cy, upperX - lowerX, RANGE_THICKNESS + 1)
     }
     else {
       val lowerY = thumbRect.y + (thumbRect.height / 2)
       val upperY = upperThumbRect.y + (upperThumbRect.height / 2)
       val cx = (trackBounds.width / 2) - 2
       g.setColor(RANGE_COLOR)
-      g.fillRect(trackBounds.x + cx - 1, lowerY, 4, upperY - lowerY)
+      g.fillRect(trackBounds.x + cx - 1, lowerY, RANGE_THICKNESS + 1, upperY - lowerY)
     }
   }
 
@@ -197,7 +222,7 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
     */
   class RangeChangeHandler extends ChangeListener {
     override def stateChanged(arg0: ChangeEvent): Unit = {
-      if (!lowerDragging && !upperDragging) {
+      if (!lowerDragging && !upperDragging && !rangeDragging) {
         calculateThumbLocation()
         slider.repaint()
       }
@@ -212,22 +237,30 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
         return
       currentMouseX = e.getX
       currentMouseY = e.getY
+      val currentPos = java.awt.Point(currentMouseX, currentMouseY)
+
       if (slider.isRequestFocusEnabled) slider.requestFocus()
       // If the upper thumb is selected (last one dragged), then check its position first;
       // otherwise check the position of the lower thumb first.
       var lowerPressed = false
       var upperPressed = false
+      var rangePressed = false
 
       if (upperThumbSelected || slider.getMinimum == slider.getValue) {
-        if (upperThumbRect.contains(currentMouseX, currentMouseY))
+        if (upperThumbRect.contains(currentPos))
           upperPressed = true
-        else if (thumbRect.contains(currentMouseX, currentMouseY))
+        else if (thumbRect.contains(currentPos))
           lowerPressed = true
-      } else {
-        if (thumbRect.contains(currentMouseX, currentMouseY))
+      }
+      else {
+        if (thumbRect.contains(currentPos))
           lowerPressed = true
-        else if (upperThumbRect.contains(currentMouseX, currentMouseY))
+        else if (upperThumbRect.contains(currentPos))
           upperPressed = true
+      }
+
+      if (rangeRect.contains(currentPos)) {
+        rangePressed = true
       }
 
       // Handle lower thumb pressed.
@@ -246,12 +279,19 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
         return
       }
       upperDragging = false
+
+      if (rangePressed) {
+        offset = getOffset(thumbRect)
+        rangeDragging = true
+        return
+      }
+      rangeDragging = false
     }
 
-    private def getOffset(thumbRect: Rectangle): Int = {
+    private def getOffset(rect: Rectangle): Int = {
       slider.getOrientation match {
-        case VERTICAL => currentMouseY - thumbRect.y
-        case HORIZONTAL => currentMouseX - thumbRect.x
+        case VERTICAL => currentMouseY - rect.y
+        case HORIZONTAL => currentMouseX - rect.x
       }
     }
 
@@ -268,6 +308,7 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
 
       currentMouseX = e.getX
       currentMouseY = e.getY
+
       if (lowerDragging) {
         slider.setValueIsAdjusting(true)
         moveLowerThumb()
@@ -276,14 +317,15 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
         slider.setValueIsAdjusting(true)
         moveUpperThumb()
       }
+      else if (rangeDragging) {
+        slider.setValueIsAdjusting(true)
+        moveBothThumbs()
+      }
     }
 
     override def shouldScroll(direction: Int) = false
 
-
-    /**
-      * Moves the location of the lower thumb, and sets its corresponding
-      * value in the slider.
+    /** Moves the location of the lower thumb, and sets its corresponding value in the slider.
       */
     private def moveLowerThumb(): Unit = {
       var thumbMiddle = 0
@@ -294,11 +336,9 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
           var trackTop = trackRect.y
           var trackBottom = trackRect.y + (trackRect.height - 1)
           val vMax = yPositionForValue(slider.getValue + slider.getExtent)
-          // Apply bounds to thumb position.
           if (drawInverted) trackBottom = vMax
           else trackTop = vMax
-          thumbTop = Math.max(thumbTop, trackTop - halfThumbHeight)
-          thumbTop = Math.min(thumbTop, trackBottom - halfThumbHeight)
+          thumbTop = Math.min(Math.max(thumbTop, trackTop - halfThumbHeight), trackBottom - halfThumbHeight)
           setThumbLocation(thumbRect.x, thumbTop)
           thumbMiddle = thumbTop + halfThumbHeight
           slider.setValue(valueForYPosition(thumbMiddle))
@@ -310,8 +350,7 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
           val hMax = xPositionForValue(slider.getValue + slider.getExtent)
           if (drawInverted) trackLeft = hMax
           else trackRight = hMax
-          thumbLeft = Math.max(thumbLeft, trackLeft - halfThumbWidth)
-          thumbLeft = Math.min(thumbLeft, trackRight - halfThumbWidth)
+          thumbLeft = Math.min(Math.max(thumbLeft, trackLeft - halfThumbWidth), trackRight - halfThumbWidth)
           setThumbLocation(thumbLeft, thumbRect.y)
           thumbMiddle = thumbLeft + halfThumbWidth
           slider.setValue(valueForXPosition(thumbMiddle))
@@ -319,9 +358,7 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
       }
     }
 
-    /**
-      * Moves the location of the upper thumb, and sets its corresponding
-      * value in the slider.
+    /** Moves the location of the upper thumb, and sets its corresponding value in the slider.
       */
     private def moveUpperThumb(): Unit = {
       var thumbMiddle = 0
@@ -334,8 +371,7 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
           val vMin = yPositionForValue(slider.getValue)
           if (drawInverted) trackTop = vMin
           else trackBottom = vMin
-          thumbTop = Math.max(thumbTop, trackTop - halfThumbHeight)
-          thumbTop = Math.min(thumbTop, trackBottom - halfThumbHeight)
+          thumbTop = Math.min(Math.max(thumbTop, trackTop - halfThumbHeight), trackBottom - halfThumbHeight)
           setUpperThumbLocation(thumbRect.x, thumbTop)
           thumbMiddle = thumbTop + halfThumbHeight
           slider.setExtent(valueForYPosition(thumbMiddle) - slider.getValue)
@@ -347,11 +383,45 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
           val hMin = xPositionForValue(slider.getValue)
           if (drawInverted) trackRight = hMin
           else trackLeft = hMin
-          thumbLeft = Math.max(thumbLeft, trackLeft - halfThumbWidth)
-          thumbLeft = Math.min(thumbLeft, trackRight - halfThumbWidth)
+          thumbLeft = Math.min(Math.max(thumbLeft, trackLeft - halfThumbWidth), trackRight - halfThumbWidth)
           setUpperThumbLocation(thumbLeft, thumbRect.y)
           thumbMiddle = thumbLeft + halfThumbWidth
           slider.setExtent(valueForXPosition(thumbMiddle) - slider.getValue)
+        case _ =>
+      }
+    }
+
+    private def moveBothThumbs(): Unit = {
+      var thumbMiddle = 0
+      slider.getOrientation match {
+        case VERTICAL =>
+        case HORIZONTAL =>
+
+          val halfThumbWidth = thumbRect.width / 2
+          var thumbLeft = currentMouseX - offset
+          var trackLeft1 = trackRect.x
+          var trackRight1 = trackRect.x + (trackRect.width - 1)
+          val hMax = xPositionForValue(slider.getValue + slider.getExtent)
+          if (drawInverted) trackLeft1 = hMax
+          else trackRight1 = hMax
+          thumbLeft = Math.min(Math.max(thumbLeft, trackLeft1 - halfThumbWidth), trackRight1 - halfThumbWidth)
+          setThumbLocation(thumbLeft, thumbRect.y)
+          thumbMiddle = thumbLeft + halfThumbWidth
+          val lowValue = valueForXPosition(thumbMiddle)
+          slider.setValue(lowValue)
+
+          thumbLeft += rangeRect.width
+          var trackLeft2 = trackRect.x
+          var trackRight2 = trackRect.x + (trackRect.width - 1)
+          val hMin = xPositionForValue(slider.getValue)
+          if (drawInverted) trackRight2 = hMin
+          else trackLeft2 = hMin
+          thumbLeft = Math.min(Math.max(thumbLeft, trackLeft2 - halfThumbWidth), trackRight2 - halfThumbWidth)
+          setUpperThumbLocation(thumbLeft, thumbRect.y)
+          thumbMiddle = thumbLeft + halfThumbWidth
+          val extent = valueForXPosition(thumbMiddle) - slider.getValue
+          slider.setExtent(extent)
+          println("value: " + lowValue + "  extent: " + extent)
         case _ =>
       }
     }
