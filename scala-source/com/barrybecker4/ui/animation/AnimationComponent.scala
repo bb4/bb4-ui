@@ -21,6 +21,7 @@ abstract class AnimationComponent extends JComponent with Runnable {
   private val frameRateCalc = new FrameRateCalculator
   /** records images showing animation frames */
   protected var recorder = new FrameRecorder(getFileNameBase)
+  private var startButton: JToggleButton = _
 
 
   /** If recordAnimation is true, then each frame is written to a numbered file for
@@ -38,6 +39,7 @@ abstract class AnimationComponent extends JComponent with Runnable {
   def setNumStepsPerFrame(num: Int): Unit = params.numStepsPerFrame = num
   def getNumStepsPerFrame: Int = params.numStepsPerFrame
   def timeStep: Double
+
 
   /** @return the base filename when recording  */
   protected def getFileNameBase: String
@@ -75,16 +77,14 @@ abstract class AnimationComponent extends JComponent with Runnable {
 
   /** @return a start button that says Pause or Resume once started */
   protected def createStartButton: JToggleButton = {
-    val toggleButton = new JToggleButton(AppContext.getLabel("START"), true)
-    toggleButton.addItemListener(new ItemListener() {
+    startButton = new JToggleButton(AppContext.getLabel("START"), true)
+    startButton.addItemListener(new ItemListener() {
       override def itemStateChanged(ie: ItemEvent): Unit = {
         val paused = ie.getStateChange == ItemEvent.SELECTED
-        toggleButton.setText(if (paused) AppContext.getLabel("RESUME")
-        else AppContext.getLabel("PAUSE"))
         setPaused(paused)
       }
     })
-    toggleButton
+    startButton
   }
 
   /** render the animation component as an image */
@@ -103,6 +103,13 @@ abstract class AnimationComponent extends JComponent with Runnable {
     */
   def setPaused(paused: Boolean): Unit = {
     params.paused = paused
+    if (startButton != null) {
+      if (paused) {
+        startButton.setSelected(true)
+      }
+      val label: String = if (paused) AppContext.getLabel("RESUME") else AppContext.getLabel("PAUSE")
+      startButton.setText(label)
+    }
     frameRateCalc.setPaused(paused)
   }
 
