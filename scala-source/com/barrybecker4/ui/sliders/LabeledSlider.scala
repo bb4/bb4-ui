@@ -21,11 +21,11 @@ object LabeledSlider {
 class LabeledSlider(var labelText: String, var lastValue: Double, var min: Double, var max: Double)
   extends JPanel with ChangeListener {
 
-  val pos: Int = getPositionFromValue(lastValue)
   protected var resolution = LabeledSlider.DEFAULT_SLIDER_RESOLUTION
+  protected var ratio = (this.max - this.min) / resolution
+  val pos: Int = getPositionFromValue(lastValue)
   private val slider = createSlider()
 
-  protected var ratio = (this.max - this.min) / resolution
   protected var showAsInteger: Boolean = false
 
   protected var listeners = Seq[SliderChangeListener]()
