@@ -41,7 +41,6 @@ class FrameRecorder(var fileNameBase: String) {
         comp.paint(imageGraphics)
         // Now put the offscreen image on the screen.
         g.drawImage(image, 0, 0, null)
-        // Clean up.
         imageGraphics.dispose()
       }
     }
