@@ -53,6 +53,12 @@ class OfflineGraphics(val dim: Dimension, var bgColor: Color) {
   def drawRect(x1: Int, y1: Int, width: Int, height: Int): Unit =
     if (offlineGraphics.isDefined) offlineGraphics.get.drawRect(x1, y1, width, height)
 
+  def drawPolygon(p: Polygon): Unit =
+    if (offlineGraphics.isDefined) offlineGraphics.get.drawPolygon(p)
+
+  def fillPolygon(p: Polygon): Unit =
+    if (offlineGraphics.isDefined) offlineGraphics.get.fillPolygon(p)
+
   def drawBox(box: Box): Unit = {
     if (offlineGraphics.isDefined) {
       val pt = box.getTopLeftCorner

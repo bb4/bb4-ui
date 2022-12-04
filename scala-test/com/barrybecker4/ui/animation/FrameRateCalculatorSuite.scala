@@ -114,7 +114,7 @@ class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
   }
 
   test("FrameRateAfter3WithDelayOf50") {
-    verifyFrameRateAfterN(3, 50, 16.0, 5.0)
+    verifyFrameRateAfterN(3, 50, 16.0, 6.0)
   }
 
   test("FrameRateAfter3WithDelayOf100") {
@@ -138,11 +138,11 @@ class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
   }
 
   test("FrameRateWithDelayAfterFilled100") {
-    verifyFrameRateAfterN(100, 10, 60, 14.0)
+    verifyFrameRateAfterN(100, 10, 60, 16.0)
   }
 
   test("FrameRateWithDelayAfterFilled200") {
-    verifyFrameRateAfterN(200, 20, 33, 8.0)
+    verifyFrameRateAfterN(200, 20, 33, 9.0)
   }
 
 
