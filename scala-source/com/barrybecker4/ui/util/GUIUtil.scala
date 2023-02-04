@@ -2,12 +2,14 @@
 package com.barrybecker4.ui.util
 
 import com.barrybecker4.common.app.ClassLoaderSingleton
+import com.barrybecker4.ui.application.MyJApplet
 import com.barrybecker4.ui.components.SplashScreen
 import com.barrybecker4.ui.file.FileChooserUtil
 import com.barrybecker4.ui.themes.BarryTheme
-import javax.swing._
+
+import javax.swing.*
 import javax.swing.plaf.metal.MetalLookAndFeel
-import java.awt._
+import java.awt.*
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import java.awt.image.{BufferedImage, ImageObserver}
@@ -112,7 +114,7 @@ object GUIUtil {
     * @return frame containing the applet.
     * @deprecated Applet is going away in future versions of Java
     */
-  def showApplet(applet: JApplet): JFrame = {
+  def showApplet(applet: MyJApplet): JFrame = {
     val baseFrame = new JFrame
 
     baseFrame.addWindowListener(new WindowAdapter() {

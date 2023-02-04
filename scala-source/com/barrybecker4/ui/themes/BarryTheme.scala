@@ -12,7 +12,7 @@ object BarryTheme {
   val UI_BLACK = new Color(0, 0, 0)
   val UI_WHITE = new Color(250, 250, 255)
   /** isn't used for much (bg when resizing?)   */
-  val UI_COLOR_PRIMARY1 = new Color(7, 2, 71) //51
+  val UI_COLOR_PRIMARY1 = new Color(7, 2, 71)
 
   /** menu bgs, selected item in dropdown menu, small square in selected buttons, progress bar fill */
   val UI_COLOR_PRIMARY2 = new Color(234, 234, 255)

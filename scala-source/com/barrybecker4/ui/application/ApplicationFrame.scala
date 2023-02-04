@@ -1,8 +1,10 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.application
 
-import javax.swing._
-import java.awt._
+import com.barrybecker4.ui.util.GUIUtil
+
+import javax.swing.*
+import java.awt.*
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 
@@ -30,6 +32,7 @@ class ApplicationFrame(title: String)
   }
 
   protected def createUI(): Unit = {
+    GUIUtil.setCustomLookAndFeel()
     setSize(500, 400)
     center()
     addWindowListener(new WindowAdapter() {

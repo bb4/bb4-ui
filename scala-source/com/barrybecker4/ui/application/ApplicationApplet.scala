@@ -7,7 +7,6 @@ import com.barrybecker4.common.app.CommandLineOptions
 import com.barrybecker4.ui.components.ResizableAppletPanel
 import com.barrybecker4.ui.util.GUIUtil
 import com.barrybecker4.ui.util.Log
-import javax.swing.JApplet
 import javax.swing.JPanel
 import java.util
 
@@ -18,7 +17,7 @@ import java.util
   * @author Barry Becker
   * @deprecated use ApplicationFrame instead. Applets are going away in Java.
   */
-abstract class ApplicationApplet(val args: Array[String]) extends JApplet {
+abstract class ApplicationApplet(val args: Array[String]) extends MyJApplet {
 
   GUIUtil.setCustomLookAndFeel()
   var localeName = "ENGLISH"

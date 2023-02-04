@@ -18,8 +18,8 @@ import java.awt.image.ImageObserver
   */
 class OfflineGraphics(val dim: Dimension, var bgColor: Color) {
   assert(bgColor != null)
-  private var width = dim.width
-  private var height = dim.height
+  private val width = dim.width
+  private val height = dim.height
   private var offImage: Option[BufferedImage] = None
   assert(width > 0 && height > 0)
   private val offlineGraphics: Option[Graphics2D] = createOfflineGraphics

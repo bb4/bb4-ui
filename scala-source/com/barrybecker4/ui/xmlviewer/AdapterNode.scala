@@ -179,12 +179,8 @@ object AdapterNode {
     count
   }
 
-  private[xmlviewer] def treeElement(elementName: String): Boolean = {
-    for (n <- AdapterNode.treeElementNames) {
-      if (elementName == n) return true
-    }
-    false
-  }
+  private[xmlviewer] def treeElement(elementName: String): Boolean =
+    AdapterNode.treeElementNames.contains(elementName)
 
   def getDomNode: Node = domNode
 }
