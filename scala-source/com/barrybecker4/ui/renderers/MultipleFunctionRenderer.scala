@@ -67,16 +67,18 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
     clearBackground(g2)
     g2.setColor(seriesColor)
     val numPoints = getNumXPoints
+
     for (f <- functions.indices) {
       if (lineColors.isDefined) g2.setColor(lineColors.get(f))
       var lastY = 0.0
       val function = functions(f)
       val domain = function.getDomain
-      val ext = domain.getExtent
+      val extent = domain.getExtent
       for (i <- 0 to numPoints) {
-        val x = domain.min + ext * (i.toDouble / numPoints)
+        val x = domain.min + extent * (i.toDouble / numPoints)
         val y = function.getValue(x) + zeroHeight
-        drawConnectedLine(g2, scale, LEFT_MARGIN.toFloat + i, y, LEFT_MARGIN.toFloat + i - 1, lastY)
+        val xpos = LEFT_MARGIN + i * numPixelsPerXPoint
+        drawConnectedLine(g2, scale, xpos, y, xpos - numPixelsPerXPoint, lastY)
         lastY = y
       }
     }

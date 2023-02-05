@@ -26,6 +26,7 @@ abstract class AbstractFunctionRenderer {
   protected var height = 0
   protected var xOffset = 0
   protected var yOffset = 0
+  protected var numPixelsPerXPoint = 1
   private var formatter: INumberFormatter = new DefaultNumberFormatter
   private val cutPointGenerator = new CutPointGenerator
   cutPointGenerator.setUseTightLabeling(true)
@@ -47,11 +48,15 @@ abstract class AbstractFunctionRenderer {
   def setXFormatter(formatter: INumberFormatter): Unit = {
     this.formatter = formatter
   }
+  
+  def setNumPixelsPerXPoint(numPixels: Int): Unit = {
+    numPixelsPerXPoint = numPixels
+  }
 
   /** draw the cartesian function */
   def paint(g: Graphics): Unit
   protected def getRange: Range
-  private[renderers] def getNumXPoints = width - MARGIN - LEFT_MARGIN
+  private[renderers] def getNumXPoints = (width - MARGIN - LEFT_MARGIN) / numPixelsPerXPoint
 
   private[renderers] def drawDecoration(g2: Graphics2D, yRange: Range): Unit = {
     g2.setColor(LABEL_COLOR)
@@ -99,7 +104,7 @@ abstract class AbstractFunctionRenderer {
       //FormatUtil.formatNumber(cutpoints[i]);
       val labelWidth = metrics.stringWidth(label)
       val yPos = (yOffset + MARGIN + Math.abs(yRange.max - cutpoints(i)) / ext * chartHt).toFloat
-      g2.drawString(label, xOffset.toFloat + LEFT_MARGIN - labelWidth - 3, yPos.toFloat + 5)
+      g2.drawString(label, xOffset.toFloat + LEFT_MARGIN - labelWidth - 3, yPos + 5)
     }
 
     val eps = yRange.getExtent * 0.05

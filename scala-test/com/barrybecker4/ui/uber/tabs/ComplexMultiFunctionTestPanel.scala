@@ -25,6 +25,7 @@ class ComplexMultiFunctionTestPanel() extends JPanel {
   val colors: Seq[Color] = for (i <- 0 until numFunctions) yield new Color(i * 2, 10, 240 - i * 2)
   private val histogram: MultipleFunctionRenderer = new MultipleFunctionRenderer(functions, Some(colors))
   histogram.setRightNormalizePercent(90)
+  histogram.setNumPixelsPerXPoint(10)
   histogram.setPosition(5, 10)
   this.setPreferredSize(new Dimension(800, 600))
 

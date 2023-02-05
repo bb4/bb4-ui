@@ -32,7 +32,7 @@ class SingleFunctionRenderer(var function: Function) extends AbstractFunctionRen
 
     for (i <- 0 until numPoints) {
       val x = i.toDouble / numPoints
-      drawLine(g2, scale, (MARGIN + i).toFloat, function.getValue(x))
+      drawLine(g2, scale, (MARGIN + i * numPixelsPerXPoint).toFloat, function.getValue(x))
     }
     drawDecoration(g2, yRange)
   }
