@@ -31,6 +31,7 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
   private var rightNormalizePct: Double = DEFAULT_RIGHT_NORMALIZE_PCT
   private var useAntialiasing: Boolean = true
   private var seriesColor: Color = MultipleFunctionRenderer.DEFAULT_SERIES_COLOR
+  private var leftJustify: Boolean = false
 
   def this(functions: Seq[Function]) = { this(functions, None) }
 
@@ -44,11 +45,16 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
     rightNormalizePct = pct
   }
 
+  def setLeftJustify(leftJustify: Boolean): Unit = {
+    this.leftJustify = leftJustify
+  }
+
   /** draw the cartesian functions as series in the chart */
   override def paint(g: Graphics): Unit = {
     if (g == null) return
     val g2 = g.asInstanceOf[Graphics2D]
     g2.setRenderingHint(KEY_ANTIALIASING, if (useAntialiasing) VALUE_ANTIALIAS_ON else VALUE_ANTIALIAS_OFF)
+
     val yRange = getRange
     drawFunctions(g2, yRange)
     drawDecoration(g2, yRange)
@@ -74,8 +80,9 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
       val function = functions(f)
       val domain = function.getDomain
       val extent = domain.getExtent
+      val xOffset = getXOffset(extent)
       for (i <- 0 to numPoints) {
-        val x = domain.min + extent * (i.toDouble / numPoints)
+        val x = domain.min + xOffset + extent * (i.toDouble / (numPoints * numPixelsPerXPoint))
         val y = function.getValue(x) + zeroHeight
         val xpos = LEFT_MARGIN + i * numPixelsPerXPoint
         drawConnectedLine(g2, scale, xpos, y, xpos - numPixelsPerXPoint, lastY)
@@ -83,6 +90,9 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
       }
     }
   }
+
+  private def getXOffset(extent: Double): Double =
+    if (leftJustify) 0 else (extent * (1.0 - 1.0 / numPixelsPerXPoint))
 
   /** Draw x axis labels using the domain from the function being rendered. */
   override protected def drawXAxisLabels(g2: Graphics2D): Unit = {
@@ -111,17 +121,20 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
     }
   }
 
+  // draw from right of domain, not left
   override protected def getRange: Range = {
     if (functions.isEmpty) Range(0, 1)
     else {
       var range = new Range
       val numPoints = getNumXPoints
       val domain = functions.head.getDomain
-      val ext = domain.getExtent
+      val extent = domain.getExtent
 
       val start: Int = Math.max(1, numPoints * (1.0 - rightNormalizePct / 100.0)).toInt
+      val xOffset = getXOffset(extent)
+
       for (i <- start until numPoints) {
-        val x = ext * i.toDouble / numPoints + domain.min
+        val x = xOffset + extent * i.toDouble / (numPoints * numPixelsPerXPoint) + domain.min
         for (func <- functions) {
           range = range.add(func.getValue(x))
         }

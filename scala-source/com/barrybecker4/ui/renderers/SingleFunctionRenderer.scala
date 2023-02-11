@@ -31,17 +31,19 @@ class SingleFunctionRenderer(var function: Function) extends AbstractFunctionRen
     g2.setColor(SingleFunctionRenderer.LINE_COLOR)
 
     for (i <- 0 until numPoints) {
-      val x = i.toDouble / numPoints
+      val x = i.toDouble / (numPoints * numPixelsPerXPoint)
       drawLine(g2, scale, (MARGIN + i * numPixelsPerXPoint).toFloat, function.getValue(x))
     }
     drawDecoration(g2, yRange)
   }
 
+
+  // TODO need to draw from right of x range, not left
   override protected def getRange: Range = {
     var range = new Range
     val numPoints = getNumXPoints
     for (i <- 0 until numPoints) {
-      val x = i.toDouble / numPoints
+      val x = i.toDouble / (numPoints * (numPoints * numPixelsPerXPoint))
       range = range.add(function.getValue(x))
     }
     range

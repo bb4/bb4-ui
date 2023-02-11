@@ -1,13 +1,13 @@
-/*
- * Copyright by Barry G. Becker, 2022. Licensed under MIT License: http://www.opensource.org/licenses/MIT
- */
+/* Copyright by Barry G. Becker, 2022 - 2023. Licensed under MIT License: http://www.opensource.org/licenses/MIT */
 package com.barrybecker4.ui.uber.tabs
 
 import com.barrybecker4.math.Range
 import com.barrybecker4.math.function.{Function, HeightFunction}
 import com.barrybecker4.ui.renderers.MultipleFunctionRenderer
+import com.barrybecker4.ui.sliders.{LabeledSlider, SliderChangeListener, SliderGroupChangeListener, SliderProperties}
+import com.barrybecker4.ui.uber.components.{MultiFunctionPanel, MultiFunctionSliders}
 
-import java.awt.{Color, Dimension, Graphics}
+import java.awt.{BorderLayout, Color, Dimension, Graphics}
 import javax.swing.*
 import scala.util.Random
 
@@ -16,35 +16,31 @@ import scala.util.Random
   * Tests the use of the multi-function renderer.
   * @author Barry Becker
   */
-class ComplexMultiFunctionTestPanel() extends JPanel {
+class ComplexMultiFunctionTestPanel() extends JPanel with SliderGroupChangeListener  {
 
-  val rnd = new Random(1)
-  val numXValues = 100
-  val numFunctions = 70
-  var functions: Seq[Function] = for (i <- 0 until numFunctions) yield createRandomFunction(numXValues)
-  val colors: Seq[Color] = for (i <- 0 until numFunctions) yield new Color(i * 2, 10, 240 - i * 2)
-  private val histogram: MultipleFunctionRenderer = new MultipleFunctionRenderer(functions, Some(colors))
-  histogram.setRightNormalizePercent(90)
-  histogram.setNumPixelsPerXPoint(10)
-  histogram.setPosition(5, 10)
-  this.setPreferredSize(new Dimension(800, 600))
+  private var multiFunctionSliders: MultiFunctionSliders = _
+  private var multiFunctionPanel: MultiFunctionPanel = _
+  init();
 
+  def init() = {
+    multiFunctionPanel = new MultiFunctionPanel()
+    multiFunctionSliders = new MultiFunctionSliders()
+    multiFunctionSliders.setSliderListener(this)
 
-  private def createRandomFunction(num: Int) = {
-    val data = new Array[Double](num)
-    var total: Double = 0
-    val variance = rnd.nextDouble()
-    for (i <- 0 until num) {
-      total += rnd.nextDouble() + 0.1 * i * rnd.nextDouble()
-      data(i) = total + variance * i * (rnd.nextDouble() - 0.4)
-    }
-
-    val negative = 10
-    new HeightFunction(data, Range(-negative, num - negative))
+    setLayout(new BorderLayout)
+    add(multiFunctionSliders, BorderLayout.NORTH)
+    add(multiFunctionPanel, BorderLayout.SOUTH)
   }
 
-  override def paint(g: Graphics): Unit = {
-    histogram.setSize(getWidth, getHeight)
-    histogram.paint(g)
+  /**
+    * @param sliderIndex index of the slider that changed
+    * @param sliderName  name of slider that was moved.
+    * @param value       the new value
+    */
+  override def sliderChanged(sliderIndex: Int, sliderName: String, value: Double): Unit = {
+    multiFunctionPanel.setNumPixelsPerXPoint(value.toInt)
+    invalidate()
+    repaint()
   }
+
 }

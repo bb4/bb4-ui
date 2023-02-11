@@ -1,4 +1,4 @@
-/* Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT*/
+/* Copyright by Barry G. Becker, 2017 - 2023. Licensed under MIT License: http://www.opensource.org/licenses/MIT */
 package com.barrybecker4.ui.renderers
 
 import com.barrybecker4.common.format.DefaultNumberFormatter
@@ -19,6 +19,7 @@ object AbstractFunctionRenderer {
   val ORIGIN_LINE_COLOR = new Color(20, 0, 0, 120)
   private[renderers] val LEFT_MARGIN = 75
   private[renderers] val MARGIN = 40
+  private[renderers] val DEFAULT_NUM_PIXELS_PER_X_POINT = 1
 }
 
 abstract class AbstractFunctionRenderer {
@@ -26,7 +27,7 @@ abstract class AbstractFunctionRenderer {
   protected var height = 0
   protected var xOffset = 0
   protected var yOffset = 0
-  protected var numPixelsPerXPoint = 1
+  protected var numPixelsPerXPoint: Int = DEFAULT_NUM_PIXELS_PER_X_POINT
   private var formatter: INumberFormatter = new DefaultNumberFormatter
   private val cutPointGenerator = new CutPointGenerator
   cutPointGenerator.setUseTightLabeling(true)

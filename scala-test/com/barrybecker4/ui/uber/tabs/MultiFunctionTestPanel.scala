@@ -23,7 +23,7 @@ class MultiFunctionTestPanel() extends JPanel {
   val colors: Seq[Color] = for (i <- 0 until 7) yield new Color(i * 40, 20, 240 - i * 40)
   private val histogram: MultipleFunctionRenderer = new MultipleFunctionRenderer(functions, Some(colors))
   histogram.setNumPixelsPerXPoint(3)
-  this.setPreferredSize(new Dimension(800, 600))
+  this.setPreferredSize(new Dimension(600, 400))
 
   private def createRandomFunction(num: Int) = {
     val data = new Array[Double](num)
