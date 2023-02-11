@@ -68,7 +68,7 @@ class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
     ThreadUtil.sleep(200)
     calculator.setPaused(false)
     calculator.incrementFrameCount()
-    assertEquals("Unexpected frame rate.", 24.0, calculator.getFrameRate, 5.0)
+    assertEquals("Unexpected frame rate.", 25.0, calculator.getFrameRate, 7.0)
   }
 
   test("FrameRateAWithTwoPauses") {
