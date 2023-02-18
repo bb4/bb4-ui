@@ -136,7 +136,13 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
       for (i <- start until numPoints) {
         val x = xOffset + extent * i.toDouble / (numPoints * numPixelsPerXPoint) + domain.min
         for (func <- functions) {
-          range = range.add(func.getValue(x))
+          try {
+            val newRange = range.add(func.getValue(x))
+            range = newRange
+          } catch {
+            // In rare cases this can happen if the slider is moved to fast
+            case e: IndexOutOfBoundsException => println(e.getMessage)
+          }
         }
       }
       range
