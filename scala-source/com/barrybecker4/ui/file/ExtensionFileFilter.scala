@@ -13,9 +13,9 @@ object ExtensionFileFilter {
     * @return fPath with the proper extension added if it was not there before.
     */
   def addExtIfNeeded(fPath: String, ext: String): String = {
-    var newPath = fPath
-    if (!newPath.endsWith(".$ext")) newPath += s".$ext"
-    newPath
+    val dotted = s".$ext"
+    if (fPath.endsWith(dotted)) fPath
+    else fPath + dotted
   }
 }
 
@@ -38,5 +38,5 @@ class ExtensionFileFilter(var extension: String) extends FileFilter {
     accept
   }
 
-  override def getDescription: String = "*.$extension"
+  override def getDescription: String = s"*.$extension"
 }

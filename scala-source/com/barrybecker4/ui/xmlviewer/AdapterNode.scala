@@ -33,6 +33,12 @@ object AdapterNode {
   private val treeElementNames = Array("slideshow", "slide", "title", // For slideshow #1
     "slide-title", // For slideshow #10
     "item")
+
+  private def firstLine(text: String): String = {
+    val t = text.trim
+    val nl = t.indexOf('\n')
+    if (nl >= 0) t.substring(0, nl) else t
+  }
 }
 
 /**
@@ -43,7 +49,6 @@ object AdapterNode {
   * @param domNode the DOM not to construct an adapter node from
   */
 @SuppressWarnings(Array("HardCodedStringLiteral")) class AdapterNode(var domNode: Node) {
-  private val compress = false
 
   /**
     * Return a string that identifies this node in the tree
@@ -52,25 +57,14 @@ object AdapterNode {
   override def toString: String = {
     var s = AdapterNode.typeName(domNode.getNodeType)
     val nodeName = domNode.getNodeName
-    if (!"#".startsWith(nodeName))
+    if (!nodeName.startsWith("#"))
       s += ": " + nodeName
-    if (compress) {
-      var t = content.trim
-      val x = t.indexOf("\n")
-      if (x >= 0) t = t.substring(0, x)
-      s += s" $t"
-      return s
-    }
     if (domNode.getNodeValue != null) {
       if (s.startsWith("ProcInstr")) { // NON-NLS
         s += ", "
       }
       else s += ": "
-      // Trim the value to get rid of NL's at the front
-      var t = domNode.getNodeValue.trim
-      val x = t.indexOf("\n")
-      if (x >= 0) t = t.substring(0, x)
-      s += t
+      s += AdapterNode.firstLine(domNode.getNodeValue)
     }
     s
   }
@@ -89,37 +83,20 @@ object AdapterNode {
     val `type` = node.getNodeType
     val adpNode = new AdapterNode(node)
     if (`type` == AdapterNode.ELEMENT_TYPE) { // Skip sub-elements that are displayed in the tree.
-      if (treeElement(node.getNodeName)) return
-      // TODO:   Convert ITEM elements to html lists using
-      //   <ul>, <li>, </ul> tags
-      s.append('<').append(node.getNodeName).append('>')
-      s.append(adpNode.content)
-      s.append("</").append(node.getNodeName).append('>')
+      if (!treeElement(node.getNodeName)) {
+        // TODO:   Convert ITEM elements to html lists using
+        //   <ul>, <li>, </ul> tags
+        s.append('<').append(node.getNodeName).append('>')
+        s.append(adpNode.content)
+        s.append("</").append(node.getNodeName).append('>')
+      }
     }
     else if (`type` == AdapterNode.TEXT_TYPE) s.append(node.getNodeValue)
     else if (`type` == AdapterNode.ENTITYREF_TYPE) { // The content is in the TEXT node under it
       s.append(adpNode.content)
     }
     else if (`type` == AdapterNode.CDATA_TYPE) { // The "value" has the text, same as a text node.
-      //   while EntityRef has it in a text node underneath.
-      //   (because EntityRef can contain multiple sub-elements)
-      // Convert angle brackets and ampersands for display
-      val sb = new StringBuilder(node.getNodeValue)
-      var j = 0
-      while (j < sb.length) {
-        if (sb.charAt(j) == '<') {
-          sb.setCharAt(j, '&')
-          sb.insert(j + 1, "lt;")
-          j += 3
-        }
-        else if (sb.charAt(j) == '&') {
-          sb.setCharAt(j, '&')
-          sb.insert(j + 1, "amp;")
-          j += 4
-        }
-        j += 1
-      }
-      s.append("<pre>").append(sb).append("\n</pre>")
+      s.append("<pre>").append(escapeCdataForDisplay(node.getNodeValue)).append("\n</pre>")
     }
     // Ignoring these:
     //   ATTR_TYPE      -- not in the DOM tree
@@ -132,52 +109,42 @@ object AdapterNode {
     //   NOTATION_TYPE  -- nothing but binary data in here
   }
 
-    /**
-     * Return children, index, and count values
-     */
-    def index(child: AdapterNode): Int = {
-      //System.err.println("Looking for index of " + child);
-      val count = childCount
-      for (i <- 0 until count) {
-        val n = this.child(i)
-        if (child.domNode eq n.domNode) return i
+  /** Escape angle brackets and ampersands for display inside &lt;pre&gt;. */
+  private def escapeCdataForDisplay(raw: String): String = {
+    val sb = new StringBuilder(raw)
+    var j = 0
+    while (j < sb.length) {
+      if (sb.charAt(j) == '<') {
+        sb.setCharAt(j, '&')
+        sb.insert(j + 1, "lt;")
+        j += 3
       }
-      -1 // Should never get here.
+      else if (sb.charAt(j) == '&') {
+        sb.setCharAt(j, '&')
+        sb.insert(j + 1, "amp;")
+        j += 4
+      }
+      j += 1
+    }
+    sb.toString
+  }
+
+  /**
+   * Return children, index, and count values
+   */
+  def index(child: AdapterNode): Int = {
+    val count = childCount
+    (0 until count).find { i =>
+      child.domNode eq this.child(i).domNode
+    }.getOrElse(-1)
   }
 
   def child(searchIndex: Int): AdapterNode = { //Note: JTree index is zero-based.
-    var node = domNode.getChildNodes.item(searchIndex)
-    if (compress) { // Return Nth displayable node
-      var elementNodeIndex = 0
-      var i = 0
-      var done = false
-      while ( i < domNode.getChildNodes.getLength && !done) {
-        node = domNode.getChildNodes.item(i)
-        if (node.getNodeType == AdapterNode.ELEMENT_TYPE && treeElement(node.getNodeName)
-          && elementNodeIndex == searchIndex)
-          done = true
-        elementNodeIndex += 1
-        i += 1
-      }
-    }
+    val node = domNode.getChildNodes.item(searchIndex)
     new AdapterNode(node)
   }
 
-  def childCount: Int = {
-    if (!compress) { // Indent this
-      return domNode.getChildNodes.getLength
-    }
-    var count = 0
-    for (i <- 0 until domNode.getChildNodes.getLength) {
-      val node = domNode.getChildNodes.item(i)
-      if (node.getNodeType == AdapterNode.ELEMENT_TYPE && treeElement(node.getNodeName)) { // Note:
-        //   Have to check for proper type.
-        //   The DOCTYPE element also has the right name
-        count += 1
-      }
-    }
-    count
-  }
+  def childCount: Int = domNode.getChildNodes.getLength
 
   private[xmlviewer] def treeElement(elementName: String): Boolean =
     AdapterNode.treeElementNames.contains(elementName)

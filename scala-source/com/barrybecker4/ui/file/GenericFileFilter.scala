@@ -11,6 +11,9 @@ import java.io.FilenameFilter
   */
 object GenericFileFilter {
 
+  /** Factory for tests and call sites outside this file (constructor is private). */
+  def apply(pattern: String): GenericFileFilter = new GenericFileFilter(pattern)
+
   /**
     * @param pattern find files that match this pattern.
     * @return all the files matching the supplied pattern in the specified directory
@@ -19,7 +22,7 @@ object GenericFileFilter {
     val dir = new File(directory)
     assert(dir.isDirectory)
     //println("pattern = "+pattern+ "dir="+dir.getAbsolutePath());
-    val filter = new GenericFileFilter(pattern)
+    val filter = GenericFileFilter(pattern)
     dir.list(filter)
   }
 }

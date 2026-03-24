@@ -1,7 +1,6 @@
 // Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.sliders.rangeslider
 
-import com.barrybecker4.ui.sliders.rangeslider.RangeSlider
 import com.barrybecker4.ui.sliders.rangeslider.RangeSliderUI.{RANGE_COLOR, RANGE_THICKNESS, THUMB_COLOR, THUMB_LINE_COLOR}
 
 import java.awt.Color
@@ -10,7 +9,6 @@ import java.awt.Graphics
 import java.awt.Graphics2D
 import java.awt.Rectangle
 import java.awt.RenderingHints
-import java.awt.Shape
 import java.awt.event.MouseEvent
 import java.awt.geom.Ellipse2D
 import javax.swing.{JComponent, JSlider, SwingUtilities}
@@ -18,6 +16,8 @@ import javax.swing.event.ChangeEvent
 import javax.swing.event.ChangeListener
 import javax.swing.plaf.basic.BasicSliderUI
 import javax.swing.SwingConstants.*
+
+import scala.compiletime.uninitialized
 
 
 object RangeSliderUI {
@@ -34,7 +34,7 @@ object RangeSliderUI {
   */
 class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
 
-  private var upperThumbRect: Rectangle = _
+  private var upperThumbRect: Rectangle = uninitialized
   private var upperThumbSelected = false
   private var lowerDragging = false
   private var upperDragging = false
@@ -210,34 +210,17 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
   /** Listener to handle mouse movements in the slider track.
     */
   class RangeTrackListener extends TrackListener {
+
     override def mousePressed(e: MouseEvent): Unit = {
-      if (!slider.isEnabled)
-        return
+      if (!slider.isEnabled) return
       currentMouseX = e.getX
       currentMouseY = e.getY
       val currentPos = java.awt.Point(currentMouseX, currentMouseY)
 
       if (slider.isRequestFocusEnabled) slider.requestFocus()
-      // If the upper thumb is selected (last one dragged), then check its position first;
-      // otherwise check the position of the lower thumb first.
-      var lowerPressed = false
-      var upperPressed = false
-      var rangePressed = false
 
-      if (upperThumbSelected || slider.getMinimum == slider.getValue) {
-        if (upperThumbRect.contains(currentPos))
-          upperPressed = true
-        else if (thumbRect.contains(currentPos))
-          lowerPressed = true
-      }
-      else {
-        if (thumbRect.contains(currentPos))
-          lowerPressed = true
-        else if (upperThumbRect.contains(currentPos))
-          upperPressed = true
-      }
+      val (lowerPressed, upperPressed) = determineThumbHits(currentPos)
 
-      // Handle lower thumb pressed.
       if (lowerPressed) {
         offset = getOffset(thumbRect)
         upperThumbSelected = false
@@ -253,6 +236,20 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
         return
       }
       upperDragging = false
+    }
+
+    /** Which thumb (if any) contains the point, respecting last-drag order. */
+    private def determineThumbHits(currentPos: java.awt.Point): (Boolean, Boolean) = {
+      if (upperThumbSelected || slider.getMinimum == slider.getValue) {
+        if (upperThumbRect.contains(currentPos)) (false, true)
+        else if (thumbRect.contains(currentPos)) (true, false)
+        else (false, false)
+      }
+      else {
+        if (thumbRect.contains(currentPos)) (true, false)
+        else if (upperThumbRect.contains(currentPos)) (false, true)
+        else (false, false)
+      }
     }
 
     private def getOffset(rect: Rectangle): Int = {
@@ -291,67 +288,81 @@ class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
     /** Moves the location of the lower thumb, and sets its corresponding value in the slider.
       */
     private def moveLowerThumb(): Unit = {
-      var thumbMiddle = 0
       slider.getOrientation match {
-        case VERTICAL =>
-          val halfThumbHeight = thumbRect.height / 2
-          var thumbTop = currentMouseY - offset
-          var trackTop = trackRect.y
-          var trackBottom = trackRect.y + (trackRect.height - 1)
-          val vMax = yPositionForValue(slider.getValue + slider.getExtent)
-          if (drawInverted) trackBottom = vMax
-          else trackTop = vMax
-          thumbTop = Math.min(Math.max(thumbTop, trackTop - halfThumbHeight), trackBottom - halfThumbHeight)
-          setThumbLocation(thumbRect.x, thumbTop)
-          thumbMiddle = thumbTop + halfThumbHeight
-          slider.setValue(valueForYPosition(thumbMiddle))
-        case HORIZONTAL =>
-          val halfThumbWidth = thumbRect.width / 2
-          var thumbLeft = currentMouseX - offset
-          var trackLeft = trackRect.x
-          var trackRight = trackRect.x + (trackRect.width - 1)
-          val hMax = xPositionForValue(slider.getValue + slider.getExtent)
-          if (drawInverted) trackLeft = hMax
-          else trackRight = hMax
-          thumbLeft = Math.min(Math.max(thumbLeft, trackLeft - halfThumbWidth), trackRight - halfThumbWidth)
-          setThumbLocation(thumbLeft, thumbRect.y)
-          thumbMiddle = thumbLeft + halfThumbWidth
-          slider.setValue(valueForXPosition(thumbMiddle))
+        case VERTICAL => moveLowerThumbVertical()
+        case HORIZONTAL => moveLowerThumbHorizontal()
         case _ =>
       }
+    }
+
+    private def moveLowerThumbVertical(): Unit = {
+      val halfThumbHeight = thumbRect.height / 2
+      var thumbTop = currentMouseY - offset
+      val trackTop = trackRect.y
+      val trackBottom = trackRect.y + (trackRect.height - 1)
+      val boundary = yPositionForValue(slider.getValue + slider.getExtent)
+      val (tt, tb) =
+        if (drawInverted) (trackTop, boundary)
+        else (boundary, trackBottom)
+      thumbTop = Math.min(Math.max(thumbTop, tt - halfThumbHeight), tb - halfThumbHeight)
+      setThumbLocation(thumbRect.x, thumbTop)
+      val thumbMiddle = thumbTop + halfThumbHeight
+      slider.setValue(valueForYPosition(thumbMiddle))
+    }
+
+    private def moveLowerThumbHorizontal(): Unit = {
+      val halfThumbWidth = thumbRect.width / 2
+      var thumbLeft = currentMouseX - offset
+      val trackLeft = trackRect.x
+      val trackRight = trackRect.x + (trackRect.width - 1)
+      val boundary = xPositionForValue(slider.getValue + slider.getExtent)
+      val (tl, tr) =
+        if (drawInverted) (boundary, trackRight)
+        else (trackLeft, boundary)
+      thumbLeft = Math.min(Math.max(thumbLeft, tl - halfThumbWidth), tr - halfThumbWidth)
+      setThumbLocation(thumbLeft, thumbRect.y)
+      val thumbMiddle = thumbLeft + halfThumbWidth
+      slider.setValue(valueForXPosition(thumbMiddle))
     }
 
     /** Moves the location of the upper thumb, and sets its corresponding value in the slider.
       */
     private def moveUpperThumb(): Unit = {
-      var thumbMiddle = 0
       slider.getOrientation match {
-        case VERTICAL =>
-          val halfThumbHeight = thumbRect.height / 2
-          var thumbTop = currentMouseY - offset
-          var trackTop = trackRect.y
-          var trackBottom = trackRect.y + (trackRect.height - 1)
-          val vMin = yPositionForValue(slider.getValue)
-          if (drawInverted) trackTop = vMin
-          else trackBottom = vMin
-          thumbTop = Math.min(Math.max(thumbTop, trackTop - halfThumbHeight), trackBottom - halfThumbHeight)
-          setUpperThumbLocation(thumbRect.x, thumbTop)
-          thumbMiddle = thumbTop + halfThumbHeight
-          slider.setExtent(valueForYPosition(thumbMiddle) - slider.getValue)
-        case HORIZONTAL =>
-          val halfThumbWidth = thumbRect.width / 2
-          var thumbLeft = currentMouseX - offset
-          var trackLeft = trackRect.x
-          var trackRight = trackRect.x + (trackRect.width - 1)
-          val hMin = xPositionForValue(slider.getValue)
-          if (drawInverted) trackRight = hMin
-          else trackLeft = hMin
-          thumbLeft = Math.min(Math.max(thumbLeft, trackLeft - halfThumbWidth), trackRight - halfThumbWidth)
-          setUpperThumbLocation(thumbLeft, thumbRect.y)
-          thumbMiddle = thumbLeft + halfThumbWidth
-          slider.setExtent(valueForXPosition(thumbMiddle) - slider.getValue)
+        case VERTICAL => moveUpperThumbVertical()
+        case HORIZONTAL => moveUpperThumbHorizontal()
         case _ =>
       }
+    }
+
+    private def moveUpperThumbVertical(): Unit = {
+      val halfThumbHeight = thumbRect.height / 2
+      var thumbTop = currentMouseY - offset
+      val trackTop = trackRect.y
+      val trackBottom = trackRect.y + (trackRect.height - 1)
+      val boundary = yPositionForValue(slider.getValue)
+      val (tt, tb) =
+        if (drawInverted) (boundary, trackBottom)
+        else (trackTop, boundary)
+      thumbTop = Math.min(Math.max(thumbTop, tt - halfThumbHeight), tb - halfThumbHeight)
+      setUpperThumbLocation(thumbRect.x, thumbTop)
+      val thumbMiddle = thumbTop + halfThumbHeight
+      slider.setExtent(valueForYPosition(thumbMiddle) - slider.getValue)
+    }
+
+    private def moveUpperThumbHorizontal(): Unit = {
+      val halfThumbWidth = thumbRect.width / 2
+      var thumbLeft = currentMouseX - offset
+      val trackLeft = trackRect.x
+      val trackRight = trackRect.x + (trackRect.width - 1)
+      val boundary = xPositionForValue(slider.getValue)
+      val (tl, tr) =
+        if (drawInverted) (trackLeft, boundary)
+        else (boundary, trackRight)
+      thumbLeft = Math.min(Math.max(thumbLeft, tl - halfThumbWidth), tr - halfThumbWidth)
+      setUpperThumbLocation(thumbLeft, thumbRect.y)
+      val thumbMiddle = thumbLeft + halfThumbWidth
+      slider.setExtent(valueForXPosition(thumbMiddle) - slider.getValue)
     }
   }
 }

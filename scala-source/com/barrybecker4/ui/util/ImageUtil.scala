@@ -8,7 +8,7 @@ import javax.imageio.plugins.jpeg.JPEGImageWriteParam
 import java.awt.Color
 import java.awt.GraphicsEnvironment
 import java.awt.Image
-import java.awt.image.{BufferedImage, ImageObserver, RenderedImage}
+import java.awt.image.{BufferedImage, ImageObserver}
 import java.io._
 
 import ImageUtil.ImageType.ImageType
@@ -73,7 +73,7 @@ object ImageUtil {
       param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT)
       encoder.setOutput(out)
       try
-        encoder.write(null, new IIOImage(img.asInstanceOf[RenderedImage], null, null), param)
+        encoder.write(null, new IIOImage(bi, null, null), param)
       catch {
         case fne: IOException =>
           throw new IllegalStateException(s"IOException error: ${fne.getMessage}", fne)
@@ -108,19 +108,17 @@ object ImageUtil {
     * @param imageType of image ("jpg" or "png" (default))
     */
   def saveAsImage(fileName: String, img: Image, imageType: ImageType): Unit = {
-    var os: OutputStream = null
+    val extension = s".${imageType.toString.toLowerCase}"
+    val fn =
+      if (fileName.endsWith(extension)) fileName
+      else fileName + extension
     try {
-      val extension = s".${imageType.toString.toLowerCase}"
-      var fn = fileName
-      if (!fn.endsWith(extension)) { // if it does not already have the appropriate extension add it.
-        fn += extension
-      }
-      os = new BufferedOutputStream(new FileOutputStream(fn))
+      val os = new BufferedOutputStream(new FileOutputStream(fn))
+      writeImage(img, os, imageType)
     } catch {
       case fne: FileNotFoundException =>
         println("File " + fileName + " not found: " + fne.getMessage) //NON-NLS
     }
-    writeImage(img, os, imageType)
   }
 
   /** @param pixels one dimension array of pixels where a pixel at x and y can be located with

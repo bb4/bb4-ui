@@ -25,49 +25,50 @@ class OfflineGraphics(val dim: Dimension, var bgColor: Color) {
   private val offlineGraphics: Option[Graphics2D] = createOfflineGraphics
   clear()
 
-  def setColor(c: Color): Unit =
-    if (offlineGraphics.isDefined) offlineGraphics.get.setColor(c)
+  private def withG(f: Graphics2D => Unit): Unit =
+    offlineGraphics.foreach(f)
 
-  def setStroke(s: Stroke): Unit =
-    if (offlineGraphics.isDefined) offlineGraphics.get.setStroke(s)
+  def setColor(c: Color): Unit = withG(_.setColor(c))
+
+  def setStroke(s: Stroke): Unit = withG(_.setStroke(s))
 
   def drawLine(x1: Int, y1: Int, x2: Int, y2: Int): Unit =
-    if (offlineGraphics.isDefined) offlineGraphics.get.drawLine(x1, y1, x2, y2)
+    withG(_.drawLine(x1, y1, x2, y2))
 
   def fillRect(x: Int, y: Int, width: Int, height: Int): Unit =
-    if (offlineGraphics.isDefined) offlineGraphics.get.fillRect(x, y, width, height)
+    withG(_.fillRect(x, y, width, height))
 
   def fillBox(box: Box): Unit = {
-    if (offlineGraphics.isDefined) {
+    withG { g =>
       val pt = box.getTopLeftCorner
-      offlineGraphics.get.fillRect(pt.getX, pt.getY, box.getWidth, box.getHeight)
+      g.fillRect(pt.getX, pt.getY, box.getWidth, box.getHeight)
     }
   }
 
   def drawPoint(x1: Int, y1: Int): Unit =
-    if (offlineGraphics.isDefined) offlineGraphics.get.drawLine(x1, y1, x1, y1)
+    withG(_.drawLine(x1, y1, x1, y1))
 
   def fillCircle(x1: Int, y1: Int, rad: Int): Unit =
-    if (offlineGraphics.isDefined) offlineGraphics.get.fillOval(x1 - rad, y1 - rad, rad * 2, rad * 2)
+    withG(_.fillOval(x1 - rad, y1 - rad, rad * 2, rad * 2))
 
   def drawRect(x1: Int, y1: Int, width: Int, height: Int): Unit =
-    if (offlineGraphics.isDefined) offlineGraphics.get.drawRect(x1, y1, width, height)
+    withG(_.drawRect(x1, y1, width, height))
 
   def drawPolygon(p: Polygon): Unit =
-    if (offlineGraphics.isDefined) offlineGraphics.get.drawPolygon(p)
+    withG(_.drawPolygon(p))
 
   def fillPolygon(p: Polygon): Unit =
-    if (offlineGraphics.isDefined) offlineGraphics.get.fillPolygon(p)
+    withG(_.fillPolygon(p))
 
   def drawBox(box: Box): Unit = {
-    if (offlineGraphics.isDefined) {
+    withG { g =>
       val pt = box.getTopLeftCorner
-      offlineGraphics.get.drawRect(pt.getX, pt.getY, box.getWidth, box.getHeight)
+      g.drawRect(pt.getX, pt.getY, box.getWidth, box.getHeight)
     }
   }
 
   def drawImage(img: Image, x: Int, y: Int, observer: ImageObserver): Unit =
-    if (offlineGraphics.isDefined) offlineGraphics.get.drawImage(img, x, y, observer)
+    withG(_.drawImage(img, x, y, observer))
 
   /** @return image we render into for better performance. Created lazily. */
   def getOfflineImage: Option[BufferedImage] = {
@@ -77,18 +78,15 @@ class OfflineGraphics(val dim: Dimension, var bgColor: Color) {
   }
 
   def clear(): Unit = {
-    offlineGraphics.get.setColor(bgColor)
-    offlineGraphics.get.fillRect(0, 0, width, height)
+    offlineGraphics.foreach { g =>
+      g.setColor(bgColor)
+      g.fillRect(0, 0, width, height)
+    }
   }
 
   /** @return the offline graphics created with lazy initialization. */
-  private def createOfflineGraphics: Option[Graphics2D] = {
-    var offlineGraphics: Option[Graphics2D] = None
-    if (getOfflineImage.isDefined) {
-      offlineGraphics = Some(createGraphics(getOfflineImage.get))
-    }
-    offlineGraphics
-  }
+  private def createOfflineGraphics: Option[Graphics2D] =
+    getOfflineImage.map(createGraphics)
 
   private def createGraphics(bufferedImage: BufferedImage): Graphics2D = {
     val g = bufferedImage.createGraphics

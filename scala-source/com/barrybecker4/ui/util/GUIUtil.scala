@@ -74,7 +74,7 @@ object GUIUtil {
   }
 
   /** Load a buffered image from a file or resource.
-    * @return loaded image or null if not found.
+    * @throws IllegalStateException if the resource is missing or has zero width.
     */
   def getBufferedImage(path: String, imageObserver: ImageObserver): BufferedImage = {
     val img: ImageIcon = GUIUtil.getIcon(path, failIfNotFound = false)
@@ -88,7 +88,7 @@ object GUIUtil {
   /** Load a buffered image from a file or resource. Non-blocking.
     * If you want an ImageObserver (i.e. component to repaint when done, use the signature that allows you
     * to pass in the ImageObserver. Also consider the blocking version in bb4-imageproc.
-    * @return loaded image or null if not found. Can be null while loading.
+    * @throws IllegalStateException if the resource is missing or has zero width (same as two-arg overload).
     */
   def getBufferedImage(path: String): BufferedImage =
     getBufferedImage(path, null)
@@ -173,8 +173,13 @@ object GUIUtil {
   }
 
   def getSnapshot(component: JComponent): BufferedImage = {
-    val img = component.createImage(component.getWidth, component.getHeight).asInstanceOf[BufferedImage]
-    component.paint(img.createGraphics)
+    val raw = component.createImage(component.getWidth, component.getHeight)
+    if (raw == null)
+      throw new IllegalStateException("Cannot create snapshot: component is not displayable or has zero size")
+    val img = raw.asInstanceOf[BufferedImage]
+    val g = img.createGraphics
+    try component.paint(g)
+    finally g.dispose()
     img
   }
 

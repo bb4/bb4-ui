@@ -21,7 +21,9 @@ class BasicTableModel(columnNames: Array[AnyRef], rowCount: Int, isEditable: Boo
     throw new UnsupportedOperationException("This constructor is not supported")
   }
 
-  override def getColumnClass(col: Int): Class[_] = {
+  override def getColumnClass(col: Int): Class[?] = {
+    if (dataVector.isEmpty)
+      throw new IllegalArgumentException("No rows in table model; cannot infer column class")
     dataVector.elementAt(0) match {
       //case list: List[_] => list(col).getClass
       case vec: java.util.Vector[_] => vec.get(col).getClass

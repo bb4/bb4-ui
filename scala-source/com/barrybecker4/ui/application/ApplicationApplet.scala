@@ -10,6 +10,9 @@ import com.barrybecker4.ui.util.Log
 import javax.swing.JPanel
 import java.util
 
+import scala.compiletime.uninitialized
+import scala.jdk.CollectionConverters.*
+
 
 /**
   * Base class for programs that you want to be
@@ -32,7 +35,7 @@ abstract class ApplicationApplet(val args: Array[String]) extends MyJApplet {
     }
   }
   initializeContext(localeName)
-  protected var resizablePanel: ResizableAppletPanel = _
+  protected var resizablePanel: ResizableAppletPanel = uninitialized
 
   def this() = { this(Array[String]()) }
 
@@ -51,7 +54,7 @@ abstract class ApplicationApplet(val args: Array[String]) extends MyJApplet {
     * @param localeName name of the local to get localized messages for.
     */
   private def initializeContext(localeName: String): Unit = {
-    AppContext.initialize(localeName, getResourceList.toArray.toList.asInstanceOf[List[String]], new Log)
+    AppContext.initialize(localeName, getResourceList.asScala.toList, new Log)
   }
 
   /** Override if you want to load from other message bundles than the common UI messages
