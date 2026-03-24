@@ -1,4 +1,7 @@
 .idea
+.vscode/settings.json
+.bloop/
+.metals/
 .gradle
 .project
 classes/

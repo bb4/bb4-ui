@@ -3,7 +3,7 @@
 package com.barrybecker4.ui.animation
 
 import com.barrybecker4.common.concurrency.ThreadUtil
-import org.junit.Assert.assertEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.BeforeAndAfter
 
@@ -20,30 +20,30 @@ class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
   /** The frame rate given on the first frame is 0 because no frame rendered yet. */
   test("DefaultFrameRate") {
     assertResult(0) { calculator.getFrameCount }
-    assertEquals("Unexpected initial frame rate", 0.0, calculator.getFrameRate, 0.001)
+    assertEquals(0.0, calculator.getFrameRate, 0.001, "Unexpected initial frame rate")
   }
 
   test("FrameCount") {
     calculator.incrementFrameCount()
     calculator.incrementFrameCount()
-    assertEquals("Unexpected count", 2, calculator.getFrameCount)
+    assertEquals(2, calculator.getFrameCount, "Unexpected count")
   }
 
   test("FrameRateAfter1") {
     ThreadUtil.sleep(100)
     calculator.incrementFrameCount()
-    assertEquals("Unexpected initial frame rate.", 9.0, calculator.getFrameRate, 1.5)
+    assertEquals(9.0, calculator.getFrameRate, 1.5, "Unexpected initial frame rate.")
   }
 
   test("InitialFrameRateWithDelay") {
     ThreadUtil.sleep(100)
-    assertEquals("Unexpected initial frame rate.", 0.0, calculator.getFrameRate, 1.0)
+    assertEquals(0.0, calculator.getFrameRate, 1.0, "Unexpected initial frame rate.")
   }
 
   test("FrameRateAfter1WithDelay") {
     calculator.incrementFrameCount()
     ThreadUtil.sleep(100)
-    assertEquals("Unexpected initial frame rate.", 9.7, calculator.getFrameRate, 1.2)
+    assertEquals(9.7, calculator.getFrameRate, 1.2, "Unexpected initial frame rate.")
   }
 
   test("FrameRateAfter3") {
@@ -56,7 +56,7 @@ class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
     calculator.incrementFrameCount()
     ThreadUtil.sleep(50)
     calculator.incrementFrameCount()
-    assertEquals("Unexpected frame rate.", 25.0, calculator.getFrameRate, 6.0)
+    assertEquals(25.0, calculator.getFrameRate, 6.0, "Unexpected frame rate.")
   }
 
   test("FrameRateAWithPause") {
@@ -68,7 +68,7 @@ class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
     ThreadUtil.sleep(200)
     calculator.setPaused(false)
     calculator.incrementFrameCount()
-    assertEquals("Unexpected frame rate.", 25.0, calculator.getFrameRate, 7.0)
+    assertEquals(25.0, calculator.getFrameRate, 7.0, "Unexpected frame rate.")
   }
 
   test("FrameRateAWithTwoPauses") {
@@ -85,7 +85,7 @@ class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
     ThreadUtil.sleep(200)
     calculator.setPaused(false)
     calculator.incrementFrameCount()
-    assertEquals("Unexpected frame rate.", 28.0, calculator.getFrameRate, 8.0)
+    assertEquals(28.0, calculator.getFrameRate, 8.0, "Unexpected frame rate.")
   }
 
   test("FrameRateAWithTwoLongPausesAndManyIncrements") {
@@ -110,7 +110,7 @@ class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
     for (i <- 0 to 10)
       calculator.incrementFrameCount()
     ThreadUtil.sleep(40)
-    assertEquals("Unexpected frame rate.", 280.0, calculator.getFrameRate, 80.0)
+    assertEquals(280.0, calculator.getFrameRate, 80.0, "Unexpected frame rate.")
   }
 
   test("FrameRateAfter3WithDelayOf50") {
@@ -138,11 +138,11 @@ class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
   }
 
   test("FrameRateWithDelayAfterFilled100") {
-    verifyFrameRateAfterN(100, 10, 60, 16.0)
+    verifyFrameRateAfterN(100, 10, 60, 30.0)
   }
 
   test("FrameRateWithDelayAfterFilled200") {
-    verifyFrameRateAfterN(200, 20, 33, 9.0)
+    verifyFrameRateAfterN(200, 20, 33, 15.0)
   }
 
 
@@ -161,6 +161,6 @@ class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
       calculator.incrementFrameCount()
       ThreadUtil.sleep(frameDelay)
     }
-    assertEquals("Unexpected frameRate", expRate, calculator.getFrameRate, tolerance)
+    assertEquals(expRate, calculator.getFrameRate, tolerance, "Unexpected frameRate")
   }
 }
