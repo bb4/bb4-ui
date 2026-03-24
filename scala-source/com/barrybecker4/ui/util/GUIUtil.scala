@@ -74,7 +74,7 @@ object GUIUtil {
   }
 
   /** Load a buffered image from a file or resource.
-    * @throws IllegalStateException if the resource is missing or has zero width.
+    * Throws `java.lang.IllegalStateException` if the resource is missing or has zero width.
     */
   def getBufferedImage(path: String, imageObserver: ImageObserver): BufferedImage = {
     val img: ImageIcon = GUIUtil.getIcon(path, failIfNotFound = false)
@@ -88,7 +88,7 @@ object GUIUtil {
   /** Load a buffered image from a file or resource. Non-blocking.
     * If you want an ImageObserver (i.e. component to repaint when done, use the signature that allows you
     * to pass in the ImageObserver. Also consider the blocking version in bb4-imageproc.
-    * @throws IllegalStateException if the resource is missing or has zero width (same as two-arg overload).
+    * Throws `java.lang.IllegalStateException` if the resource is missing or has zero width (same as two-arg overload).
     */
   def getBufferedImage(path: String): BufferedImage =
     getBufferedImage(path, null)
