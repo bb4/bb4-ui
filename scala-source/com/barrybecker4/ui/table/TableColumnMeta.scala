@@ -5,6 +5,8 @@ import javax.swing._
 import javax.swing.table.TableCellEditor
 import javax.swing.table.TableCellRenderer
 
+import scala.compiletime.uninitialized
+
 
 /**
   * Meta data information about a column in a Table.
@@ -14,12 +16,12 @@ import javax.swing.table.TableCellRenderer
   */
 class TableColumnMeta(var name: String, var tooltip: String) {
 
-  private var minWidth: Int = _
-  private var preferredWidth: Int = _
-  private var maxWidth: Int = _
+  private var minWidth: Int = uninitialized
+  private var preferredWidth: Int = uninitialized
+  private var maxWidth: Int = uninitialized
   private var resizable = true
-  private var cellRenderer: TableCellRenderer = _
-  private var cellEditor: TableCellEditor = _
+  private var cellRenderer: TableCellRenderer = uninitialized
+  private var cellEditor: TableCellEditor = uninitialized
 
   def this(name: String, tooltip: String, minWidth: Int, preferredWidth: Int, maxWidth: Int) = {
     this(name, tooltip)

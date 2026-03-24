@@ -14,6 +14,8 @@ import java.util.{Timer, TimerTask}
 import scala.jdk.CollectionConverters._
 import ImageListPanel._
 
+import scala.compiletime.uninitialized
+
 
 object ImageListPanel {
 
@@ -30,10 +32,10 @@ object ImageListPanel {
 final class ImageListPanel() extends JPanel with MouseMotionListener with MouseListener {
 
   private var imageSelectionListeners = List[ImageSelectionListener]()
-  private var images: Seq[BufferedImage] = _
-  private var selectedImages: Seq[BufferedImage] = _
+  private var images: Seq[BufferedImage] = uninitialized
+  private var selectedImages: Seq[BufferedImage] = uninitialized
   private var maxNumSelections = Int.MaxValue
-  private var renderer: ImageListRenderer = _
+  private var renderer: ImageListRenderer = uninitialized
 
   this.setMinimumSize(new Dimension(100, 100))
   this.addComponentListener(new ComponentAdapter() {

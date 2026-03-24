@@ -21,7 +21,7 @@ abstract class AnimationComponent extends JComponent with Runnable {
   private val frameRateCalc = new FrameRateCalculator
   /** records images showing animation frames */
   protected var recorder = new FrameRecorder(getFileNameBase)
-  private var startButton: JToggleButton = _
+  private var startButton: JToggleButton = null
 
 
   /** If recordAnimation is true, then each frame is written to a numbered file for
@@ -119,7 +119,7 @@ abstract class AnimationComponent extends JComponent with Runnable {
   def isPaused: Boolean = params.paused
 
   /** Property change support. */
-  private var animationChangeListener: AnimationChangeListener = _
+  private var animationChangeListener: AnimationChangeListener = null
 
   def setChangeListener(af: AnimationChangeListener): Unit =
     animationChangeListener = af

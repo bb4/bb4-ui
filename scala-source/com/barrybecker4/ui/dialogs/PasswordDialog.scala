@@ -8,6 +8,8 @@ import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.ui.components.GradientButton
 import PasswordDialog._
 
+import scala.compiletime.uninitialized
+
 
 object PasswordDialog {
   val DEFAULT_PASSWORD = "hello123"
@@ -23,10 +25,10 @@ object PasswordDialog {
 class PasswordDialog(expectedPassword: String) extends AbstractDialog with ActionListener with KeyListener {
 
   private var password: String = if (expectedPassword == null) DEFAULT_PASSWORD else expectedPassword
-  private var passwordField: JPasswordField = _
+  private var passwordField: JPasswordField = uninitialized
 
   /** click this when ; the password has been entered. */
-  private var okButton: GradientButton = _
+  private var okButton: GradientButton = uninitialized
 
   showContent()
 

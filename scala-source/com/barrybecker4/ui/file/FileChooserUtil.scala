@@ -7,6 +7,8 @@ import javax.swing._
 import javax.swing.filechooser.FileFilter
 import java.io.File
 
+import scala.compiletime.uninitialized
+
 
 /**
   * Miscellaneous commonly used file chooser related utility methods.
@@ -18,7 +20,7 @@ object FileChooserUtil {
     * Don't create this here or applets using this class will have a security exception
     * instead we create a singleton when needed.
     */
-  private var chooser: JFileChooser = _
+  private var chooser: JFileChooser = uninitialized
 
   /** @return a generic file chooser.*/
   def getFileChooser: JFileChooser = getFileChooser(null)

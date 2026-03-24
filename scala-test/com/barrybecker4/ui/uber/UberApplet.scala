@@ -9,10 +9,12 @@ import javax.swing.JPanel
 import java.awt.BorderLayout
 import java.util
 
+import javax.swing.SwingUtilities
 
-object UberApplet extends App {
-  val applet = new UberApplet
-  GUIUtil.showApplet(applet)
+
+object UberApplet {
+  def main(args: Array[String]): Unit =
+    SwingUtilities.invokeLater(() => GUIUtil.showApplet(new UberApplet))
 }
 
 /**

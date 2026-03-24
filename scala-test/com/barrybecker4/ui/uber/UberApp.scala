@@ -9,13 +9,16 @@ import com.barrybecker4.ui.util.Log
 import UberAppConstants.IMAGE_ROOT
 import com.barrybecker4.ui.uber.components.UberTabbedPanel
 
+import javax.swing.SwingUtilities
+
 
 /**
   * An app that tries to demonstrate the use of most of the UI components in this package.
   * @author Barry Becker
   */
-object UberApp extends App {
-  new UberApp
+object UberApp {
+  def main(args: Array[String]): Unit =
+    SwingUtilities.invokeLater(() => new UberApp())
 }
 
 class UberApp() extends ApplicationFrame("UberApp Demo") {

@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import java.awt.event.WindowEvent
 
+import scala.compiletime.uninitialized
+
 
 /**
   * All dialogs should extend this instead of JDialog.
@@ -24,7 +26,7 @@ abstract class AbstractDialog() extends JDialog with ActionListener {
   protected var cancelButton = new GradientButton
   protected var canceled = false
   /** Cache a pointer to this in case we have children */
-  protected var myParent: Component = _
+  protected var myParent: Component = uninitialized
 
   /**
     * Constructor.

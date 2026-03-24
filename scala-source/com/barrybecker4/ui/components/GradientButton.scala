@@ -10,6 +10,8 @@ import java.awt.event.MouseListener
 import java.awt.geom.Point2D
 import java.awt.geom.Rectangle2D
 
+import scala.compiletime.uninitialized
+
 
 /**
   * GradientButton with a gradient background
@@ -19,9 +21,9 @@ import java.awt.geom.Rectangle2D
 @SerialVersionUID(0L)
 class GradientButton() extends JButton with MouseListener {
   /** color at the top of the button. */
-  private var gradientStartColor: Color = _
+  private var gradientStartColor: Color = uninitialized
   /** color at the bottom of the button. */
-  private var gradientEndColor: Color = _
+  private var gradientEndColor: Color = uninitialized
   private var mousedOver = false
   private val myUI = new CustomUI
   commonDefaultInit()

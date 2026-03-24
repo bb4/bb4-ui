@@ -7,6 +7,8 @@ import javax.swing.event.ChangeEvent
 import javax.swing.event.ChangeListener
 import java.awt._
 
+import scala.compiletime.uninitialized
+
 
 object ColorSliderGroup {
   private val RED = "RED"
@@ -29,7 +31,7 @@ class ColorSliderGroup() extends JPanel with ChangeListener {
   val greenPanel: JPanel = createColorLabelPanel(green)
   val bluePanel: JPanel = createColorLabelPanel(blue)
 
-  private var colorListener: ColorChangeListener = _
+  private var colorListener: ColorChangeListener = uninitialized
   private var redSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 0)
   redSlider.addChangeListener(this)
   private var greenSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 0)

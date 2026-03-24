@@ -13,6 +13,8 @@ import java.awt.Component
 import java.awt.Dimension
 import java.awt.event._
 
+import scala.compiletime.uninitialized
+
 
 object ComplexNumberInput {
   /** everything is allowed by default */
@@ -36,7 +38,7 @@ class ComplexNumberInput(val labelText: String, var initialValue: ComplexNumber,
   setAllowedRange(allowedRange)
   private val realNumberField = createNumberField(initialValue.real, toolTip)
   private val imaginaryNumberField = createNumberField(initialValue.imaginary, toolTip)
-  private var range: ComplexNumberRange = _
+  private var range: ComplexNumberRange = uninitialized
 
   setLayout(new BorderLayout)
   setAlignmentX(Component.LEFT_ALIGNMENT)

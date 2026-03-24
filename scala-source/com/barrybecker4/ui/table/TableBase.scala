@@ -4,14 +4,16 @@ package com.barrybecker4.ui.table
 import javax.swing._
 import javax.swing.event.ListSelectionListener
 import javax.swing.table.TableModel
+
+import scala.compiletime.uninitialized
+import scala.jdk.CollectionConverters.*
+
 import TableBase.conv
 
 
 object TableBase {
-  private def conv(items: java.util.ArrayList[AnyRef]): Seq[_] = {
-    import scala.jdk.javaapi.CollectionConverters
-    CollectionConverters.asScala(items).toSeq
-  }
+  private def conv(items: java.util.ArrayList[AnyRef]): Seq[?] =
+    items.asScala.toSeq
 }
 
 /**
@@ -20,12 +22,12 @@ object TableBase {
   */
 abstract class TableBase() {
 
-  protected var table: JTable = _
+  protected var table: JTable = uninitialized
 
   /** information about each column and its header. */
-  protected var columnMeta: Array[TableColumnMeta] = _
+  protected var columnMeta: Array[TableColumnMeta] = uninitialized
 
-  def this(rows: Seq[_], columnNames: Array[String]) = {
+  def this(rows: Seq[?], columnNames: Array[String]) = {
     this()
     initColumnMeta(columnNames)
     initializeTable(rows)
@@ -33,7 +35,7 @@ abstract class TableBase() {
 
   /** @param rows to initialize the rows in the table with.
     */
-  def this(rows: Seq[_], columnMeta: Array[TableColumnMeta]) = {
+  def this(rows: Seq[?], columnMeta: Array[TableColumnMeta]) = {
     this()
     this.columnMeta = columnMeta
     initializeTable(rows)
@@ -58,7 +60,7 @@ abstract class TableBase() {
   /**
     * @param rows initial data to show in the table.
     */
-  protected def initializeTable(rows: Seq[_]): Unit = {
+  protected def initializeTable(rows: Seq[?]): Unit = {
     val columnNames = new Array[String](columnMeta.length)
     for (i <- columnMeta.indices) {
       columnNames(i) = columnMeta(i).getName

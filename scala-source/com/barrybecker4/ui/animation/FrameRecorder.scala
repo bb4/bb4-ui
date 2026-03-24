@@ -4,6 +4,8 @@ package com.barrybecker4.ui.animation
 import com.barrybecker4.ui.util.ImageUtil
 import java.awt.{Component, Dimension, Graphics2D, Image}
 
+import scala.compiletime.uninitialized
+
 
 /**
   * Records animation frame images to the disk with a name that includes the frame number.
@@ -11,7 +13,7 @@ import java.awt.{Component, Dimension, Graphics2D, Image}
   */
 class FrameRecorder(var fileNameBase: String) {
   /** An image showing the current animation frame */
-  protected var image: Image = _
+  protected var image: Image = uninitialized
 
   /**
     * Same the current frame image if there is one.

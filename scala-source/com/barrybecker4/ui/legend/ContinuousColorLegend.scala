@@ -7,6 +7,8 @@ import java.awt._
 import java.awt.event.ComponentAdapter
 import java.awt.event.ComponentEvent
 
+import scala.compiletime.uninitialized
+
 
 /**
   * Shows a continuous color legend given a list of colors and corresponding values.
@@ -16,8 +18,8 @@ import java.awt.event.ComponentEvent
   */
 class ContinuousColorLegend(var title: String, var colormap: ColorMap, val editable: Boolean) extends JPanel {
 
-  private var legendEditBar: LegendEditBar = _
-  private var labelsPanel: LegendLabelsPanel = _
+  private var legendEditBar: LegendEditBar = uninitialized
+  private var labelsPanel: LegendLabelsPanel = uninitialized
   var isEditable: Boolean = editable
   initUI()
 

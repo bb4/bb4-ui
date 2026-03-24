@@ -2,19 +2,22 @@
 
 package com.barrybecker4.ui.animation
 
-import com.barrybecker4.common.concurrency.ThreadUtil
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.BeforeAndAfter
 
+import scala.compiletime.uninitialized
+
 class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
 
-  /** instance under test. */
-  private var calculator: FrameRateCalculator = _
+  /** Mutable wall clock for deterministic tests (milliseconds). */
+  private var fakeClockMs = 0L
 
+  private var calculator: FrameRateCalculator = uninitialized
 
   before {
-    calculator = new FrameRateCalculator
+    fakeClockMs = 0L
+    calculator = new FrameRateCalculator(() => fakeClockMs)
   }
 
   /** The frame rate given on the first frame is 0 because no frame rendered yet. */
@@ -30,20 +33,20 @@ class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
   }
 
   test("FrameRateAfter1") {
-    ThreadUtil.sleep(100)
+    fakeClockMs += 100
     calculator.incrementFrameCount()
-    assertEquals(9.0, calculator.getFrameRate, 1.5, "Unexpected initial frame rate.")
+    assertEquals(10.0, calculator.getFrameRate, 0.01, "Unexpected initial frame rate.")
   }
 
   test("InitialFrameRateWithDelay") {
-    ThreadUtil.sleep(100)
+    fakeClockMs += 100
     assertEquals(0.0, calculator.getFrameRate, 1.0, "Unexpected initial frame rate.")
   }
 
   test("FrameRateAfter1WithDelay") {
     calculator.incrementFrameCount()
-    ThreadUtil.sleep(100)
-    assertEquals(9.7, calculator.getFrameRate, 1.2, "Unexpected initial frame rate.")
+    fakeClockMs += 100
+    assertEquals(10.0, calculator.getFrameRate, 0.01, "Unexpected initial frame rate.")
   }
 
   test("FrameRateAfter3") {
@@ -52,85 +55,85 @@ class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
 
   test("FrameRateAfter3WithDelayForAllButLast") {
     calculator.incrementFrameCount()
-    ThreadUtil.sleep(50)
+    fakeClockMs += 50
     calculator.incrementFrameCount()
-    ThreadUtil.sleep(50)
+    fakeClockMs += 50
     calculator.incrementFrameCount()
-    assertEquals(25.0, calculator.getFrameRate, 6.0, "Unexpected frame rate.")
+    assertEquals(30.0, calculator.getFrameRate, 0.01, "Unexpected frame rate.")
   }
 
   test("FrameRateAWithPause") {
     calculator.incrementFrameCount()
-    ThreadUtil.sleep(50)
+    fakeClockMs += 50
     calculator.incrementFrameCount()
-    ThreadUtil.sleep(50)
+    fakeClockMs += 50
     calculator.setPaused(true)
-    ThreadUtil.sleep(200)
+    fakeClockMs += 200
     calculator.setPaused(false)
     calculator.incrementFrameCount()
-    assertEquals(25.0, calculator.getFrameRate, 7.0, "Unexpected frame rate.")
+    assertEquals(30.0, calculator.getFrameRate, 0.01, "Unexpected frame rate.")
   }
 
   test("FrameRateAWithTwoPauses") {
     calculator.incrementFrameCount()
     calculator.setPaused(false)
-    ThreadUtil.sleep(50)
+    fakeClockMs += 50
     calculator.setPaused(true)
-    ThreadUtil.sleep(200)
+    fakeClockMs += 200
     calculator.setPaused(false)
     calculator.incrementFrameCount()
-    ThreadUtil.sleep(50)
+    fakeClockMs += 50
     calculator.setPaused(false)
     calculator.setPaused(true)
-    ThreadUtil.sleep(200)
+    fakeClockMs += 200
     calculator.setPaused(false)
     calculator.incrementFrameCount()
-    assertEquals(28.0, calculator.getFrameRate, 8.0, "Unexpected frame rate.")
+    assertEquals(30.0, calculator.getFrameRate, 0.01, "Unexpected frame rate.")
   }
 
   test("FrameRateAWithTwoLongPausesAndManyIncrements") {
     calculator.setPaused(false)
-    for (i <- 0 to 10)
+    for (_ <- 0 to 10)
       calculator.incrementFrameCount()
-    ThreadUtil.sleep(50)
+    fakeClockMs += 50
     calculator.setPaused(true)
-    for (i <- 0 to 10)
+    for (_ <- 0 to 10)
       calculator.incrementFrameCount()
-    ThreadUtil.sleep(200)
+    fakeClockMs += 200
     calculator.setPaused(false)
-    for (i <- 0 to 10)
+    for (_ <- 0 to 10)
       calculator.incrementFrameCount()
-    ThreadUtil.sleep(50)
+    fakeClockMs += 50
     calculator.setPaused(false)
-    for (i <- 0 to 10)
+    for (_ <- 0 to 10)
       calculator.incrementFrameCount()
     calculator.setPaused(true)
-    ThreadUtil.sleep(200)
+    fakeClockMs += 200
     calculator.setPaused(false)
-    for (i <- 0 to 10)
+    for (_ <- 0 to 10)
       calculator.incrementFrameCount()
-    ThreadUtil.sleep(40)
-    assertEquals(280.0, calculator.getFrameRate, 80.0, "Unexpected frame rate.")
+    fakeClockMs += 40
+    assertEquals(355.55555555555554, calculator.getFrameRate, 0.01, "Unexpected frame rate.")
   }
 
   test("FrameRateAfter3WithDelayOf50") {
-    verifyFrameRateAfterN(3, 50, 16.0, 6.0)
+    verifyFrameRateAfterN(3, 50, 20.0, 0.01)
   }
 
   test("FrameRateAfter3WithDelayOf100") {
-    verifyFrameRateAfterN(3, 100, 9.8)
+    verifyFrameRateAfterN(3, 100, 10.0)
   }
 
   test("FrameRateAfter6WithDelayOf100") {
-    verifyFrameRateAfterN(6, 100, 9.5)
+    verifyFrameRateAfterN(6, 100, 10.0)
   }
 
   test("FrameRateAfter12WithDelayOf100") {
-    verifyFrameRateAfterN(12, 100, 9.0)
+    verifyFrameRateAfterN(12, 100, 10.0)
   }
 
   test("FrameRateAfter24WithDelayOf100") {
-    verifyFrameRateAfterN(24, 100, 9.9)
+    verifyFrameRateAfterN(24, 100, 10.0)
   }
 
   test("FrameRateAfterFilled") {
@@ -138,13 +141,12 @@ class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
   }
 
   test("FrameRateWithDelayAfterFilled100") {
-    verifyFrameRateAfterN(100, 10, 60, 30.0)
+    verifyFrameRateAfterN(100, 10, 100.0, 0.01)
   }
 
   test("FrameRateWithDelayAfterFilled200") {
-    verifyFrameRateAfterN(200, 20, 33, 15.0)
+    verifyFrameRateAfterN(200, 20, 50.0, 0.01)
   }
-
 
   private def verifyFrameRateAfterN(numFrames: Int, frameDelay: Int, expRate: Double): Unit = {
     verifyFrameRateAfterN(numFrames, frameDelay, expRate, 3.0)
@@ -157,9 +159,9 @@ class FrameRateCalculatorSuite extends AnyFunSuite with BeforeAndAfter {
     * @param tolerance  tolerance threshold for expected result.
     */
   private def verifyFrameRateAfterN(numFrames: Int, frameDelay: Int, expRate: Double, tolerance: Double): Unit = {
-    for (i <- 0 until numFrames) {
+    for (_ <- 0 until numFrames) {
       calculator.incrementFrameCount()
-      ThreadUtil.sleep(frameDelay)
+      fakeClockMs += frameDelay
     }
     assertEquals(expRate, calculator.getFrameRate, tolerance, "Unexpected frameRate")
   }

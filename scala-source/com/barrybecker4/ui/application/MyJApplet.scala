@@ -15,15 +15,17 @@ import java.beans.JavaBean
 import javax.accessibility.Accessible
 import javax.accessibility.AccessibleContext
 
+import scala.compiletime.uninitialized
+
 /**
   * My own version of the JApplet class that is not deprecated.
   * It won't run in a browser, but it won't be removed either.
   */
 class MyJApplet extends MyApplet with Accessible with RootPaneContainer {
 
-  protected var rootPane: JRootPane = _
+  protected var rootPane: JRootPane = uninitialized
   protected var rootPaneCheckingEnabled = false
-  private var transferHandler: TransferHandler = _
+  private var transferHandler: TransferHandler = uninitialized
 
   setForeground(Color.black)
   setBackground(Color.white)

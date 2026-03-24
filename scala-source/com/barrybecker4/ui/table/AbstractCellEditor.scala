@@ -8,16 +8,17 @@ import javax.swing.table.TableCellEditor
 import javax.swing.tree.TreeCellEditor
 import java.awt.event.MouseEvent
 import java.util.EventObject
-import scala.collection.JavaConverters._
+
+import scala.compiletime.uninitialized
 
 
 /**
-  * Copied with modification from from Graphic Java (Swing) book (by David Geary).
+  * Copied with modification from Graphic Java (Swing) book (by David Geary).
   */
 abstract class AbstractCellEditor extends TableCellEditor with TreeCellEditor {
   protected var listenerList = new EventListenerList
-  protected var value: AnyRef = _
-  protected var changeEvent: ChangeEvent = _
+  protected var value: AnyRef = uninitialized
+  protected var changeEvent: ChangeEvent = uninitialized
   protected var clickCountToStart = 1
 
   override def getCellEditorValue: AnyRef = value

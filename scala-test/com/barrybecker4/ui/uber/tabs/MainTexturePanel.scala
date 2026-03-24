@@ -15,6 +15,8 @@ import java.awt.event.{ActionEvent, ActionListener, KeyEvent, KeyListener}
 import java.awt.{BorderLayout, Color, Dimension}
 import javax.swing.{JButton, JPanel}
 
+import scala.compiletime.uninitialized
+
 
 /**
   * Use this class to test out the various UI components in this library.
@@ -29,12 +31,12 @@ object MainTexturePanel {
   * @author Barry Becker
   */
 class MainTexturePanel() extends TexturedPanel(MainTexturePanel.BACKGROUND_IMG) with ActionListener with KeyListener {
-  private var sampleInput1: NumberInput = _
-  private var sampleInput2: NumberInput = _
-  private var integerInput: NumberInput = _
-  private var floatInput: NumberInput = _
-  private var complexNumberInput: ComplexNumberInput = _
-  private var pwButton: GradientButton = _
+  private var sampleInput1: NumberInput = uninitialized
+  private var sampleInput2: NumberInput = uninitialized
+  private var integerInput: NumberInput = uninitialized
+  private var floatInput: NumberInput = uninitialized
+  private var complexNumberInput: ComplexNumberInput = uninitialized
+  private var pwButton: GradientButton = uninitialized
 
   setLayout(new BorderLayout)
   val toolbar = new UberToolbar(this)

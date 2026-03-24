@@ -6,6 +6,8 @@ import org.scalatest.BeforeAndAfter
 import ColorMapSuite._
 import org.scalatest.funsuite.AnyFunSuite
 
+import scala.compiletime.uninitialized
+
 
 /**
   * @author Barry Becker
@@ -17,7 +19,7 @@ object ColorMapSuite {
 
 class ColorMapSuite extends AnyFunSuite with BeforeAndAfter {
 
-  private var colormap: ColorMap = _
+  private var colormap: ColorMap = uninitialized
 
   before {
     colormap = new ColorMap(VALUES, COLORS)

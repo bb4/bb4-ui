@@ -16,6 +16,8 @@ import java.awt.event.{ActionEvent, ActionListener, KeyEvent, KeyListener}
 import java.awt.{BorderLayout, Color, Dimension}
 import javax.swing.{JButton, JPanel}
 
+import scala.compiletime.uninitialized
+
 
 /**
   * Use this class to test out the various UI components in this library.
@@ -24,8 +26,8 @@ import javax.swing.{JButton, JPanel}
 class SliderGroupPanel()
   extends TexturedPanel(MainTexturePanel.BACKGROUND_IMG) with SliderGroupChangeListener with SliderChangeListener {
 
-  private var parameterSliders: ParameterSliders = _
-  private var rangeSlider: LabeledRangeSlider = _
+  private var parameterSliders: ParameterSliders = uninitialized
+  private var rangeSlider: LabeledRangeSlider = uninitialized
 
   init()
 

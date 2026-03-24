@@ -11,6 +11,8 @@ import java.awt.{BorderLayout, Color, Dimension, Graphics}
 import javax.swing.*
 import scala.util.Random
 
+import scala.compiletime.uninitialized
+
 
 /**
   * Tests the use of the multi-function renderer.
@@ -18,8 +20,8 @@ import scala.util.Random
   */
 class ComplexMultiFunctionTestPanel() extends JPanel with SliderGroupChangeListener  {
 
-  private var multiFunctionSliders: MultiFunctionSliders = _
-  private var multiFunctionPanel: MultiFunctionPanel = _
+  private var multiFunctionSliders: MultiFunctionSliders = uninitialized
+  private var multiFunctionPanel: MultiFunctionPanel = uninitialized
   init();
 
   def init() = {

@@ -7,6 +7,8 @@ import java.util.{Timer, TimerTask}
 import com.barrybecker4.ui.components.ImageListRenderer._
 import javax.swing.JPanel
 
+import scala.compiletime.uninitialized
+
 
 object ImageListRenderer {
 
@@ -18,7 +20,8 @@ object ImageListRenderer {
   private val TIME_TO_ENLARGE = 900
 
   private def calculateImageRatio(images: Seq[BufferedImage]): Double = {
-    if (images == null || images.isEmpty) return 1.0
+    if (images == null || images.isEmpty) 1.0
+    else {
     // first assert that all the images are the same size
     val firstImage = images.head
     var w = firstImage.getWidth
@@ -32,6 +35,7 @@ object ImageListRenderer {
     w += TOTAL_MARGIN
     h += TOTAL_MARGIN
     w.toDouble / h.toDouble
+    }
   }
 }
 
@@ -41,7 +45,7 @@ object ImageListRenderer {
 final class ImageListRenderer(val images: Seq[BufferedImage]) {
   private val imageRatio = calculateImageRatio(images)
   private val baseImageWidth = images.head.getWidth + TOTAL_MARGIN
-  private var highlightedImage: BufferedImage = _
+  private var highlightedImage: BufferedImage = uninitialized
   private var numColumns = 0
   private var imageDisplayHeight = 0
   private var imageDisplayWidth = 0
@@ -120,17 +124,15 @@ final class ImageListRenderer(val images: Seq[BufferedImage]) {
 
   /** @return the image that the mouse is currently over (at x, y coordinates) */
   def findImageOver(x: Int, y: Int): BufferedImage = {
-    if (images == null) return null
-    for (i <- images.indices) {
-      val row = i / numColumns
-      val col = i % numColumns
-      val colPos = col * (imageDisplayWidth + TOTAL_MARGIN)
-      val rowPos = row * (imageDisplayHeight + TOTAL_MARGIN)
-      if (x > colPos && x <= colPos + imageDisplayWidth && y > rowPos && y <= rowPos + imageDisplayHeight) {
-        return images(i)
-      }
-    }
-    null
+    if (images == null) null
+    else
+      images.indices.find { i =>
+        val row = i / numColumns
+        val col = i % numColumns
+        val colPos = col * (imageDisplayWidth + TOTAL_MARGIN)
+        val rowPos = row * (imageDisplayHeight + TOTAL_MARGIN)
+        x > colPos && x <= colPos + imageDisplayWidth && y > rowPos && y <= rowPos + imageDisplayHeight
+      }.map(images.apply).orNull
   }
 
   private def drawEnlargedImage(g2: Graphics2D, image: BufferedImage, width: Int, height: Int): Unit = {

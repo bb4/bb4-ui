@@ -13,7 +13,7 @@ object FrameRateCalculator {
   private val HISTORY_LENGTH = 32
 }
 
-class FrameRateCalculator() {
+class FrameRateCalculator(nowMillis: () => Long = () => System.currentTimeMillis) {
 
   /** previous times in milliseconds. */
   private val previousTimes = new Array[Long](HISTORY_LENGTH)
@@ -21,7 +21,7 @@ class FrameRateCalculator() {
   /** incremented for every frame that is shown */
   private var frameCount = 0L
 
-  previousTimes(0) = System.currentTimeMillis
+  previousTimes(0) = nowMillis()
 
   /** frames per second. */
   private var frameRate = .0
@@ -39,7 +39,7 @@ class FrameRateCalculator() {
   def incrementFrameCount(): Unit = {
     if (!isPaused) {
       frameCount += 1
-      previousTimes(getIndex) = System.currentTimeMillis - totalPauseTime
+      previousTimes(getIndex) = nowMillis() - totalPauseTime
       dirty = true
     }
   }
@@ -54,8 +54,8 @@ class FrameRateCalculator() {
 
   def setPaused(paused: Boolean): Unit = {
     if (paused != isPaused) {
-      if (paused) startPauseTime = System.currentTimeMillis
-      else totalPauseTime += System.currentTimeMillis - startPauseTime
+      if (paused) startPauseTime = nowMillis()
+      else totalPauseTime += nowMillis() - startPauseTime
       isPaused = paused
     }
   }
@@ -66,7 +66,7 @@ class FrameRateCalculator() {
   private def calculateFrameRate(): Unit = {
     var deltaTime = 0.0
     val index = getIndex
-    val now = System.currentTimeMillis - totalPauseTime.toDouble
+    val now = nowMillis() - totalPauseTime.toDouble
     if (frameCount < HISTORY_LENGTH) {
       deltaTime = now - previousTimes(0)
       frameRate = if (deltaTime == 0) 0.0 else (1000.0 * index) / deltaTime

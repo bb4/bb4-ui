@@ -5,6 +5,8 @@ import com.barrybecker4.common.app.ILog
 import com.barrybecker4.ui.dialogs.OutputWindow
 import java.io._
 
+import scala.compiletime.uninitialized
+
 
 @SuppressWarnings(Array("HardCodedStringLiteral"))
 object Log { // you can specify the debug, profile info, warning, and error resources to go to one
@@ -28,9 +30,9 @@ class Log(logWindow: OutputWindow) extends ILog {
   private var logDestination = Log.LOG_TO_CONSOLE
   /** an output window for logging  */
   //private var logWindow: OutputWindow = _
-  private var fileOutStream: OutputStream = _
+  private var fileOutStream: OutputStream = uninitialized
   /** used if logging to String */
-  private var logBuffer: StringBuilder = _
+  private var logBuffer: StringBuilder = uninitialized
 
 
   def this() = { this(null) }

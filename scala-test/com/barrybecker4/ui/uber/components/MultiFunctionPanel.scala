@@ -10,6 +10,8 @@ import java.awt.{Color, Dimension, Graphics}
 import javax.swing.JPanel
 import scala.util.Random
 
+import scala.compiletime.uninitialized
+
 class MultiFunctionPanel extends JPanel {
 
   val rnd = new Random(1)
@@ -17,7 +19,7 @@ class MultiFunctionPanel extends JPanel {
   val numFunctions = 70
   var functions: Seq[Function] = for (i <- 0 until numFunctions) yield createRandomFunction(numXValues)
   val colors: Seq[Color] = for (i <- 0 until numFunctions) yield new Color(i * 2, 10, 240 - i * 2)
-  private var functionRenderer: MultipleFunctionRenderer = _
+  private var functionRenderer: MultipleFunctionRenderer = uninitialized
 
   init()
 
