@@ -43,7 +43,7 @@ class SingleFunctionRenderer(var function: Function) extends AbstractFunctionRen
     var range = new Range
     val numPoints = getNumXPoints
     for (i <- 0 until numPoints) {
-      val x = i.toDouble / (numPoints * (numPoints * numPixelsPerXPoint))
+      val x = i.toDouble / (numPoints * numPixelsPerXPoint)
       range = range.add(function.getValue(x))
     }
     range
