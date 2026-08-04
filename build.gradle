@@ -16,6 +16,6 @@ bb4 {
 }
 
 dependencies {
-    implementation 'com.barrybecker4:bb4-common:2.0.0'
-    implementation 'com.barrybecker4:bb4-math:2.0.0'
+    implementation 'com.barrybecker4:bb4-common:2.1-SNAPSHOT'
+    implementation 'com.barrybecker4:bb4-math:2.1-SNAPSHOT'
 }
