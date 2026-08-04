@@ -189,9 +189,8 @@ object GUIUtil {
     */
   def getFileSuffix(f: File): String = {
     val s = f.getPath
-    var suffix: String = null
     val i = s.lastIndexOf('.')
-    if (i > 0 && i < s.length - 1) suffix = s.substring(i + 1).toLowerCase
-    suffix
+    if (i > 0 && i < s.length - 1) s.substring(i + 1).toLowerCase
+    else null
   }
 }

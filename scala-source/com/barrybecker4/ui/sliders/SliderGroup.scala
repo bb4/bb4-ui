@@ -137,13 +137,11 @@ class SliderGroup(sliderProps: Array[SliderProperties]) extends JPanel with Chan
 
   /** @param name of the slider to enable or disable.*/
   def setEnabled(name: String, enable: Boolean): Unit = {
-    var slider: JSlider = null
-
-    for (i <- sliderProps.indices) {
-      if (name == sliderProps(i).getName) slider = sliders(i)
-    }
-    assert(slider != null, "no slider by the name of " + name)
-    slider.setEnabled(enable)
+    val slider = sliderProps.indices
+      .find(i => name == sliderProps(i).getName)
+      .map(sliders(_))
+    assert(slider.isDefined, "no slider by the name of " + name)
+    slider.get.setEnabled(enable)
   }
 
   /**
