@@ -24,7 +24,7 @@ object PasswordDialog {
   */
 class PasswordDialog(expectedPassword: String) extends AbstractDialog with ActionListener with KeyListener {
 
-  private var password: String = if (expectedPassword == null) DEFAULT_PASSWORD else expectedPassword
+  private val password: String = if (expectedPassword == null) DEFAULT_PASSWORD else expectedPassword
   private var passwordField: JPasswordField = uninitialized
 
   /** click this when ; the password has been entered. */

@@ -55,18 +55,17 @@ object AdapterNode {
     * Refer to table at top of org.w3c.dom.Node ***
     */
   override def toString: String = {
-    var s = AdapterNode.typeName(domNode.getNodeType)
+    val base = AdapterNode.typeName(domNode.getNodeType)
     val nodeName = domNode.getNodeName
-    if (!nodeName.startsWith("#"))
-      s += ": " + nodeName
-    if (domNode.getNodeValue != null) {
-      if (s.startsWith("ProcInstr")) { // NON-NLS
-        s += ", "
-      }
-      else s += ": "
-      s += AdapterNode.firstLine(domNode.getNodeValue)
+    val withName =
+      if (!nodeName.startsWith("#")) base + ": " + nodeName
+      else base
+    Option(domNode.getNodeValue) match {
+      case Some(value) =>
+        val sep = if (withName.startsWith("ProcInstr")) ", " else ": " // NON-NLS
+        withName + sep + AdapterNode.firstLine(value)
+      case None => withName
     }
-    s
   }
 
   def content: String = {
