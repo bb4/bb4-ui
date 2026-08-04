@@ -84,7 +84,7 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
       for (i <- 0 to numPoints) {
         val x = domain.min + xOffset + extent * (i.toDouble / (numPoints * numPixelsPerXPoint))
         val y = function.getValue(x) + zeroHeight
-        val xpos = LEFT_MARGIN + i * numPixelsPerXPoint
+        val xpos = (LEFT_MARGIN + i * numPixelsPerXPoint).toFloat
         drawConnectedLine(g2, scale, xpos, y, xpos - numPixelsPerXPoint, lastY)
         lastY = y
       }

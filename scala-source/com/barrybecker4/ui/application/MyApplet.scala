@@ -27,13 +27,12 @@ class MyApplet extends Panel {
     parameters += (name -> value)
   }
 
-  @SuppressWarnings(Array("deprecation"))
+  /** Prefer setSize; kept as override for Applet-era call sites. */
   override def resize(width: Int, height: Int): Unit = {
-    val d = size
-    if ((d.width != width) || (d.height != height)) super.resize(width, height)
+    val d = getSize
+    if ((d.width != width) || (d.height != height)) setSize(width, height)
   }
 
-  @SuppressWarnings(Array("deprecation"))
   override def resize(d: Dimension): Unit = {
     resize(d.width, d.height)
   }
