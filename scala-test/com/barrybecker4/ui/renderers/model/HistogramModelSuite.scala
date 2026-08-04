@@ -232,13 +232,18 @@ class HistogramModelSuite extends AnyFunSuite {
   }
 
 
-  private case class Result(expMean: Double, expSum: Double, expMedianPos: Int, expMedian: Double)
-
   private def verifyResult(model: HistogramModel,
                    expMean: Double, expSum: Double, expMedianPos: Int, expMedian: Double) = {
-    val expResult = Result(expMean, expSum, expMedianPos, expMedian)
     val medianPos = model.calcMedianPos
-    val actResult = Result(model.mean, model.sum, medianPos, model.calcMedian(medianPos))
-    assertResult(expResult) {actResult}
+    // Tolerance for doubles: mean/median can involve LogFunction (Math.log) whose last bit
+    // is allowed to differ across JVMs; exact case-class equality is a latent flake.
+    assert(math.abs(expMean - model.mean) < 1e-9,
+      s"mean: expected $expMean but got ${model.mean}")
+    assert(math.abs(expSum - model.sum) < 1e-9,
+      s"sum: expected $expSum but got ${model.sum}")
+    assertResult(expMedianPos) { medianPos }
+    val actMedian = model.calcMedian(medianPos)
+    assert(math.abs(expMedian - actMedian) < 1e-9,
+      s"median: expected $expMedian but got $actMedian")
   }
 }

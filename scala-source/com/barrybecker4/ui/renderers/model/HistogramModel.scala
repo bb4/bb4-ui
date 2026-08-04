@@ -48,15 +48,14 @@ class HistogramModel(val data: Array[Int],
   }
 
   def calcMean(): Double = {
-    var sumXValues: Double = 0
-    for (i <- data.indices) {
+    val sumXValues = data.indices.map { i =>
       // the bin holds all values between xInverse(i) and xInverse(i + 1)
       val lowInverse = xFunction.getInverseValue(i)
       val binAvgX =
         if (integralXValues) lowInverse
         else (lowInverse + xFunction.getInverseValue(i + 1)) / 2.0
-      sumXValues += data(i) * binAvgX
-    }
+      data(i) * binAvgX
+    }.sum
     if (sum == 0) 0 else sumXValues / sum
   }
 
