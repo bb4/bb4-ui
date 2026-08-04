@@ -11,19 +11,15 @@ import java.awt.Image
 import java.awt.image.{BufferedImage, ImageObserver}
 import java.io._
 
-import ImageUtil.ImageType.ImageType
-
-
 /**
   * A utility class for generating image files and manipulating images.
   * @author Barry Becker
   */
 object ImageUtil {
 
-  object ImageType extends Enumeration {
-    type ImageType = Value
-    val PNG, JPG = Value
-  }
+  /** Supported image formats for save/encode helpers. */
+  enum ImageType:
+    case PNG, JPG
 
   /** @return a BufferedImage from an Image*/
   def makeBufferedImage(image: Image, imageObserver: ImageObserver): BufferedImage = {
@@ -72,7 +68,7 @@ object ImageUtil {
     */
   def writeImage(img: Image, out: OutputStream, imageType: ImageType): Unit = {
     val bi = makeBufferedImage(img)
-    if (imageType eq ImageType.JPG) {
+    if (imageType == ImageType.JPG) {
       val encoder = ImageIO.getImageWritersByFormatName("JPEG").next
       //NON-NLS
       val param = new JPEGImageWriteParam(null)
