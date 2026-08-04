@@ -7,8 +7,6 @@ import javax.swing._
 import javax.swing.filechooser.FileFilter
 import java.io.File
 
-import scala.compiletime.uninitialized
-
 
 /**
   * Miscellaneous commonly used file chooser related utility methods.
@@ -20,7 +18,7 @@ object FileChooserUtil {
     * Don't create this here or applets using this class will have a security exception
     * instead we create a singleton when needed.
     */
-  private var chooser: JFileChooser = uninitialized
+  private var chooser: Option[JFileChooser] = None
 
   /** @return a generic file chooser.*/
   def getFileChooser: JFileChooser = getFileChooser(null)
@@ -31,10 +29,14 @@ object FileChooserUtil {
     * @return file chooser with specified filter.
     */
   def getFileChooser(filter: FileFilter): JFileChooser = {
-    if (chooser == null) chooser = new JFileChooser
-    chooser.setCurrentDirectory(new File(FileUtil.getHomeDir))
-    chooser.setFileFilter(filter)
-    chooser
+    val fileChooser = chooser.getOrElse {
+      val created = new JFileChooser
+      chooser = Some(created)
+      created
+    }
+    fileChooser.setCurrentDirectory(new File(FileUtil.getHomeDir))
+    fileChooser.setFileFilter(filter)
+    fileChooser
   }
 
   def getSelectedFileToSave(extension: String, defaultDir: File): File =
