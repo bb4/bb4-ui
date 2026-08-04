@@ -40,12 +40,18 @@ object ImageUtil {
   def makeBufferedImage(image: Image): BufferedImage =
     makeBufferedImage(image, null)
 
-  /** Create an image that is compatible with your hardware */
+  /** Create an image that is compatible with your hardware.
+    * Falls back to a software ARGB buffer when running headless (no display / CI).
+    */
   def createCompatibleImage(width: Int, height: Int): BufferedImage = {
-    val local = GraphicsEnvironment.getLocalGraphicsEnvironment
-    val screen = local.getDefaultScreenDevice
-    val configuration = screen.getDefaultConfiguration
-    configuration.createCompatibleImage(width, height)
+    if (GraphicsEnvironment.isHeadless)
+      new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+    else {
+      val local = GraphicsEnvironment.getLocalGraphicsEnvironment
+      val screen = local.getDefaultScreenDevice
+      val configuration = screen.getDefaultConfiguration
+      configuration.createCompatibleImage(width, height)
+    }
   }
 
   /** @param img       the image to convert
