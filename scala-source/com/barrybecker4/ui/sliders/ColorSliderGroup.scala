@@ -7,8 +7,6 @@ import javax.swing.event.ChangeEvent
 import javax.swing.event.ChangeListener
 import java.awt._
 
-import scala.compiletime.uninitialized
-
 
 object ColorSliderGroup {
   private val RED = "RED"
@@ -31,15 +29,15 @@ class ColorSliderGroup() extends JPanel with ChangeListener {
   val greenPanel: JPanel = createColorLabelPanel(green)
   val bluePanel: JPanel = createColorLabelPanel(blue)
 
-  private var colorListener: ColorChangeListener = uninitialized
-  private var redSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 0)
+  private var colorListener: Option[ColorChangeListener] = None
+  private val redSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 0)
   redSlider.addChangeListener(this)
-  private var greenSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 0)
+  private val greenSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 0)
   greenSlider.addChangeListener(this)
-  private var blueSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 0)
+  private val blueSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 0)
   blueSlider.addChangeListener(this)
 
-  private var swatch = new JPanel
+  private val swatch = new JPanel
   swatch.setBorder(BorderFactory.createMatteBorder(2, 20, 2, 20, this.getBackground))
   add(swatch)
   add(redPanel)
@@ -60,13 +58,13 @@ class ColorSliderGroup() extends JPanel with ChangeListener {
   }
 
   def setColorChangeListener(listener: ColorChangeListener): Unit = {
-    colorListener = listener
+    colorListener = Option(listener)
     updateSwatch()
   }
 
   def updateSwatch(): Unit = {
     val color = new Color(redSlider.getValue, greenSlider.getValue, blueSlider.getValue)
-    if (colorListener != null) colorListener.colorChanged(color)
+    colorListener.foreach(_.colorChanged(color))
     swatch.setBackground(color)
     swatch.setOpaque(true)
     swatch.repaint()

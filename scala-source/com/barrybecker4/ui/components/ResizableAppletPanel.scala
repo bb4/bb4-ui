@@ -36,13 +36,13 @@ class ResizableAppletPanel(var mainPanel: JPanel) extends JPanel {
   /** This resizes the mainPanel inside the large global applet window. */
   override def setSize(width: Int, height: Int): Unit = {
     val totalWidth = this.getWidth
-    var w = width
-    var h = height
-    if (w > totalWidth) w = totalWidth
-    val sizeH = new Dimension(totalWidth - w, h)
+    val w = math.min(width, totalWidth)
+    // Horizontal buffer uses the requested height before it is clamped to totalHeight
+    // (preserves prior layout behavior).
+    val sizeH = new Dimension(totalWidth - w, height)
     resizeHorizontalPanel.setPreferredSize(sizeH)
     val totalHeight = getHeight
-    if (h > totalHeight) h = totalHeight
+    val h = math.min(height, totalHeight)
     val sizeV = new Dimension(totalWidth, totalHeight - h)
     resizeVerticalPanel.setPreferredSize(sizeV)
     val mainSize = new Dimension(w, h)

@@ -29,14 +29,8 @@ class ExtensionFileFilter(var extension: String) extends FileFilter {
   /** @param file the file to check for acceptance.
     * @return true if f matches the desired extension.
     */
-  override def accept(file: File): Boolean = {
-    var accept = file.isDirectory
-    if (!accept) {
-      val suffix = GUIUtil.getFileSuffix(file)
-      if (suffix != null) accept = suffix == extension
-    }
-    accept
-  }
+  override def accept(file: File): Boolean =
+    file.isDirectory || Option(GUIUtil.getFileSuffix(file)).contains(extension)
 
   override def getDescription: String = s"*.$extension"
 }
