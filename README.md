@@ -1,5 +1,7 @@
 # bb4-ui
 
+📊 [Build status for all bb4 projects](https://github.com/bb4)
+
 Common swing UI code for bb4 projects
 It is a library project that produces a bb4-ui-X.x jar file.
 This jar file along with the source and javadoc jars will be published to Sonatype so
