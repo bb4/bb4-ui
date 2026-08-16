@@ -1,6 +1,6 @@
 # bb4-ui
 
-📊 [Build status for all bb4 projects](https://github.com/bb4)
+📊 [Build status for all bb4 projects](https://github.com/bb4/.github)
 
 Common swing UI code for bb4 projects
 It is a library project that produces a bb4-ui-X.x jar file.
