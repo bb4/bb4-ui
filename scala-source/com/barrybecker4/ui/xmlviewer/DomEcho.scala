@@ -46,13 +46,16 @@ object DomEcho {
 
   /** for testing */
   def main(argv: Array[String]): Unit = {
-    var document: Document = null
-    if (argv.length < 1) document = DomUtil.buildDom
-    else {
-      val file = new File(argv(0))
-      document = DomUtil.parseXMLFile(file)
+    val documentOpt =
+      if (argv.length < 1) Some(DomUtil.buildDom)
+      else DomUtil.parseXMLFile(new File(argv(0)))
+
+    documentOpt match {
+      case Some(document) => makeFrame(document)
+      case None =>
+        System.err.println(s"Could not parse XML file: ${argv(0)}")
+        System.exit(1)
     }
-    makeFrame(document)
   }
 }
 

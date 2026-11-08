@@ -8,8 +8,8 @@ This jar file along with the source and javadoc jars will be published to Sonaty
 other projects can easily depend on it.
 
 ### How to Build
-Type 'gradlew build' at the root (or ./gradlew if running in Cygwin). This will build everything, but since its a library project there won't be much to see.
-If you want to open the source in Intellij, then first run 'gradle idea'.
+Requires **JDK 25+** (bb4-gradle 2.1). Type `./gradlew build` at the root. This will build everything, but since its a library project there won't be much to see.
+If you want to open the source in Intellij, then first run `./gradlew idea`.
 
 When there is a [new release](https://github.com/bb4/bb4-common/wiki/Building-bb4-Projects), versioned artifacts will be published by Barry Becker to [Sonatype](https://oss.sonatype.org).
 
