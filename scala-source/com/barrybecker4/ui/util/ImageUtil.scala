@@ -63,43 +63,60 @@ object ImageUtil {
 
   /** write an image to the given output stream
     * @param img  image to write.
-    * @param out  output stream to write to
+    * @param out  output stream to write to; this method flushes and closes it when encoding completes
     * @param imageType the type of image to create ("jpg" or "png")
     */
   def writeImage(img: Image, out: OutputStream, imageType: ImageType): Unit = {
-    val bi = makeBufferedImage(img)
-    if (imageType == ImageType.JPG) {
-      val encoder = ImageIO.getImageWritersByFormatName("JPEG").next
-      //NON-NLS
-      val param = new JPEGImageWriteParam(null)
-      param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT)
-      encoder.setOutput(out)
-      try
-        encoder.write(null, new IIOImage(bi, null, null), param)
-      catch {
-        case fne: IOException =>
-          throw new IllegalStateException(s"IOException error: ${fne.getMessage}", fne)
-      }
-    }
-    else { // PNG is the default
-      //PNGEncodeParam param = PNGEncodeParam.getDefaultEncodeParam( bi );
-      //ImageEncoder encoder = ImageCodec.createImageEncoder( "PNG", out, param ); //NON-NLS
-      try // Writes it to a file as a .png
-      ImageIO.write(bi, "png", out)
-      //encoder.encode( bi );
-      catch {
-        case e: IOException =>
-          throw new IllegalStateException("IOException error.", e)
-        case npe: NullPointerException =>
-          throw new IllegalStateException("Could not encode buffered image because it was null.", npe)
-      }
-    }
+    val buffered = makeBufferedImage(img)
+    val bi =
+      if (imageType == ImageType.JPG && buffered.getType != BufferedImage.TYPE_INT_RGB) {
+        val rgb = new BufferedImage(buffered.getWidth, buffered.getHeight, BufferedImage.TYPE_INT_RGB)
+        val g = rgb.createGraphics()
+        try g.drawImage(buffered, 0, 0, null)
+        finally g.dispose()
+        rgb
+      } else buffered
+    var ioException: Option[IOException] = None
     try {
+      if (imageType == ImageType.JPG) {
+        val writers = ImageIO.getImageWritersByFormatName("JPEG")
+        if (!writers.hasNext)
+          throw new IllegalStateException("No JPEG ImageWriter available")
+        val encoder = writers.next()
+        try {
+          val imageOut = ImageIO.createImageOutputStream(out)
+          if (imageOut == null)
+            throw new IllegalStateException("Could not create ImageOutputStream for JPEG encoding")
+          try {
+            encoder.setOutput(imageOut)
+            val param = new JPEGImageWriteParam(null)
+            param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT)
+            encoder.write(null, new IIOImage(bi, null, null), param)
+          } finally
+            imageOut.close()
+        } finally
+          encoder.dispose()
+      } else { // PNG is the default
+        try ImageIO.write(bi, "png", out)
+        catch {
+          case e: IOException =>
+            throw new IllegalStateException("IOException error.", e)
+          case npe: NullPointerException =>
+            throw new IllegalStateException("Could not encode buffered image because it was null.", npe)
+        }
+      }
       out.flush()
-      out.close()
     } catch {
       case e: IOException =>
-        throw new IllegalStateException("IOException error.", e)
+        ioException = Some(e)
+        throw new IllegalStateException(s"IOException error: ${e.getMessage}", e)
+    } finally {
+      try out.close()
+      catch {
+        case e: IOException if ioException.isEmpty =>
+          throw new IllegalStateException("IOException error.", e)
+        case _: IOException =>
+      }
     }
   }
 
