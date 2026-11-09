@@ -7,9 +7,6 @@ import java.awt.{Dimension, Graphics, Graphics2D}
 import javax.swing._
 import ImageListPanel.BACKGROUND_COLOR
 
-import scala.compiletime.uninitialized
-
-
 /**
   * Displays lists of images as rows in a scrolling window.
   * Images do not have to all have the same size.
@@ -19,8 +16,8 @@ import scala.compiletime.uninitialized
   */
 final class ImageListsPanel(imgHeight: Int) extends JPanel with MouseMotionListener {
 
-  private var imageLists: Seq[Seq[(BufferedImage, String)]] = uninitialized
-  private var renderer: ImageListsRenderer = uninitialized
+  private var imageLists: Seq[Seq[(BufferedImage, String)]] = Seq.empty
+  private var renderer: ImageListsRenderer = null
 
   this.setMinimumSize(new Dimension(100, 100))
   this.addMouseMotionListener(this)
@@ -50,7 +47,7 @@ final class ImageListsPanel(imgHeight: Int) extends JPanel with MouseMotionListe
   /** This renders the array of images to the screen. */
   override protected def paintComponent(g: Graphics): Unit = {
     super.paintComponents(g)
-    if (imageLists == null || imageLists.isEmpty) return
+    if (renderer == null || imageLists.isEmpty) return
     // erase what's there and redraw.
     g.clearRect(0, 0, getWidth, getHeight)
     g.setColor(BACKGROUND_COLOR)

@@ -14,9 +14,6 @@ import scala.jdk.CollectionConverters._
 import ImageListPanel._
 import com.barrybecker4.ui.util.UiLog
 
-import scala.compiletime.uninitialized
-
-
 object ImageListPanel {
 
   val BACKGROUND_COLOR = Color.WHITE
@@ -32,10 +29,10 @@ object ImageListPanel {
 final class ImageListPanel() extends JPanel with MouseMotionListener with MouseListener {
 
   private var imageSelectionListeners = List[ImageSelectionListener]()
-  private var images: Seq[BufferedImage] = uninitialized
-  private var selectedImages: Seq[BufferedImage] = uninitialized
+  private var images: Seq[BufferedImage] = Seq.empty
+  private var selectedImages: Seq[BufferedImage] = Seq.empty
   private var maxNumSelections = Int.MaxValue
-  private var renderer: ImageListRenderer = uninitialized
+  private var renderer: ImageListRenderer = null
 
   this.setMinimumSize(new Dimension(100, 100))
   this.addComponentListener(new ComponentAdapter() {
@@ -93,7 +90,7 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
   }
 
   def getSelectedImageIndices: Seq[Int] = {
-    if (images == null) return null
+    if (renderer == null) return null
     images.zipWithIndex.filter(img => selectedImages.contains(img._1)).map(img => img._2)
   }
 
@@ -106,7 +103,7 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
   /** This renders the array of images to the screen. */
   override protected def paintComponent(g: Graphics): Unit = {
     super.paintComponents(g)
-    if (images == null || images.isEmpty) return
+    if (renderer == null || images.isEmpty) return
     // erase what's there and redraw.
     g.clearRect(0, 0, getWidth, getHeight)
     g.setColor(BACKGROUND_COLOR)
