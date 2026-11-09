@@ -89,7 +89,7 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
     * @param isl the listener  to remove
     */
   def removeImageSelectionListener(isl: ImageSelectionListener): Unit = {
-    imageSelectionListeners.diff(List(isl))
+    imageSelectionListeners = imageSelectionListeners.diff(List(isl))
   }
 
   def getSelectedImageIndices: Seq[Int] = {
@@ -131,7 +131,7 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
   override def mouseReleased(e: MouseEvent): Unit = {
     val img = renderer.findImageOver(e.getX, e.getY)
     if (img != null) {
-      if (selectedImages.contains(img)) selectedImages.diff(Seq(img))
+      if (selectedImages.contains(img)) selectedImages = selectedImages.diff(Seq(img))
       else { // if we are at our limit we first need to remove the first selected
         if (selectedImages.size == maxNumSelections) selectedImages = selectedImages.tail
         selectedImages :+= img
