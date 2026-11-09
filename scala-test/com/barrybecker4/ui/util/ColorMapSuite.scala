@@ -76,4 +76,35 @@ class ColorMapSuite extends AnyFunSuite with BeforeAndAfter {
     colormap.removeControlPoint(0)
     assertResult(0) {colormap.getNumValues}
   }
+
+  test("GetColorForValue exactly on control point") {
+    assertResult(COLORS(1)) { colormap.getColorForValue(0.9) }
+  }
+
+  test("GetColorForValue negative and far outside range") {
+    assertResult(COLORS(0)) { colormap.getColorForValue(-100.0) }
+    assertResult(COLORS(2)) { colormap.getColorForValue(1000.0) }
+  }
+
+  test("Alpha interpolation between control points") {
+    val withAlpha = new ColorMap(
+      Array(0.0, 1.0),
+      Array(new Color(255, 0, 0, 0), new Color(255, 0, 0, 255))
+    )
+    val mid = withAlpha.getColorForValue(0.5)
+    assert(mid.getAlpha > 0 && mid.getAlpha < 255)
+    assert(mid.getRed == 255)
+  }
+
+  test("setGlobalAlpha updates all control colors") {
+    colormap.setGlobalAlpha(64)
+    assert(colormap.getColor(0).getAlpha == 64)
+    assert(colormap.getColor(2).getAlpha == 64)
+  }
+
+  test("setValue rejects out-of-order control point") {
+    intercept[AssertionError] {
+      colormap.setValue(1, 0.05)
+    }
+  }
 }
