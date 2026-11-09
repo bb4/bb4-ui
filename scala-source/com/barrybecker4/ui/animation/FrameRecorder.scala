@@ -62,8 +62,12 @@ class FrameRecorder(var fileNameBase: String) {
   /** Check for offscreen image. Creates it if needed. */
   protected def checkImage(dimensions: Dimension, comp: Component): Boolean = {
     if (dimensions.width <= 0 || dimensions.height <= 0) return false
-    if (image == null || image.getWidth(null) != dimensions.width || image.getHeight(null) != dimensions.height)
-      image = comp.createImage(dimensions.width, dimensions.height)
+    if (image == null || image.getWidth(null) != dimensions.width || image.getHeight(null) != dimensions.height) {
+      val created = comp.createImage(dimensions.width, dimensions.height)
+      image =
+        if (created != null) created
+        else ImageUtil.createCompatibleImage(dimensions.width, dimensions.height)
+    }
     true
   }
 }
