@@ -3,12 +3,8 @@ package com.barrybecker4.ui.components
 
 import java.awt.image.BufferedImage
 import java.awt.{BasicStroke, Color, Graphics2D}
-import java.util.{Timer, TimerTask}
 import com.barrybecker4.ui.components.ImageListRenderer._
-import javax.swing.JPanel
-
-import scala.compiletime.uninitialized
-
+import javax.swing.{JPanel, Timer}
 
 object ImageListRenderer {
 
@@ -45,12 +41,14 @@ object ImageListRenderer {
 final class ImageListRenderer(val images: Seq[BufferedImage]) {
   private val imageRatio = calculateImageRatio(images)
   private val baseImageWidth = images.head.getWidth + TOTAL_MARGIN
-  private var highlightedImage: BufferedImage = uninitialized
+  private var highlightedImage: BufferedImage = null
   private var numColumns = 0
   private var imageDisplayHeight = 0
   private var imageDisplayWidth = 0
   private var maxNumSelections = Int.MaxValue
-  private var enlargeHighlightedImage: Boolean = false
+  private[components] var enlargeHighlightedImage: Boolean = false
+  private var enlargementTimer: Option[Timer] = None
+  private var enlargementTarget: BufferedImage = null
   assert(images != null)
 
 
@@ -110,16 +108,22 @@ final class ImageListRenderer(val images: Seq[BufferedImage]) {
     if (image != null) highlightedImage = image
     else highlightedImage = null
 
-    // start a timer that is canceled if the mouse moves
-    val enlargementTimer = new Timer
+    enlargementTimer.foreach(_.stop())
     enlargeHighlightedImage = false
-    enlargementTimer.schedule(new TimerTask() {
-      override def run(): Unit = {
+    enlargementTarget = highlightedImage
+
+    val timer = new Timer(TIME_TO_ENLARGE, _ => {
+      val stillCurrent =
+        (enlargementTarget eq highlightedImage) ||
+          (enlargementTarget == null && highlightedImage == null)
+      if (stillCurrent) {
         enlargeHighlightedImage = true
-        enlargementTimer.cancel()
         repaintable.repaint()
       }
-    }, TIME_TO_ENLARGE)
+    })
+    timer.setRepeats(false)
+    enlargementTimer = Some(timer)
+    timer.start()
   }
 
   /** @return the image that the mouse is currently over (at x, y coordinates) */
