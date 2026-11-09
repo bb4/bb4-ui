@@ -10,9 +10,9 @@ import java.awt.event.MouseListener
 import java.awt.event.MouseMotionListener
 import java.awt.image.BufferedImage
 import java.util
-import java.util.{Timer, TimerTask}
 import scala.jdk.CollectionConverters._
 import ImageListPanel._
+import com.barrybecker4.ui.util.UiLog
 
 import scala.compiletime.uninitialized
 
@@ -70,7 +70,7 @@ final class ImageListPanel() extends JPanel with MouseMotionListener with MouseL
   /** Sometimes we just want to show a single image and have it fit the available area. */
   def setSingleImage(image: BufferedImage): Unit = {
     if (image == null) {
-      println("warning: setting null image") //NON-NLS
+      UiLog.warning("warning: setting null image") //NON-NLS
       return
     }
     val imageList = new util.ArrayList[BufferedImage](1)

@@ -141,7 +141,7 @@ class MultipleFunctionRenderer(var functions: Seq[Function],
             range = newRange
           } catch {
             // In rare cases this can happen if the slider is moved to fast
-            case e: IndexOutOfBoundsException => println(e.getMessage)
+            case e: IndexOutOfBoundsException => com.barrybecker4.ui.util.UiLog.warning(e.getMessage)
           }
         }
       }

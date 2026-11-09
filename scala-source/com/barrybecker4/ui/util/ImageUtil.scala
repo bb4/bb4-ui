@@ -136,7 +136,7 @@ object ImageUtil {
       writeImage(img, os, imageType)
     } catch {
       case fne: FileNotFoundException =>
-        println("File " + fileName + " not found: " + fne.getMessage) //NON-NLS
+        UiLog.warning("File " + fileName + " not found: " + fne.getMessage) //NON-NLS
     }
   }
 

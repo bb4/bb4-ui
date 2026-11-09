@@ -68,7 +68,7 @@ class HistogramModel(val data: Array[Int],
       medianPos += 1
     }
     if (medianPos == data.length && cumulativeTotal < halfTotal)
-      println(s"Warning: medianPosition: $medianPos too big and will not be shown. " +
+      com.barrybecker4.ui.util.UiLog.warning(s"Warning: medianPosition: $medianPos too big and will not be shown. " +
         s"cumTotal = $cumulativeTotal halfTotal = $halfTotal")
     if (medianPos > 0 && data(medianPos - 1) > 0)
       medianPos -= ((cumulativeTotal - halfTotal) / data(medianPos - 1)).toInt

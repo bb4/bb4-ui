@@ -136,7 +136,7 @@ class NumberInput(val labelText: String, var initialValue: Double, val toolTip: 
         case e: NumberFormatException =>
           // if an error occurred during parsing then revert to the initial value
           numberField.setText("" + initialValue)
-          println("Warning: could not parse " + txt + " as a number. \n" + e.getMessage)
+          com.barrybecker4.ui.util.UiLog.warning("Warning: could not parse " + txt + " as a number. \n" + e.getMessage)
       }
     }
   }

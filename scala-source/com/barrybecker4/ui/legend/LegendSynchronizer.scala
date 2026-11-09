@@ -1,6 +1,8 @@
 // Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 package com.barrybecker4.ui.legend
 
+import com.barrybecker4.ui.util.UiLog
+
 /**
   * Synchronize the 0 point on two continuous color legends
   * @author Barry Becker
@@ -14,12 +16,12 @@ class LegendSynchronizer {
   def synchronizeLegends(legend1: ContinuousColorLegend, legend2: ContinuousColorLegend): Unit = {
 
     if (!(legend1.getMin <= 0 && legend1.getMax >= 0)) {
-      println("legend1 does not have 0 in its range")
+      UiLog.warning("legend1 does not have 0 in its range")
       return
     }
 
     if (!(legend2.getMin <= 0 && legend2.getMax >= 0)) {
-      System.out.println("legend2 does not have 0 in its range")
+      UiLog.warning("legend2 does not have 0 in its range")
       return
     }
 
@@ -30,9 +32,9 @@ class LegendSynchronizer {
     val leg1Prop = Math.abs(leg1Min) / leg1Length
     val leg2Prop = Math.abs(leg2Min) / leg2Length
     val meanProp = (leg1Prop + leg2Prop) / 2.0
-    println("leg1Prop=" + leg1Prop + " leg2Prop=" + leg2Prop + " meanProp=" + meanProp)
-    println("legend1 range=" + legend1.getMin + " " + legend1.getMax)
-    println("legend2 range=" + legend2.getMin + " " + legend2.getMax)
+    UiLog.debug("leg1Prop=" + leg1Prop + " leg2Prop=" + leg2Prop + " meanProp=" + meanProp)
+    UiLog.debug("legend1 range=" + legend1.getMin + " " + legend1.getMax)
+    UiLog.debug("legend2 range=" + legend2.getMin + " " + legend2.getMax)
 
     if (leg1Prop < meanProp) {
       // double newMin = legend1.getMin() -(leg2Prop * leg1Length - Math.abs(legend1.getMin())) / (1.0 - leg2Prop);
@@ -44,8 +46,8 @@ class LegendSynchronizer {
       legend2.setMin(-meanProp * legend2.getMax / (1.0 - meanProp))
     }
 
-    println("legend1 range=" + legend1.getMin + " " + legend1.getMax)
-    println("legend2 range=" + legend2.getMin + " " + legend2.getMax)
+    UiLog.debug("legend1 range=" + legend1.getMin + " " + legend1.getMax)
+    UiLog.debug("legend2 range=" + legend2.getMin + " " + legend2.getMax)
   }
 }
 

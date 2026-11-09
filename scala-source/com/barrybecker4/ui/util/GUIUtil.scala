@@ -141,7 +141,7 @@ object GUIUtil {
   /** Paint with specified texture. */
   def paintComponentWithTexture(texture: ImageIcon, c: Component, g: Graphics): Unit = {
     if (texture == null) {
-      println("warning no texture to tile with")
+      com.barrybecker4.ui.util.UiLog.warning("warning no texture to tile with")
       return
     }
     val size = c.getSize
