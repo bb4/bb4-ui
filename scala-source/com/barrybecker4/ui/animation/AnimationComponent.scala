@@ -6,6 +6,7 @@ import com.barrybecker4.common.concurrency.ThreadUtil
 import com.barrybecker4.common.format.FormatUtil
 import javax.swing.JComponent
 import javax.swing.JToggleButton
+import java.awt.Graphics
 import java.awt.event.ItemEvent
 import java.awt.event.ItemListener
 
@@ -90,9 +91,15 @@ abstract class AnimationComponent extends JComponent with Runnable {
     button
   }
 
+  override protected def paintComponent(g: Graphics): Unit = {
+    super.paintComponent(g)
+    recorder.paintFrame(g)
+  }
+
   /** render the animation component as an image */
   protected def render(): Unit = {
     recorder.renderImage(this)
+    repaint()
   }
 
   /** Message to show in the status bar at the bottom */
