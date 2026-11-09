@@ -6,6 +6,7 @@ import com.barrybecker4.common.util.FileUtil
 import javax.swing._
 import javax.swing.filechooser.FileFilter
 import java.io.File
+import javax.swing.SwingUtilities
 
 
 /**
@@ -25,10 +26,17 @@ object FileChooserUtil {
 
   /**
     * get a singleton file chooser.
+    *
+    * Call only on the Swing event dispatch thread (EDT). Sharing one instance
+    * preserves the last current directory and file filter between dialogs.
     * @param filter optional file filter
     * @return file chooser with specified filter.
     */
   def getFileChooser(filter: FileFilter): JFileChooser = {
+    assert(
+      SwingUtilities.isEventDispatchThread,
+      "getFileChooser must be called on the Swing EDT"
+    )
     val fileChooser = chooser.getOrElse {
       val created = new JFileChooser
       chooser = Some(created)
