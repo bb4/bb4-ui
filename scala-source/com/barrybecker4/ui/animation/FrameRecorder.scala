@@ -13,8 +13,8 @@ import javax.swing.SwingUtilities
   * @author Barry Becker
   */
 class FrameRecorder(var fileNameBase: String) {
-  /** An image showing the current animation frame (owned by the animation/recorder worker between renders). */
-  protected var image: Image = null
+  /** Latest completed frame; published from the EDT offscreen render path, read when painting or saving. */
+  @volatile protected var image: Image = null
 
   /**
     * Same the current frame image if there is one.
