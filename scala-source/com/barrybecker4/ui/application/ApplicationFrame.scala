@@ -25,6 +25,7 @@ object ApplicationFrame {
 
 class ApplicationFrame(title: String)
   extends JFrame(if (title == null) ApplicationFrame.DEFAULT_TITLE else title) {
+  GUIUtil.setCustomLookAndFeel()
   createUI()
 
   def this() = {
@@ -32,7 +33,6 @@ class ApplicationFrame(title: String)
   }
 
   protected def createUI(): Unit = {
-    GUIUtil.setCustomLookAndFeel()
     setSize(500, 400)
     center()
     addWindowListener(new WindowAdapter() {
