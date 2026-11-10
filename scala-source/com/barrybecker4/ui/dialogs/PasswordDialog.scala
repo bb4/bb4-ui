@@ -22,7 +22,7 @@ object PasswordDialog {
   * @param expectedPassword password that the user must enter to continue.
   * @author barry Becker
   */
-class PasswordDialog(expectedPassword: String) extends AbstractDialog with ActionListener with KeyListener {
+class PasswordDialog(expectedPassword: String) extends AbstractDialog(null) with ActionListener with KeyListener {
 
   private val password: String = if (expectedPassword == null) DEFAULT_PASSWORD else expectedPassword
   private var passwordField: JPasswordField = uninitialized

@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage
   * Show an image in a preview dialog.
   * @author Barry Becker
   */
-class ImagePreviewDialog(var image: BufferedImage) extends AbstractDialog with ActionListener {
+class ImagePreviewDialog(var image: BufferedImage) extends AbstractDialog(null) with ActionListener {
   this.setResizable(true)
   setTitle(AppContext.getLabel("IMAGE_PREVIEW"))
   this.setModal(true)

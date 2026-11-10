@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import java.awt.event.WindowEvent
 
-import scala.compiletime.uninitialized
-
 
 /**
   * All dialogs should extend this instead of JDialog.
@@ -21,21 +19,16 @@ object AbstractDialog {
   protected def createMarginBorder: Border = BorderFactory.createEmptyBorder(3, 3, 3, 3)
 }
 
-abstract class AbstractDialog() extends JDialog with ActionListener {
+abstract class AbstractDialog protected (val myParent: Component)
+    extends JDialog(
+      if myParent == null then null.asInstanceOf[Window]
+      else SwingUtilities.getWindowAncestor(myParent)
+    )
+    with ActionListener {
+
   /** there is always a cancel button so it is included here. */
   protected var cancelButton = new GradientButton
   protected var canceled = false
-  /** Cache a pointer to this in case we have children */
-  protected var myParent: Component = uninitialized
-
-  /**
-    * Constructor.
-    * @param parent parent component to place ourselves relative to.
-    */
-  def this(parent: Component) = {
-    this()
-    this.myParent = parent
-  }
 
   /** Must be called once after the context has been created. */
   final protected def showContent(): Unit = {
