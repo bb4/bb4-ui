@@ -1,9 +1,9 @@
 // Copyright by Barry G. Becker, 2013-2026. Licensed under MIT License: http://www.opensource.org/licenses/MIT
 
 plugins {
-    id 'com.barrybecker4.bb4.scala-library' version '3.0-SNAPSHOT'
-    id 'com.barrybecker4.bb4.publish' version '3.0-SNAPSHOT'
-    id 'com.barrybecker4.bb4.application' version '3.0-SNAPSHOT'
+    alias(bb4Libs.plugins.scala.library)
+    alias(bb4Libs.plugins.publish)
+    alias(bb4Libs.plugins.application)
 }
 
 description = 'Common bb4 swing user interface java code. Library project.'
@@ -16,6 +16,6 @@ bb4 {
 }
 
 dependencies {
-    implementation 'com.barrybecker4:bb4-common:3.0-SNAPSHOT'
-    implementation 'com.barrybecker4:bb4-math:3.0-SNAPSHOT'
+    implementation bb4Libs.common
+    implementation bb4Libs.math
 }
