@@ -9,7 +9,7 @@ other projects can easily depend on it.
 
 ### How to Build
 Requires **JDK 25+** (bb4-gradle 2.1). Type `./gradlew build` at the root. This will build everything, but since its a library project there won't be much to see.
-If you want to open the source in Intellij, then first run `./gradlew idea`.
+Open the project in IntelliJ via Gradle import (File → Open on the repo root).
 
 When there is a [new release](https://github.com/bb4/bb4-common/wiki/Building-bb4-Projects), versioned artifacts will be published by Barry Becker to [Sonatype](https://oss.sonatype.org).
 
