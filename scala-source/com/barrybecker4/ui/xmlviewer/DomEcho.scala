@@ -1,7 +1,7 @@
 /* Copyright by Barry G. Becker, 2017. Licensed under MIT License: http://www.opensource.org/licenses/MIT*/
 package com.barrybecker4.ui.xmlviewer
 
-import com.barrybecker4.common.xml.DomUtil
+import com.barrybecker4.xml.DomUtil
 import org.w3c.dom.Document
 import javax.swing._
 import javax.swing.border.BevelBorder
