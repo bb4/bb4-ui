@@ -18,6 +18,8 @@ object TableBase {
 
 /**
   * This represents a generic table, with a set of columns and tooltips for those column headers.
+  * Subclass constructors must call [[initializeTable]] (directly or via an auxiliary constructor)
+  * before using [[table]] / [[columnMeta]].
   * @author Barry Becker
   */
 abstract class TableBase() {

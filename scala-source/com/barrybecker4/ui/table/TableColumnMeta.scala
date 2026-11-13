@@ -16,9 +16,9 @@ import scala.compiletime.uninitialized
   */
 class TableColumnMeta(var name: String, var tooltip: String) {
 
-  private var minWidth: Int = uninitialized
-  private var preferredWidth: Int = uninitialized
-  private var maxWidth: Int = uninitialized
+  private var minWidth: Int = 0
+  private var preferredWidth: Int = 0
+  private var maxWidth: Int = 0
   private var resizable = true
   private var cellRenderer: TableCellRenderer = uninitialized
   private var cellEditor: TableCellEditor = uninitialized

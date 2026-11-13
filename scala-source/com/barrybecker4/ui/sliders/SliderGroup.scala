@@ -9,8 +9,6 @@ import javax.swing.event.ChangeListener
 import java.awt._
 import SliderGroup._
 
-import scala.compiletime.uninitialized
-
 
 object SliderGroup {
   private val DEFAULT_MIN = 0
@@ -34,8 +32,8 @@ object SliderGroup {
   */
 class SliderGroup(sliderProps: Array[SliderProperties]) extends JPanel with ChangeListener {
   private var sliderListener: Option[SliderGroupChangeListener] = None
-  private var labels: Array[JLabel] = uninitialized
-  private var sliders: Array[JSlider] = uninitialized
+  private val labels: Array[JLabel] = new Array[JLabel](sliderProps.length)
+  private val sliders: Array[JSlider] = new Array[JSlider](sliderProps.length)
   commonInit(sliderProps)
 
   /** @param sliderNames used for both identification and labels */
@@ -48,8 +46,6 @@ class SliderGroup(sliderProps: Array[SliderProperties]) extends JPanel with Chan
   /** Initialize sliders with floating point values. */
   protected def commonInit(sliderProps: Array[SliderProperties]): Unit = {
     val numSliders = this.sliderProps.length
-    labels = new Array[JLabel](numSliders)
-    sliders = new Array[JSlider](numSliders)
 
     for (i <- 0 until numSliders) {
       val scale = this.sliderProps(i).getScale

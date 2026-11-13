@@ -5,9 +5,6 @@ import com.barrybecker4.ui.components.ScrollingTextArea
 import javax.swing._
 import java.awt._
 
-import scala.compiletime.uninitialized
-
-
 object OutputWindow {
   private val TEXT_FONT = new Font("Times-Roman", Font.PLAIN, 10) //NON-NLS
 }
@@ -18,18 +15,18 @@ object OutputWindow {
   */
 @SerialVersionUID(1L)
 class OutputWindow(title: String, parent: JFrame) extends AbstractDialog(parent) {
-  protected var textArea: ScrollingTextArea = uninitialized
+  protected val textArea: ScrollingTextArea = {
+    val area = new ScrollingTextArea(40, 30)
+    // if its editable then we can copy from it
+    area.setEditable(true)
+    area.setFont(OutputWindow.TEXT_FONT)
+    area
+  }
   this.setTitle(title)
   this.setModal(false)
   showContent()
 
-  override protected def createDialogContent: JComponent = {
-    textArea = new ScrollingTextArea(40, 30)
-    // if its editable then we can copy from it
-    textArea.setEditable(true)
-    textArea.setFont(OutputWindow.TEXT_FONT)
-    textArea
-  }
+  override protected def createDialogContent: JComponent = textArea
 
   /** Add this text to what is already there */
   def appendText(text: String): Unit = {

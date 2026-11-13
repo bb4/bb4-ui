@@ -11,9 +11,6 @@ import java.awt._
 import java.awt.event.ActionEvent
 import java.util.EventObject
 
-import scala.compiletime.uninitialized
-
-
 /**
   * A button that can be placed in a table cell.
   * Add a TableButtonListener to do something when clicked.
@@ -24,10 +21,10 @@ import scala.compiletime.uninitialized
 class TableButton(text: String, theId: String) extends GradientButton(text) with TableCellRenderer with TableCellEditor {
   private var selectedRow: Int = 0
   private var selectedColumn: Int = 0
-  private var listeners: Set[TableButtonListener] = uninitialized
+  private var listeners: Set[TableButtonListener] = Set.empty
   final private var id: String = theId
   private var columnIndex: Int = 0
-  private var disabledValues: Seq[AnyRef] = uninitialized
+  private var disabledValues: Seq[AnyRef] = Seq.empty
   commonInit()
 
   /**
@@ -41,14 +38,11 @@ class TableButton(text: String, theId: String) extends GradientButton(text) with
   }
 
   private def commonInit(): Unit = {
-    listeners = Set[TableButtonListener]()
     addActionListener((e: ActionEvent) => {
       for (lsnr <- listeners) {
         lsnr.tableButtonClicked(selectedRow, selectedColumn, id)
       }
     })
-    // no disabled values by default
-    disabledValues = Seq[AnyRef]()
   }
 
   def addTableButtonListener(lsnr: TableButtonListener): Unit = {listeners += lsnr}

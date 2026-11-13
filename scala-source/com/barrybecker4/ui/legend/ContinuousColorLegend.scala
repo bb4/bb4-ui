@@ -7,9 +7,6 @@ import java.awt._
 import java.awt.event.ComponentAdapter
 import java.awt.event.ComponentEvent
 
-import scala.compiletime.uninitialized
-
-
 /**
   * Shows a continuous color legend given a list of colors and corresponding values.
   * It may be editable if isEditable is set.
@@ -18,8 +15,8 @@ import scala.compiletime.uninitialized
   */
 class ContinuousColorLegend(var title: String, var colormap: ColorMap, val editable: Boolean) extends JPanel {
 
-  private var legendEditBar: LegendEditBar = uninitialized
-  private var labelsPanel: LegendLabelsPanel = uninitialized
+  private val legendEditBar = new LegendEditBar(colormap, this)
+  private val labelsPanel = new LegendLabelsPanel(colormap)
   var isEditable: Boolean = editable
   initUI()
 
@@ -43,10 +40,8 @@ class ContinuousColorLegend(var title: String, var colormap: ColorMap, val edita
       add(Box.createRigidArea(new Dimension(4, 4)))
       height = 55
     }
-    legendEditBar = new LegendEditBar(colormap, this)
     if (isEditable) add(legendEditBar, BorderLayout.NORTH)
     add(createLegendPanel, BorderLayout.CENTER)
-    labelsPanel = new LegendLabelsPanel(colormap)
     add(labelsPanel, BorderLayout.SOUTH)
     setMaximumSize(new Dimension(2000, height))
     this.addComponentListener(new ComponentAdapter() {

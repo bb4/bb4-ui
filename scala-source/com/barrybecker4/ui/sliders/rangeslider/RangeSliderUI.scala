@@ -17,9 +17,6 @@ import javax.swing.event.ChangeListener
 import javax.swing.plaf.basic.BasicSliderUI
 import javax.swing.SwingConstants.*
 
-import scala.compiletime.uninitialized
-
-
 object RangeSliderUI {
   private val RANGE_COLOR = new Color(120, 110, 200)
   private val THUMB_LINE_COLOR = new Color(50, 10, 100)
@@ -34,7 +31,7 @@ object RangeSliderUI {
   */
 class RangeSliderUI(val b: RangeSlider) extends BasicSliderUI(b) {
 
-  private var upperThumbRect: Rectangle = uninitialized
+  private var upperThumbRect: Rectangle = Rectangle()
   private var upperThumbSelected = false
   private var lowerDragging = false
   private var upperDragging = false

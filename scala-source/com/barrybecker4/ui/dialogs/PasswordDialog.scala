@@ -8,8 +8,6 @@ import com.barrybecker4.common.app.AppContext
 import com.barrybecker4.ui.components.GradientButton
 import PasswordDialog._
 
-import scala.compiletime.uninitialized
-
 
 object PasswordDialog {
   val DEFAULT_PASSWORD = "hello123"
@@ -25,10 +23,10 @@ object PasswordDialog {
 class PasswordDialog(expectedPassword: String) extends AbstractDialog(null) with ActionListener with KeyListener {
 
   private val password: String = if (expectedPassword == null) DEFAULT_PASSWORD else expectedPassword
-  private var passwordField: JPasswordField = uninitialized
+  private val passwordField: JPasswordField = new JPasswordField
 
   /** click this when ; the password has been entered. */
-  private var okButton: GradientButton = uninitialized
+  private val okButton: GradientButton = new GradientButton
 
   showContent()
 
@@ -44,7 +42,6 @@ class PasswordDialog(expectedPassword: String) extends AbstractDialog(null) with
     setTitle(AppContext.getLabel("ENTER_PW"))
     val mainPanel = new JPanel(new BorderLayout)
     val pwPanel = new JPanel(new FlowLayout)
-    passwordField = new JPasswordField
     passwordField.addKeyListener(this)
     passwordField.setColumns(password.length)
     pwPanel.add(new JLabel(AppContext.getLabel("PASSWORD")))
@@ -60,7 +57,6 @@ class PasswordDialog(expectedPassword: String) extends AbstractDialog(null) with
     */
   protected def createButtonsPanel: JPanel = {
     val buttonsPanel = new JPanel(new FlowLayout)
-    okButton = new GradientButton
     initBottomButton(okButton, AppContext.getLabel("OK"), "Check to see if the password is correct. ")
     initBottomButton(cancelButton, AppContext.getLabel("CANCEL"),
       "Go back to the main window without entering a password.")

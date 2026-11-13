@@ -13,9 +13,6 @@ import java.awt.Component
 import java.awt.Dimension
 import java.awt.event._
 
-import scala.compiletime.uninitialized
-
-
 object ComplexNumberInput {
   /** everything is allowed by default */
   private val DEFAULT_RANGE = ComplexNumberRange(
@@ -35,10 +32,9 @@ object ComplexNumberInput {
   */
 class ComplexNumberInput(val labelText: String, var initialValue: ComplexNumber,
                          val toolTip: String, val allowedRange: ComplexNumberRange) extends JPanel {
-  setAllowedRange(allowedRange)
   private val realNumberField = createNumberField(initialValue.real, toolTip)
   private val imaginaryNumberField = createNumberField(initialValue.imaginary, toolTip)
-  private var range: ComplexNumberRange = uninitialized
+  private var range: ComplexNumberRange = allowedRange
 
   setLayout(new BorderLayout)
   setAlignmentX(Component.LEFT_ALIGNMENT)
