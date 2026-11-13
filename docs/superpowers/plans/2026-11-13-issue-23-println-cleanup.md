@@ -34,7 +34,7 @@
 - Consumes: none
 - Produces: no new APIs; `ApplicationFrame.main` still constructs a frame; `ApplicationApplet` still parses `-locale`
 
-- [ ] **Step 1: Edit `ApplicationFrame.main`**
+- [x] **Step 1: Edit `ApplicationFrame.main`**
 
 Replace the `main` body so it only constructs the frame:
 
@@ -45,7 +45,7 @@ Replace the `main` body so it only constructs the frame:
   }
 ```
 
-- [ ] **Step 2: Edit `ApplicationApplet` constructor**
+- [x] **Step 2: Edit `ApplicationApplet` constructor**
 
 In the `if (args.length > 0)` block, delete the entire help branch. Resulting block should be:
 
@@ -58,7 +58,7 @@ In the `if (args.length > 0)` block, delete the entire help branch. Resulting bl
   }
 ```
 
-- [ ] **Step 3: Verify inventory**
+- [x] **Step 3: Verify inventory**
 
 Run:
 
@@ -73,12 +73,12 @@ Expected active hits only in:
 
 No hits in `ApplicationFrame.scala` or `ApplicationApplet.scala`.
 
-- [ ] **Step 4: Build**
+- [x] **Step 4: Build**
 
 Run: `./gradlew build`  
 Expected: BUILD SUCCESSFUL
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add \
