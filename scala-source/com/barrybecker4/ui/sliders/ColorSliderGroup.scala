@@ -12,10 +12,11 @@ object ColorSliderGroup {
   private val RED = "RED"
   private val GREEN = "GREEN"
   private val BLUE = "BLUE"
+  private val OPACITY = "OPACITY"
 }
 
 /**
-  * A color swatch and r,g,b sliders to control its color.
+  * A color swatch and r,g,b,opacity sliders to control its color.
   * @author Barry Becker
   */
 class ColorSliderGroup() extends JPanel with ChangeListener {
@@ -25,9 +26,11 @@ class ColorSliderGroup() extends JPanel with ChangeListener {
   private val red = new JLabel(getColorLabel(ColorSliderGroup.RED) + '0', SwingConstants.LEFT)
   private val green = new JLabel(getColorLabel(ColorSliderGroup.GREEN) + '0', SwingConstants.LEFT)
   private val blue = new JLabel(getColorLabel(ColorSliderGroup.BLUE) + '0', SwingConstants.LEFT)
+  private val opacity = new JLabel(getColorLabel(ColorSliderGroup.OPACITY) + "255", SwingConstants.LEFT)
   val redPanel: JPanel = createColorLabelPanel(red)
   val greenPanel: JPanel = createColorLabelPanel(green)
   val bluePanel: JPanel = createColorLabelPanel(blue)
+  val opacityPanel: JPanel = createColorLabelPanel(opacity)
 
   private var colorListener: Option[ColorChangeListener] = None
   private val redSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 0)
@@ -36,6 +39,8 @@ class ColorSliderGroup() extends JPanel with ChangeListener {
   greenSlider.addChangeListener(this)
   private val blueSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 0)
   blueSlider.addChangeListener(this)
+  private val opacitySlider = new JSlider(SwingConstants.HORIZONTAL, 0, 255, 255)
+  opacitySlider.addChangeListener(this)
 
   private val swatch = new JPanel
   swatch.setBorder(BorderFactory.createMatteBorder(2, 20, 2, 20, this.getBackground))
@@ -46,6 +51,8 @@ class ColorSliderGroup() extends JPanel with ChangeListener {
   add(greenSlider)
   add(bluePanel)
   add(blueSlider)
+  add(opacityPanel)
+  add(opacitySlider)
   updateSwatch()
 
   private def getColorLabel(key: String) = AppContext.getLabel(key) + " : "
@@ -63,7 +70,11 @@ class ColorSliderGroup() extends JPanel with ChangeListener {
   }
 
   def updateSwatch(): Unit = {
-    val color = new Color(redSlider.getValue, greenSlider.getValue, blueSlider.getValue)
+    val color = new Color(
+      redSlider.getValue,
+      greenSlider.getValue,
+      blueSlider.getValue,
+      opacitySlider.getValue)
     colorListener.foreach(_.colorChanged(color))
     swatch.setBackground(color)
     swatch.setOpaque(true)
@@ -79,6 +90,7 @@ class ColorSliderGroup() extends JPanel with ChangeListener {
     if (src eq redSlider) red.setText(getColorLabel(ColorSliderGroup.RED) + redSlider.getValue)
     else if (src eq greenSlider) green.setText(getColorLabel(ColorSliderGroup.GREEN) + greenSlider.getValue)
     else if (src eq blueSlider) blue.setText(getColorLabel(ColorSliderGroup.BLUE) + blueSlider.getValue)
+    else if (src eq opacitySlider) opacity.setText(getColorLabel(ColorSliderGroup.OPACITY) + opacitySlider.getValue)
     updateSwatch()
   }
 }
