@@ -55,6 +55,11 @@ class SliderGroup(sliderProps: Array[SliderProperties]) extends JPanel with Chan
       labels(i) = new JLabel(getSliderTitle(i, intInitial))
       sliders(i) = new JSlider(SwingConstants.HORIZONTAL, intMin, intMax, intInitial)
       sliders(i).addChangeListener(this)
+      val tip = this.sliderProps(i).getTooltip
+      if (tip.nonEmpty) {
+        labels(i).setToolTipText(tip)
+        sliders(i).setToolTipText(tip)
+      }
     }
     buildUI()
   }

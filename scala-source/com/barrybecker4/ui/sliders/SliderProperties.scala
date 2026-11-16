@@ -10,10 +10,12 @@ package com.barrybecker4.ui.sliders
   * @param maxValue maximum possible value
   * @param initialValue stating value
   * @param scale resolution. A bigger number means more increments.
+  * @param tooltip optional hover text for the slider and its label
   * @author Barry Becker
   */
 class SliderProperties(var name: String, var minValue: Double, var maxValue: Double,
-                       var initialValue: Double, var scale: Double = 1.0) {
+                       var initialValue: Double, var scale: Double = 1.0,
+                       var tooltip: String = "") {
 
   def this(name: String, minValue: Int, maxValue: Int, initialValue: Int) = {
     this(name, minValue, maxValue, initialValue, 1.0)
@@ -24,4 +26,5 @@ class SliderProperties(var name: String, var minValue: Double, var maxValue: Dou
   def getMaxValue: Double = maxValue
   def getInitialValue: Double = initialValue
   def getScale: Double = scale
+  def getTooltip: String = tooltip
 }
