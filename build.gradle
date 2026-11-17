@@ -8,7 +8,7 @@ plugins {
 
 description = 'Common bb4 swing user interface java code. Library project.'
 group = 'com.barrybecker4'
-version = '3.0'
+version = '3.1-SNAPSHOT'
 
 bb4 {
     archivesBaseName.set('bb4-ui')
